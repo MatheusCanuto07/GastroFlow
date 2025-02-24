@@ -1,18 +1,20 @@
 # Introdução
 
-Texto descritivo com a visão geral do projeto abordado. Inclui o contexto, o problema, os objetivos, a justificativa e o público-alvo do projeto. Visando contextualizar melhor o projeto e destacar sua importância para a disciplina, que é **extensionista**, acrescente todas as informações relevantes que julgar necessárias.
+O presente projeto tem como objetivo o desenvolvimento de um sistema de gerenciamento de estoque voltado para pequenas empresas, com um foco inicial em uma loja de charcutaria artesanal. Pequenos empreendedores frequentemente enfrentam desafios na gestão eficiente de seus estoques, o que pode levar a desperdícios e dificuldades na administração de insumos. O sistema proposto busca oferecer uma solução simples, intuitiva e acessível, que permita o controle adequado dos produtos, a monitoria de entradas e saídas e a gestão de datas de validade. Além disso, a plataforma será projetada para ser altamente customizável, permitindo sua adaptação para outros tipos de pequenos comércios, como padarias, lojas de bebidas artesanais e pequenos mercados.
+
+O caráter extensionista deste projeto se reflete na sua proposta de inclusão de pequenos produtores no meio tecnológico, permitindo que empreendedores que ainda não possuem familiaridade com ferramentas digitais tenham acesso a uma solução eficiente para melhorar sua gestão. Dessa forma, o projeto não apenas contribui para a sustentabilidade econômica ao evitar desperdícios e melhorar a eficiência operacional dos pequenos negócios, mas também promove a inclusão digital e a capacitação de microempreendedores, fortalecendo sua presença no mercado e ampliando suas oportunidades de crescimento.
 
 ## Cliente 
-Nesta seção, devem ser apresentadas informações essenciais sobre o cliente (parceiro) para garantir um entendimento mais preciso do projeto como uma iniciativa extensionista.  
 
-Recomenda-se incluir dados como missão, visão e valores da organização, além de seu ramo de atuação, porte, nicho de mercado e principais desafios enfrentados. Também é relevante fornecer informações sobre sua localização, histórico, impacto social e possíveis demandas específicas. Quanto mais detalhadas forem essas informações, mais embasada será a análise do contexto, permitindo uma abordagem estratégica e alinhada às necessidades do cliente.
+O cliente inicial deste projeto é uma loja de charcutaria artesanal, um pequeno empreendimento que atua na produção e venda de embutidos e produtos derivados de carnes curadas. O comércio opera em um nicho que exige rigoroso controle de qualidade e gestão eficiente de insumos para evitar desperdícios e garantir a segurança alimentar de seus produtos.
+
+A charcutaria artesanal preza pela produção de alimentos de alta qualidade, muitas vezes utilizando ingredientes locais e técnicas tradicionais. No entanto, como a maioria dos pequenos produtores, enfrenta desafios relacionados ao gerenciamento de estoque, controle de datas de validade e rastreabilidade dos produtos. Além disso, a falta de digitalização dos processos internos limita sua capacidade de otimizar a produção e reduzir desperdícios.
 
 ## Problema
-Aqui, a equipe deve fornecer uma descrição detalhada do problema a ser resolvido. Não é o momento adequado para abordar questões técnicas relacionadas ao desenvolvimento da aplicação. O objetivo é compreender e comunicar de maneira precisa qual é o desafio ou necessidade que motiva a criação da aplicação.
 
-Descreva também o contexto em que essa aplicação será usada, se  houver: empresa, tecnologias, etc. Novamente, descreva apenas o que de fato existir, pois ainda não é a hora de apresentar requisitos detalhados ou projetos.
+Pequenos empreendedores frequentemente possuem dificuldades na gestão de seus estoques, especialmente em setores que demandam um controle rigoroso sobre prazos de validade e armazenamento adequado de produtos. Atualmente, muitas dessas empresas utilizam métodos manuais ou planilhas pouco eficientes para registrar entradas e saídas de mercadorias, o que pode levar a erros, perdas financeiras e desperdício de produtos.
 
-O grupo pode optar por fazer uso de ferramentas como Design Thinking, que permite uma visão completa do problema.
+A loja de charcutaria artesanal enfrenta esses desafios, pois precisa garantir que seus produtos sejam armazenados corretamente e vendidos dentro do prazo adequado para evitar prejuízos e garantir a qualidade. Sem um sistema automatizado, o monitoramento de insumos torna-se uma tarefa complexa e sujeita a falhas humanas. Além disso, a ausência de uma ferramenta estruturada dificulta a expansão e organização do negócio.
 
 > **Links úteis**:
 > - [Objetivos, problema de pesquisa e justificativa](https://medium.com/@versioparole/objetivos-problema-de-pesquisa-e-justificativa-c98c8233b9c3)
@@ -21,28 +23,43 @@ O grupo pode optar por fazer uso de ferramentas como Design Thinking, que permit
 
 ## Objetivos
 
-Aqui, você deve descrever os objetivos do trabalho, indicando que o objetivo geral é desenvolver um software para solucionar o problema apresentado acima.
+###Objetivo Geral
 
-Além disso, apresente alguns (pelo menos 3) objetivos específicos, dependendo de onde você pretende concentrar sua prática investigativa ou como deseja aprofundar seu trabalho.
+- Desenvolver um sistema de gerenciamento de estoque acessível e customizável para pequenas empresas, atendendo inicialmente uma loja de charcutaria artesanal.
+
+###Objetivos Específicos
+
+- Criar uma interface intuitiva e de fácil uso para que pequenos empreendedores possam gerenciar seus estoques de forma eficiente.
+
+- Desenvolver funcionalidades que permitam o controle de entrada e saída de mercadorias, garantindo a rastreabilidade e redução do desperdício.
+
+- Implementar um sistema de alerta para o vencimento de produtos, auxiliando na gestão de prazos e na minimização de perdas.
+
+- Permitir a personalização do sistema para diferentes tipos de negócios, garantindo sua escalabilidade para outros segmentos do mercado.
+
+- Incluir pequenos produtores no meio tecnológico, proporcionando a digitalização da gestão de seus estoques e incentivando a adoção de ferramentas digitais.
  
 > **Links úteis**:
 > - [Objetivo geral e objetivo específico: como fazer e quais verbos utilizar](https://blog.mettzer.com/diferenca-entre-objetivo-geral-e-objetivo-especifico/)
 
 ## Justificativa
 
-Descreva a importância ou a motivação para trabalhar com esta aplicação que você escolheu. Indique as razões pelas quais você escolheu seus objetivos específicos ou as razões para aprofundar em certos aspectos do software.
+O desenvolvimento deste sistema é justificado pela necessidade crescente de pequenos empreendedores de melhorarem a gestão de seus estoques sem a necessidade de recorrer a soluções complexas e de alto custo. Pequenos produtores frequentemente não têm acesso a ferramentas digitais avançadas ou não possuem conhecimento suficiente para utilizá-las de maneira eficaz. Um sistema simples e customizável pode facilitar a adesão dessas empresas ao meio tecnológico, aumentando sua eficiência operacional.
 
-O grupo de trabalho pode fazer uso de questionários, entrevistas e dados estatísticos, que podem ser apresentados, com o objetivo de esclarecer detalhes do problema que será abordado pelo grupo.
+Além disso, a proposta está alinhada à sustentabilidade, pois busca reduzir desperdícios de produtos e insumos, promovendo um consumo mais consciente e responsável. Com a digitalização da gestão de estoque, pequenos produtores poderão minimizar perdas financeiras e otimizar o uso de recursos, garantindo um impacto positivo tanto no meio ambiente quanto na economia local.
+
+Por fim, o projeto também contribui para a inclusão digital e social, capacitando pequenos empreendedores para o uso da tecnologia em seus processos diários. Essa abordagem extensionista fortalece a comunidade, permitindo que mais pessoas tenham acesso a ferramentas tecnológicas que impulsionam seus negócios e aumentam suas chances de sucesso no mercado.
 
 > **Links úteis**:
 > - [Como montar a justificativa](https://guiadamonografia.com.br/como-montar-justificativa-do-tcc/)
 
 ## Público-alvo
 
-Descreva quem serão as pessoas que usarão a sua aplicação indicando os diferentes perfis. O objetivo aqui não é definir quem serão os clientes ou quais serão os papéis dos usuários na aplicação. A ideia é, dentro do possível, conhecer um pouco mais sobre o perfil dos usuários: conhecimentos prévios, relação com a tecnologia, relações
-hierárquicas, etc.
+O público-alvo do projeto são pequenos empreendedores que atuam em diferentes ramos do comércio, com um foco inicial em donos de charcutarias artesanais. Esse grupo é composto, em sua maioria, por pessoas que possuem conhecimentos sobre produção artesanal, mas que podem ter dificuldades em gestão de estoque e controle de insumos devido à falta de ferramentas acessíveis e adequadas às suas necessidades.
 
-Adicione informações sobre o público-alvo por meio de uma descrição textual, diagramas de personas e mapa de stakeholders.
+Muitos desses empreendedores utilizam métodos tradicionais de controle, como cadernos de anotação ou planilhas simples, sem um sistema estruturado que facilite a gestão eficiente dos produtos. Além disso, há um grande potencial para a expansão desse sistema para outros tipos de pequenos comércios, como padarias, lojas de bebidas artesanais, pequenos mercados e produtores independentes que necessitam de uma solução simples e eficaz para o gerenciamento de estoque.
+
+Ao desenvolver um sistema intuitivo e acessível, o projeto visa atender esse público e capacitá-lo para o uso de ferramentas digitais, promovendo a inclusão tecnológica e auxiliando no crescimento e organização de seus negócios.
 
 > **Links úteis**:
 > - [Público-alvo](https://blog.hotmart.com/pt-br/publico-alvo/)
