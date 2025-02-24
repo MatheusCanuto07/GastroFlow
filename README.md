@@ -13,7 +13,7 @@ A proposta visa oferecer uma ferramenta acessível e de fácil implementação. 
 ## Integrantes
 
 * Bárbara Xavier Soares de Barros
-* Felipe Fernandes Bellis Ruas
+* Felipe Fernandes de Bellis Ruas
 * Geovanna do Nascimento Miranda
 * Guilherme Henrique de Lima Machado  
 * Leni Rocha Bento
