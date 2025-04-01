@@ -1,0 +1,1 @@
+ALTER TABLE `transactionsTable` ADD `formaPagamento` text NOT NULL;
