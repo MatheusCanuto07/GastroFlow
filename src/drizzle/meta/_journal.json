@@ -15,6 +15,13 @@
       "when": 1738287172843,
       "tag": "0001_serious_mercury",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1743863373392,
+      "tag": "0002_loud_proemial_gods",
+      "breakpoints": true
     }
   ]
 }

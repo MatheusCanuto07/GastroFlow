@@ -46,6 +46,7 @@
 		"dotenv": "^16.4.7",
 		"dragula": "^3.7.3",
 		"drizzle-orm": "^0.33.0",
+		"oslo": "^1.2.1",
 		"sortablejs": "^1.15.6"
 	}
 }

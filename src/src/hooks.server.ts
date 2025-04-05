@@ -1,16 +1,29 @@
-import {
-	validateSessionToken,
-	setSessionTokenCookie,
-	deleteSessionTokenCookie
-} from "$lib/server/session";
+import { redirect, type Handle } from '@sveltejs/kit';
+import { generateSessionToken, validateSessionToken } from '$lib/server/lucia';
+import { deleteSessionTokenCookie, setSessionTokenCookie } from '$lib/server/session';
 
-import type { Handle } from "@sveltejs/kit";
+// Verificar se o usuário está autenticado em cada requisição.
+// Iniciar ou validar sessões de usuário.
+// Configurar informações globais de usuário ou permissões de acesso para toda a aplicação.
+
+//  O handle() hook é uma função especial em SvelteKit que permite interceptar todas as requisições do servidor antes que elas sejam processadas
+
+const allowRoutes = [
+  "/login",
+  "/signup",
+  "/todo2"
+]
 
 export const handle: Handle = async ({ event, resolve }) => {
-	const token = event.cookies.get("session") ?? null;
-	if (token === null) {
+  const token = event.cookies.get("session");
+	if (!token) {
 		event.locals.user = null;
 		event.locals.session = null;
+
+    if(!allowRoutes.includes(event.url.pathname)){
+      redirect(307, "/login");
+    }
+
 		return resolve(event);
 	}
 
@@ -19,7 +32,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		setSessionTokenCookie(event, token, session.expiresAt);
 	} else {
 		deleteSessionTokenCookie(event);
-	}
+	} 
 
 	event.locals.session = session;
 	event.locals.user = user;

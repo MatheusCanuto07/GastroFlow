@@ -1,13 +1,14 @@
 import { Config } from 'drizzle-kit';
 import 'dotenv/config';
+import { configDataBase } from './config';
 
 export default {
   schema: "./src/lib/db/schema",
   out: "./drizzle/",
   driver: "turso",
   dbCredentials: {
-    url: process.env.TURSO_DATABASE_URL!,
-    authToken: process.env.TURSO_AUTH_TOKEN
+    url: configDataBase.databaseUrl,
+    authToken: configDataBase.authToken
   },
   dialect: 'sqlite'
 } satisfies Config;

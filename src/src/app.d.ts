@@ -11,4 +11,14 @@ declare global {
 	}
 }
 
+declare module 'lucia' {
+	interface Register {
+		Lucia: typeof lucia;
+		DatabaseUserAttributes: {
+			name: string;
+			email: string;
+		};
+	}
+}
+
 export {};
