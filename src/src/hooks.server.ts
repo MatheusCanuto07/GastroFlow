@@ -11,30 +11,30 @@ import { deleteSessionTokenCookie, setSessionTokenCookie } from '$lib/server/ses
 const allowRoutes = [
   "/login",
   "/signup",
-  "/todo2"
+  "/home",
 ]
 
-export const handle: Handle = async ({ event, resolve }) => {
-  const token = event.cookies.get("session");
-	if (!token) {
-		event.locals.user = null;
-		event.locals.session = null;
+// export const handle: Handle = async ({ event, resolve }) => {
+//   const token = event.cookies.get("session");
+// 	if (!token) {
+// 		event.locals.user = null;
+// 		event.locals.session = null;
 
-    if(!allowRoutes.includes(event.url.pathname)){
-      redirect(307, "/login");
-    }
+//     if(!allowRoutes.includes(event.url.pathname)){
+//       redirect(307, "/login");
+//     }
 
-		return resolve(event);
-	}
+// 		return resolve(event);
+// 	}
 
-	const { session, user } = await validateSessionToken(token);
-	if (session !== null) {
-		setSessionTokenCookie(event, token, session.expiresAt);
-	} else {
-		deleteSessionTokenCookie(event);
-	} 
+// 	const { session, user } = await validateSessionToken(token);
+// 	if (session !== null) {
+// 		setSessionTokenCookie(event, token, session.expiresAt);
+// 	} else {
+// 		deleteSessionTokenCookie(event);
+// 	} 
 
-	event.locals.session = session;
-	event.locals.user = user;
-	return resolve(event);
-};
+// 	event.locals.session = session;
+// 	event.locals.user = user;
+// 	return resolve(event);
+// };

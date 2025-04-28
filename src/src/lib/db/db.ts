@@ -1,11 +1,10 @@
 import { createClient } from "@libsql/client";
 import { drizzle } from "drizzle-orm/libsql";
-import { configDataBase } from '../../../config';
-
+import {configDataBase} from "../../../config";
 import * as schema from "./schema";
 
 const client = createClient({
-  url: configDataBase.databaseUrl,
+  url: configDataBase.databaseUrl || "",
   authToken: configDataBase.authToken
 });
 
