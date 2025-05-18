@@ -4,7 +4,7 @@ import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from "@oslojs/enco
 import {eq} from "drizzle-orm";
 
 import { db } from './db';
-import { userTable, sessionTable, type Session, type User } from '../db/schema/user';
+import { userTable, sessionTable, type Session , type SessionInsert, type User } from './schema/user';
 import { sha256 } from '@oslojs/crypto/sha2';
 
 // Lucia cuida da sessão e da autenticação do usuário
@@ -20,13 +20,14 @@ export function generateSessionToken(): string {
 	return token;
 }
 // O ID da sessão será o hash SHA-256 do token. Definiremos a expiração para 30 dias.
-export async function createSession(token: string, userId: number): Promise<Session> {
+export async function createSession(token: string, userId: number): Promise<SessionInsert> {
 	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-	const session: Session = {
+  
+	const session: SessionInsert = {
 		id: sessionId,
 		userId,
-    //  Define o tempo da sessão, nessa caso ela vai expirar em um mês
-		expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)
+    //  Seção expira em 1 mês
+    expiresAt: Math.floor(Date.now() / 1000) + 30 * 24 * 60 * 60,
 	};
 	await db.insert(sessionTable).values(session);
 	return session;
@@ -44,16 +45,21 @@ export async function validateSessionToken(token: string): Promise<SessionValida
 		.from(sessionTable)
 		.innerJoin(userTable, eq(sessionTable.userId, userTable.id))
 		.where(eq(sessionTable.id, sessionId));
+            
 	if (result.length < 1) {
 		return { session: null, user: null };
 	}
+  
 	const { user, session } = result[0];
-	if (Date.now() >= session.expiresAt.getTime()) {
+  const now = Date.now();
+	if (now >= session.expiresAt) {
 		await db.delete(sessionTable).where(eq(sessionTable.id, session.id));
 		return { session: null, user: null };
 	}
-	if (Date.now() >= session.expiresAt.getTime() - 1000 * 60 * 60 * 24 * 15) {
-		session.expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
+
+  const RENEWAL_THRESHOLD = 7 * 24 * 60 * 60 * 1000; // 7 dias em ms
+	if (RENEWAL_THRESHOLD >= session.expiresAt) {
+		session.expiresAt = Math.floor(Date.now() + 1000 * 60 * 60 * 24 * 30);
 		await db
 			.update(sessionTable)
 			.set({

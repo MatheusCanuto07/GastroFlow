@@ -28,9 +28,9 @@ export const actions = {
 			password: hashedPassword
 		});
     
-		if (!nUser) 
-			return redirect(302, '/novo');
-
+		if (!nUser)  
+			return redirect(302, '/signup');
+    
     const token = generateSessionToken();
 		await createSession(token, nUser.id);
 

@@ -1,5 +1,5 @@
-import { db } from "$lib/db/db";
-import { userTable } from "$lib/db/schema";
+import { db } from "../db";
+import { userTable } from "$lib/server/schema";
 import { eq } from "drizzle-orm";
 
 type userModel = typeof userTable.$inferSelect;

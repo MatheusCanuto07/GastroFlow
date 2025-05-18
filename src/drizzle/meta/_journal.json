@@ -22,6 +22,13 @@
       "when": 1743863373392,
       "tag": "0002_loud_proemial_gods",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1746388107665,
+      "tag": "0003_rich_sleeper",
+      "breakpoints": true
     }
   ]
 }

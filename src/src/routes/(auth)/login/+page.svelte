@@ -1,7 +1,7 @@
 <script>
   // Reactive variables
-  let email = "";
-  let password = "";
+  let email = "matheuscanuto07@gmail.com";
+  let password = "7198214";
   let rememberMe = false;
 
   // Handle form submission
@@ -20,7 +20,7 @@
       </p>
     </div>
     
-    <form class="mt-8 space-y-6" on:submit|preventDefault={handleSubmit}>
+    <form class="mt-8 space-y-6" method="POST">
       <div class="space-y-4">
         <div>
           <label for="email" class="block text-sm font-medium text-gray-700">
@@ -43,7 +43,7 @@
             <label for="password" class="block text-sm font-medium text-gray-700">
               Password
             </label>
-            <a href="#" class="text-xs text-blue-600 hover:text-blue-800">
+            <a href="/forgetpassword" class="text-xs text-blue-600 hover:text-blue-800">
               Forgot password?
             </a>
           </div>
@@ -75,8 +75,7 @@
       <div>
         <button
           type="submit"
-          class="btn btn-primary w-full"
-        >
+          class="btn btn-primary w-full">
           Sign in
         </button>
       </div>
@@ -85,7 +84,7 @@
     <div class="text-center mt-4">
       <p class="text-sm text-gray-600">
         Don't have an account?
-        <a href="#" class="font-medium text-blue-600 hover:text-blue-800">
+        <a href="/signup" class="font-medium text-blue-600 hover:text-blue-800">
           Sign up
         </a>
       </p>

@@ -8,11 +8,11 @@ import type { RequestEvent } from "@sveltejs/kit";
 
 // Os dados na sessão em teoria estão mais seguros, já que estão no lado do servidor. Os dados de cookies podem facilmente ser apagados pelo próprio usuário do navegador.
 
-export function setSessionTokenCookie(event: RequestEvent, token: string, expiresAt: Date): void {
-	event.cookies.set("session", token, {
+export function setSessionTokenCookie(event: RequestEvent, token: string, expiresAt: number): void {
+  event.cookies.set("session", token, {
 		httpOnly: true,
 		sameSite: "lax",
-		expires: expiresAt,
+		expires: new Date(expiresAt * 1000),
 		path: "/"
 	});
 }

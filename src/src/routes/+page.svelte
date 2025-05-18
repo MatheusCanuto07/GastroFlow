@@ -8,3 +8,4 @@
 </script>
 
 <h1>Landing page</h1>
+<a class="btn btn-success" href="/home">Começar a usar</a>

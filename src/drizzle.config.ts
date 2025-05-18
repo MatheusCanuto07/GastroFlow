@@ -5,7 +5,7 @@ import { configDataBase } from './config';
 console.log(configDataBase)
 
 export default {
-  schema: "./src/lib/db/schema",
+  schema: "./src/lib/server/db/schema/index.ts",
   out: "./drizzle/",
   driver: "turso",
   dbCredentials: {

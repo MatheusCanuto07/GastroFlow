@@ -7,12 +7,13 @@
 
 <div class="navbar bg-base-100 shadow-sm mb-3">
 	<div class="flex-1">
-		<a href="/" class="btn btn-ghost text-xl">daisyUI</a>
+		<a href="/home" class="btn btn-ghost text-xl">daisyUI</a>
 	</div>
 	<div class="flex-none">
 		<ul class="menu menu-horizontal px-1 items-center">
 			<li><a href="/home/receitas">Receitas</a></li>
 			<li><a href="/home/estoque">Estoque</a></li>
+			<li><a href="/home/fornecedor">Fornecedor</a></li>
       <div class="dropdown dropdown-end">
         <div role="button" class="btn btn-ghost btn-circle avatar">
           <div class="rounded-full">
