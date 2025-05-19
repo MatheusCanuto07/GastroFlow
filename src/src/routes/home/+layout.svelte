@@ -7,7 +7,7 @@
 
 <div class="navbar bg-base-100 shadow-sm mb-3">
 	<div class="flex-1">
-		<a href="/home" class="btn btn-ghost text-xl">daisyUI</a>
+		<a href="/home" class="btn btn-ghost text-xl">GastroFlow</a>
 	</div>
 	<div class="flex-none">
 		<ul class="menu menu-horizontal px-1 items-center">

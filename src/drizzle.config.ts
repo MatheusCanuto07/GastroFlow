@@ -1,11 +1,11 @@
-import { Config } from 'drizzle-kit';
+import { Config, defineConfig } from 'drizzle-kit';
 import 'dotenv/config';
 import { configDataBase } from './config';
 
 console.log(configDataBase)
 
-export default {
-  schema: "./src/lib/server/db/schema/index.ts",
+export default defineConfig({
+  schema: "./src/lib/server/schema/schema.ts",
   out: "./drizzle/",
   driver: "turso",
   dbCredentials: {
@@ -13,4 +13,4 @@ export default {
     authToken: configDataBase.authToken || ""
   },
   dialect: 'sqlite'
-} satisfies Config;
+}) satisfies Config;

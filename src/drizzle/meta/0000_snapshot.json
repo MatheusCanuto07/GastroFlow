@@ -1,11 +1,11 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "d52d0277-ee35-4ab9-ae3f-5f3154e49943",
+  "id": "50025f1a-5bad-4a6e-b59f-dde3dc43bed0",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "transactionsTable": {
-      "name": "transactionsTable",
+    "compras": {
+      "name": "compras",
       "columns": {
         "id": {
           "name": "id",
@@ -14,77 +14,56 @@
           "notNull": true,
           "autoincrement": false
         },
-        "banco": {
-          "name": "banco",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "tipo": {
-          "name": "tipo",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "data": {
-          "name": "data",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "valor": {
-          "name": "valor",
+        "idFornecedor": {
+          "name": "idFornecedor",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "categoria": {
-          "name": "categoria",
+        "idInsumo": {
+          "name": "idInsumo",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "date": {
+          "name": "date",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "recorrencia": {
-          "name": "recorrencia",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "dataRecorrencia": {
-          "name": "dataRecorrencia",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "descricao": {
-          "name": "descricao",
+        "created_at": {
+          "name": "created_at",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
-          "autoincrement": false
-        },
-        "idUsuario": {
-          "name": "idUsuario",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
           "autoincrement": false
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "compras_idFornecedor_fornecedor_id_fk": {
+          "name": "compras_idFornecedor_fornecedor_id_fk",
+          "tableFrom": "compras",
+          "tableTo": "fornecedor",
+          "columnsFrom": [
+            "idFornecedor"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "usuarioTable": {
-      "name": "usuarioTable",
+    "fornecedor": {
+      "name": "fornecedor",
       "columns": {
         "id": {
           "name": "id",
@@ -93,8 +72,22 @@
           "notNull": true,
           "autoincrement": false
         },
-        "nome": {
-          "name": "nome",
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "contato": {
+          "name": "contato",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "tipo": {
+          "name": "tipo",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -107,18 +100,84 @@
           "notNull": true,
           "autoincrement": false
         },
-        "password": {
-          "name": "password",
+        "status": {
+          "name": "status",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "saldo": {
-          "name": "saldo",
+        "created_at": {
+          "name": "created_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "fornecedor_email_unique": {
+          "name": "fornecedor_email_unique",
+          "columns": [
+            "email"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "insumo": {
+      "name": "insumo",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "idFornecedor": {
+          "name": "idFornecedor",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
+          "autoincrement": false
+        },
+        "nome": {
+          "name": "nome",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "categoria": {
+          "name": "categoria",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "dataValidade": {
+          "name": "dataValidade",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "quantidadeDisponivel": {
+          "name": "quantidadeDisponivel",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
           "autoincrement": false
         }
       },
