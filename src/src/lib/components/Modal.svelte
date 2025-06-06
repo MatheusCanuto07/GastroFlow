@@ -1,6 +1,6 @@
 <script lang="ts">
   let modal : HTMLDialogElement | undefined  = $state();
-  let { modalContent, textoBotao, classeBotao, title } = $props();
+  let { modalContent, textoBotao, classeBotao, title, tamanhoModal = "" } = $props();
 
 </script>
 
@@ -8,7 +8,7 @@
 <a href="" class="btn {classeBotao}" onclick={() => modal?.showModal()}>{textoBotao}</a>
 
 <dialog bind:this={modal} class="modal">
-  <div class="modal-box">
+  <div class="modal-box {tamanhoModal}">
     <h3 class="text-lg font-bold">
       {title}
     </h3>

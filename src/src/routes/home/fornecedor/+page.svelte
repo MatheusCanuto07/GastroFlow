@@ -4,10 +4,38 @@
   import Modal from '$lib/components/Modal.svelte';
 
 	let { data }: { data: PageData } = $props();
+  let array = [1,2,3];
 </script>
 
 {#snippet novoFornecedor()}
   <FormFornecedor />
+{/snippet}
+
+{#snippet visualizarFornecedor()}
+  <div class="flex">
+    <table class="table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Nome</th>
+          <th>Categoria</th>
+          <th>Quantidade em estoque</th>
+          <th>Estoque mínimo</th>
+        </tr>
+      </thead>
+      <tbody>
+        {#each array as i, index}
+          <tr>
+            <th>{index}</th>
+            <th>Farinha</th>
+            <th>Sei lá</th>
+            <th>33</th>
+            <th>12</th>
+          </tr>
+        {/each}
+      </tbody>
+    </table>
+  </div>
 {/snippet}
 
 <div class="border px-16 py-5">
@@ -40,28 +68,38 @@
     <thead>
       <tr>
         <th></th>
-        <th>Name</th>
-        <th>Job</th>
-        <th>Favorite Color</th>
+        <th>Nome</th>
+        <th>Contato</th>
+        <th>Email</th>
+        <th>Status</th>
         <th class="text-center">Ações</th>
       </tr>
     </thead>
     <tbody>
-      <tr class="hover:bg-base-300">
-        <th>1</th>
-        <td>Cy Ganderton</td>
-        <td>Quality Control Specialist</td>
-        <td>Blue</td>
-        <td class="text-center">
-          <details class="dropdown dropdown-bottom dropdown-end">
-            <summary class="btn m-1">...</summary>
-            <ul class="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
-              <li><button class="btn btn-success">Visualizar</button></li>
-              <li><button class="btn btn-neutral mt-2">Editar</button></li>
-            </ul>
-          </details>
-        </td>
-      </tr>
+      {#each array as i, index }
+        <tr class="hover:bg-base-300 cursor-pointer">
+          <th>{index + 1}</th>
+          <td>Extra</td>
+          <td>(31) 9 9978-4358</td>
+          <td>atendimento@extra.com.br</td>
+          <td>Ativo</td>
+          <td class="text-center">
+            <details class="dropdown dropdown-bottom dropdown-end ">
+              <summary class="btn m-1">...</summary>
+              <ul class="menu dropdown-content bg-base-100 rounded-box z-50 w-52 p-2 shadow-sm">
+                <Modal 
+                  classeBotao="success" 
+                  textoBotao="Visualizar" 
+                  title="Visualizar" 
+                  tamanhoModal="w-11/12 max-w-5xl"
+                  modalContent={visualizarFornecedor}/>
+                <li><button class="btn btn-neutral mt-2">Editar</button></li>
+                <li><button class="btn btn-neutral mt-2">Realizar Compra</button></li>
+              </ul>
+            </details>
+          </td>
+        </tr>
+      {/each}
     </tbody>
   </table>
 </div>
