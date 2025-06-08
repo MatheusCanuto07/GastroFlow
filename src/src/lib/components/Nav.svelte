@@ -3,7 +3,7 @@
   // location = $page.url.pathname;
 </script>
 
-<div class="navbar mb-3 bg-base-100 shadow-sm lg:px-40 xl:px-48">
+<div class="navbar mb-3 bg-base-100 shadow-sm lg:px-40 xl:px-60">
 	<div class="flex-1">
 		<a href="/home" class="btn btn-ghost text-xl">GastroFlow</a>
 	</div>

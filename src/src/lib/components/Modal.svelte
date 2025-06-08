@@ -1,6 +1,6 @@
 <script lang="ts">
   let modal : HTMLDialogElement | undefined  = $state();
-  let { modalContent, textoBotao, classeBotao, title, tamanhoModal = "" } = $props();
+  let { modalContent, textoBotao, classeBotao, title, tamanhoModal = "", textBtn = "Enviar" } = $props();
 
 </script>
 
@@ -12,14 +12,12 @@
     <h3 class="text-lg font-bold">
       {title}
     </h3>
-    <p class="py-4">Press ESC key or click the button below to close</p>
-
     {@render modalContent()}
-
     <div class="modal-action">
-      <form method="dialog">
+      <form method="dialog" onsubmit={event?.preventDefault}>
         <button class="btn">Close</button>
       </form>
+      <button class="btn btn-success">{textBtn}</button>
     </div>
   </div>
 </dialog>

@@ -80,3 +80,7 @@ O usuário poderá integrar o calendário financeiro com o Google Calendar. :bla
 O sistema deve permitir a configuração de eventos financeiros recorrentes. :black_square_button:
 
 O sistema deve enviar notificações de vencimento de contas. :black_square_button:
+
+
+TODO: 
+Tratativa de erro no formulário de fornecedor
