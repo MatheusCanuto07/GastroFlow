@@ -120,17 +120,19 @@
 					value="0"
 				/>
 			</div>
-			<div class="w-4/12">
-				<h1>Preço de Venda</h1>
-				<input
-					name="precoVenda"
-					type="number"
-					min="0"
-					step="0.01"
-					placeholder="Preço de venda"
-					class="input input-bordered w-full"
-				/>
-			</div>
+      <div class="w-4/12">
+        <h1>Preço de Venda</h1>
+        <input
+          name="precoVenda"
+          type="number"
+          min="0"
+          step="0.01"
+          placeholder="Preço de venda"
+          class="input input-bordered w-full"
+          readonly
+          value="0"
+        />
+      </div>
 			<div class="w-full">
 				<h1>Descrição</h1>
 				<textarea
