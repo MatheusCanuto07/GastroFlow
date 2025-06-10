@@ -1,0 +1,1 @@
+export { fornecedorTable, insumoTable, compras, fornecedorRelations, comprasRelations, insumoRelations } from './fornecedor'; 
