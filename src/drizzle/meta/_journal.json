@@ -15,6 +15,13 @@
       "when": 1749416134366,
       "tag": "0001_lowly_vulture",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1749921856200,
+      "tag": "0002_silky_amphibian",
+      "breakpoints": true
     }
   ]
 }

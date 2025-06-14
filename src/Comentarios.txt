@@ -1,0 +1,65 @@
+1° Passo -> 2 telas -> Fazer cadastro e login
+"nome" : "matheus",
+"cpf" : "11111111111",
+"tipo" : "adm",
+"email" : "matheuscanuto07@gmail.com",
+"status" : "ativo",
+"senha" : ""
+
+2° Passo -> Cadastrar um produto (Linguiça)
+"valor" : 20.5,
+"unidadeMedida": "kg",
+"quant" : 10 // Quando ele está cadastrando um novo produto é zero,
+"descricao" : ""
+"lote" : "",
+"dataDeFabricacao" : "quando o cara gerar a receita",
+"dataDevalidade" : "data de validade" // Na tabela, quando a data tiver proxima, colocar aquele produto em vermelho,
+"statusdeArmazenamento" : ""
+"custoProducao" -> So mostrar na hora que o cara tiver vendo um produto
+
+3° Passo -> Cadastrar um insumo (Insumos que vão gerar a linguiça)
+"nome" : "",
+"categoria" : "",
+"dataValidade" : "",
+"quantDisponivel" : "",
+"estoqueMinimo": ""
+
+4° Passo -> Cadastrar uma receita (Fala a quantidade de produtos que vão ser gerados e os insumos necessarios)
+Isso vai ser uma lista: 
+"idinsumo" : selecionar um  insumo
+"quantInsumo" : selecionar a quantidade daquele insumo
+"idProduto": Vai selecionar um dos produtos cadastrados,
+"quantDaqueleproduto": 10,
+"unidadeMedida": "unidades",
+"tipo": "Bolo",
+"desc": "Bolo de chocolate premium",
+"obs" : "Show de bola"
+"selecionar quantas receitas" // Back-end faz o resto
+Quando o cara faz uma receita, tem que pensar em alguma forma de exebir para ele os insumos necessários
+
+Opção de fazer receita
+Opcionais (Vai ter que ter no wireframe)
+- Cadastra um fornecedor
+"nome" : "",
+"contato" : "",
+"insumo" : Seleciona um ou mais insumos disponíveis no sistema,
+"valorInsumo" : Selecionar o valor de cado insumo
+"tipo" : "",
+"email" : "",
+"status" : "ativo"
+
+- Cadastra uma compra
+"idFornecedor" : Seleciona entre os fornecedores disponíveis,
+"data" : "26/11/2002",
+"insumo" : // Seleciona um ou mais insumos disponíveis para aquele fornecedor
+
+
+Obs: 
+Controle de estoque:
+Estoque de produto 
+Quando o cara cadastra uma receita a tabela produto é incrementada
+Quando o cara venda a tabela produto é decrementada
+
+Estoque de insumo
+Quando o cara faz uma compra a tabela insumo é incrementada
+Quando o cara cadastra cria uma receita a tabela insumo é decrementada

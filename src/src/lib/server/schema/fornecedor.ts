@@ -10,6 +10,8 @@ export const fornecedorTable = sqliteTable('fornecedor', {
   email: text('email').notNull().unique(),
   status: text('status').notNull(),
   createdAt: text('created_at').$defaultFn(() => new Date().toISOString()),
+  updatedAt: text('updated_at').$defaultFn(() => new Date().toISOString()),
+  idUser: integer('id_user').notNull(),
 });
 
 export type fornecedorSelect = typeof fornecedorTable.$inferSelect;
