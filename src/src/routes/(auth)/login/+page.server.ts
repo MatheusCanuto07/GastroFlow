@@ -14,9 +14,6 @@ export const actions: Actions = {
     const email = data.get('email');
     const password = data.get('password');
 
-    if(!locals.session?.id){
-      console.log("Não tem seção")
-    }
     
     if (!email || !password) {
       throw redirect(303, '/login?error=Missing+email+or+password');

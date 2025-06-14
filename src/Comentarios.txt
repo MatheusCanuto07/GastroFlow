@@ -14,7 +14,7 @@
 "estoqueMinimo": "",
 "custo" : ""
 
-3° Passo -> Cadastrar uma Ficha técnica / Preparo (coloca os insumos necessarios) - Guilherme
+3° Passo -> Cadastrar uma Ficha técnica / Preparo (coloca os insumos necessarios) - Felipe
 Isso vai ser uma lista: 
 "idinsumo" : selecionar os insumos necessários
 "quantInsumo" : selecionar a quantidade daquele insumo
@@ -25,7 +25,7 @@ Isso vai ser uma lista:
 "custo receita" : "soma de cada valor de cada insumo * quantidade de cada um"
 Quando o cara faz uma receita, tem que pensar em alguma forma de exebir para ele os insumos necessários
 
-4° Passo -> Cadastrar um produto - Felipe
+4° Passo -> Cadastrar um produto - Guilherme
 // Pega uma das receitas disponíveis e ela vira um ou mais produtos
 "margem lucro" : "porcentagem",
 "preco de venda" : "custo da receita * porcentagem",

@@ -1,6 +1,6 @@
 import { db } from "../db";
-import { insumoTable, type InsumoInsert, fornecedorTable, type fornecedorInsert, type fornecedorSelect } from "$lib/server/schema/fornecedor";
-import { eq } from "drizzle-orm";
+import { insumoTable, type InsumoInsert, type InsumoSelect, fornecedorTable, type fornecedorInsert, type fornecedorSelect } from "$lib/server/schema/fornecedor";
+import { eq, and } from "drizzle-orm";
 
 async function insertFornecedor(fornecedor: fornecedorInsert): Promise<{ id: number } | { error: string }> {
   try {
@@ -52,14 +52,24 @@ async function updateFornecedor (fornecedor: fornecedorInsert, id: number): Prom
   return { error: 'Erro desconhecido ao cadastrar fornecedor'};
 }
 
-async function getAllFornecedores (idUSer: number) : Promise<{ allfornecedores: Array<fornecedorSelect> }>{
+async function getAllFornecedores (idUser: number) : Promise<{ allfornecedores: Array<fornecedorSelect> }>{
   try{
-    const allfornecedores = await db.select().from(fornecedorTable).where(eq(fornecedorTable.idUser, idUSer));
+    const allfornecedores = await db.select().from(fornecedorTable).where(eq(fornecedorTable.idUser, idUser));
     return { allfornecedores };
   } catch (error) {
     console.error('Erro ao buscar fornecedores:', error);
   }
   return { allfornecedores: [] };
+}
+
+async function getAllInsumosFromFornecedor (id : number, idUser : number) : Promise<{allInsumos : Array<InsumoSelect>}>{
+  try{
+    const allInsumos = await db.select().from(insumoTable).where(and(eq(insumoTable.idFornecedor, id), eq(insumoTable.idUser, idUser)));
+    return { allInsumos };
+  } catch (error) {
+    console.error('Erro ao buscar insumos:', error);
+  }
+  return {allInsumos : []}
 }
 
 function insertInsumo(insumo : InsumoInsert){
@@ -71,4 +81,5 @@ export const fornecedorQueries = {
   insertFornecedor,
   updateFornecedor,
   getAllFornecedores,
+  getAllInsumosFromFornecedor,
 };
