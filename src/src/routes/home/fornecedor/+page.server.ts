@@ -8,23 +8,23 @@ import {
 import { fornecedorQueries } from '$lib/server/controller/insumo';
 
 export const load: PageServerLoad = async ({}) => {
-  const idUser = 1;
+  const idUser : number = 1;
   const allfornecedores = await fornecedorQueries.getAllFornecedores(idUser);
   if (allfornecedores) {
     console.log(allfornecedores);
-    return { allfornecedores };
+    return { allfornecedores: allfornecedores, idUser : idUser };
   }
 };
 
 export const actions = {
-	novoinsumo: async ({ request }) => {
+	novofornecedor: async ({ request }) => {
     const data = await request.formData();
 
 		const name = data.get('nome')?.toString();
 		const telefone = data.get('telefone')?.toString();
 		const email = data.get('email')?.toString();
     const status = data.get('status')?.toString();
-    const idUser = data.get('idUSer')?.toString();
+    const idUser = data.get('idUser')?.toString();
 
 		if (!name || !status || !email || !telefone || !idUser) {
 			throw new Error('Nome e status são obrigatórios');
@@ -48,7 +48,7 @@ export const actions = {
     const data = await request.formData();
 
     const id = data.get('id')?.toString();
-    const idUser = data.get('idUSer')?.toString();
+    const idUser = data.get('idUser')?.toString();
 		const name = data.get('nome')?.toString();
 		const telefone = data.get('telefone')?.toString();
 		const email = data.get('email')?.toString();
