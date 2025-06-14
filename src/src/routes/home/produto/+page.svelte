@@ -76,7 +76,7 @@
 </script>
 
 {#snippet novoProduto()}
-	<form id="formProduto" on:submit|preventDefault={sendNewForm}>
+	<form id="formProduto" >
 		<div class="flex flex-wrap gap-4">
 			<div class="w-6/12">
 				<h1>Nome</h1>
