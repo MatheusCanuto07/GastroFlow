@@ -12,8 +12,8 @@
 		{
 			id: 1,
 			idFornecedor: 1,
-			nome: 'Farinha',
-			categoria: 'Cereal',
+			nome: 'Carne de Porco',
+			categoria: 'Carne',
 			dataValidade: '',
 			quantidadeDisponivel: '',
 			createdAt: ''
@@ -33,8 +33,8 @@
 
 	let insumoSelectionadoId: number | string = $state('Selecione');
 
-	function adicionaInsumo() {
-		event?.preventDefault();
+	function adicionaInsumo(event: Event) {
+		event.preventDefault();
 		if (insumoSelectionadoId == 'Selecione') return;
 
 		const insumo = listaInsumoDisponiveis.find((i) => i.id === insumoSelectionadoId);
@@ -47,8 +47,16 @@
 		insumoSelectionadoId = 'Selecione';
 	}
 
-	function removeInsumo(id: number) {
-		event?.preventDefault();
+	// Multiplicador padrão 1
+	let multiplicador = 1;
+
+	// Função para atualizar multiplicador
+	function onMultiplicadorChange(event) {
+		multiplicador = Number(event.target.value) || 1;
+	}
+
+	function removeInsumo(event: Event, id: number) {
+		event.preventDefault();
 
 		const insumo = listaInsumoSelecionado.find((i) => i.id === id);
 		if (!insumo) return;
@@ -58,8 +66,8 @@
 		listaInsumoDisponiveis = [...listaInsumoDisponiveis, insumo];
 	}
 
-	function sendNewForm() {
-		event?.preventDefault();
+	function sendNewForm(event: Event) {
+		event.preventDefault();
 
 		// Aqui você pode pegar os dados do formulário e insumos selecionados
 		const form = new FormData(document.getElementById('formProduto') as HTMLFormElement);
@@ -107,11 +115,13 @@
 </script>
 
 {#snippet novoProduto()}
-	<form id="formProduto">
+	<form id="formProduto" class="p-4">
 		<div class="flex flex-wrap gap-4">
-			<div class="w-6/12">
-				<h1>Nome</h1>
+			<!-- Nome -->
+			<div class="w-full md:w-6/12">
+				<label class="mb-1 block font-semibold" for="nome">Nome</label>
 				<input
+					id="nome"
 					name="nome"
 					type="text"
 					placeholder="Digite o nome do produto"
@@ -119,18 +129,25 @@
 					required
 				/>
 			</div>
-			<div class="w-6/12">
-				<h1>Categoria</h1>
+
+			<!-- Categoria -->
+			<div class="w-full md:w-6/12">
+				<label class="mb-1 block font-semibold" for="categoria">Categoria</label>
 				<input
+					id="categoria"
 					name="categoria"
 					type="text"
 					placeholder="Categoria"
 					class="input input-bordered w-full"
 				/>
 			</div>
-			<div class="w-4/12">
-				<h1>Quantidade em Estoque</h1>
+
+			<!-- Quantidade em estoque -->
+			<div class="w-full md:w-4/12">
+				<label class="mb-1 block font-semibold" for="quantidadeEstoque">Quantidade em Estoque</label
+				>
 				<input
+					id="quantidadeEstoque"
 					name="quantidadeEstoque"
 					type="number"
 					min="0"
@@ -139,9 +156,11 @@
 				/>
 			</div>
 
-			<div class="w-4/12">
-				<h1>Margem de Lucro (%)</h1>
+			<!-- Margem de Lucro -->
+			<div class="w-full md:w-4/12">
+				<label class="mb-1 block font-semibold" for="margemLucro">Margem de Lucro (%)</label>
 				<input
+					id="margemLucro"
 					name="margemLucro"
 					type="number"
 					min="0"
@@ -152,9 +171,11 @@
 				/>
 			</div>
 
-			<div class="w-4/12">
-				<h1>Preço de Custo</h1>
+			<!-- Preço de Custo -->
+			<div class="w-full md:w-4/12">
+				<label class="mb-1 block font-semibold" for="precoCusto">Preço de Custo</label>
 				<input
+					id="precoCusto"
 					name="precoCusto"
 					type="number"
 					min="0"
@@ -165,9 +186,12 @@
 					value="0"
 				/>
 			</div>
-			<div class="w-4/12">
-				<h1>Preço de Venda</h1>
+
+			<!-- Preço de Venda -->
+			<div class="w-full md:w-4/12">
+				<label class="mb-1 block font-semibold" for="precoVenda">Preço de Venda</label>
 				<input
+					id="precoVenda"
 					name="precoVenda"
 					type="number"
 					min="0"
@@ -178,9 +202,12 @@
 					value="0"
 				/>
 			</div>
+
+			<!-- Descrição -->
 			<div class="w-full">
-				<h1>Descrição</h1>
+				<label class="mb-1 block font-semibold" for="descricao">Descrição</label>
 				<textarea
+					id="descricao"
 					name="descricao"
 					placeholder="Descrição do produto (opcional)"
 					class="textarea textarea-bordered w-full"
@@ -189,23 +216,29 @@
 			</div>
 		</div>
 
-		<div class="mt-3 flex flex-wrap gap-4">
-			<div class="w-9/12">
-				<h1>Insumos (para cálculo futuro do custo)</h1>
-				<select class="select w-full" bind:value={insumoSelectionadoId}>
+		<!-- Insumos -->
+		<div class="mt-6 flex flex-wrap items-end gap-4">
+			<div class="w-full md:w-9/12">
+				<label class="mb-1 block font-semibold" for="insumoSelect">
+					Insumos (para cálculo futuro do custo)
+				</label>
+				<select id="insumoSelect" class="select w-full" bind:value={insumoSelectionadoId}>
 					<option value="Selecione" selected>Selecione</option>
 					{#each listaInsumoDisponiveis as item}
 						<option value={item.id}>{item.nome}</option>
 					{/each}
 				</select>
 			</div>
-			<div class="flex w-3/12 flex-col">
-				<button onclick={adicionaInsumo} class="btn btn-success mt-auto"> Adicionar Insumo </button>
+			<div class="flex w-full flex-col md:w-3/12">
+				<button onclick={adicionaInsumo} class="btn btn-success mt-auto" type="button">
+					Adicionar Insumo
+				</button>
 			</div>
 		</div>
 
-		<div class="mt-4 min-h-40 w-full">
-			<table class="table min-h-10">
+		<!-- Tabela de Insumos -->
+		<div class="mt-6 max-h-60 w-full overflow-auto">
+			<table class="table w-full">
 				<thead>
 					<tr>
 						<th>ID</th>
@@ -221,7 +254,7 @@
 							<td>{i.nome}</td>
 							<td>
 								<input
-									class="input"
+									class="input input-bordered w-full"
 									name={'quantidadeInsumo_' + i.id}
 									type="number"
 									min="0"
@@ -234,7 +267,7 @@
 							<td>
 								<button
 									class="btn btn-error btn-sm"
-									onclick={() => removeInsumo(i.id)}
+									onclick={(event) => removeInsumo(event, i.id)}
 									type="button"
 								>
 									Excluir
@@ -245,10 +278,50 @@
 				</tbody>
 			</table>
 		</div>
+	</form>
+{/snippet}
 
-		<div class="mt-6">
-			<button type="submit" class="btn btn-primary w-full">Salvar Produto</button>
+{#snippet Producao()}
+	<form id="formProducao" class="p-4">
+		<div class="mb-4">
+			<label class="mb-1 block font-semibold" for="produto">Produto</label>
+			<select id="produto" name="produto" class="select w-full">
+				{#each array as i}
+					<option value={i}>Produto {i}</option>
+				{/each}
+			</select>
 		</div>
+
+		<div class="mb-4">
+			<label class="mb-1 block font-semibold" for="multiplicador">Multiplicador</label>
+			<input
+				id="multiplicador"
+				name="multiplicador"
+				type="number"
+				min="1"
+				placeholder="Multiplicador"
+				class="input input-bordered w-full"
+				required
+			/>
+		</div>
+
+		<div class="mb-4">
+			<label class="mb-1 block font-semibold">Insumos Utilizados</label>
+			<div
+				id="insumos"
+				class="input input-bordered h-24 w-full overflow-auto bg-gray-50"
+				aria-live="polite"
+			>
+				<!-- Insumos do produto selecionado vão aparecer aqui -->
+			</div>
+		</div>
+
+		<div class="mb-4">
+			<label class="mb-1 block font-semibold" for="data">Data de Produção</label>
+			<input id="data" name="data" type="date" class="input input-bordered w-full" />
+		</div>
+
+		<button class="btn btn-primary w-full" type="submit">Registrar Produção</button>
 	</form>
 {/snippet}
 
@@ -258,12 +331,19 @@
 			<div class="w-8/12">
 				<input type="text" placeholder="Pesquisar um produto" class="input input-bordered w-full" />
 			</div>
-			<div class="w-4/12">
+			<div class="flex w-6/12 gap-3">
 				<Modal
 					modalContent={novoProduto}
 					textoBotao={'Novo Produto'}
-					classeBotao={'btn-success w-full'}
+					classeBotao={'btn-success px-4 py-2 text-sm'}
 					title="Cadastrar Novo Produto"
+				/>
+
+				<Modal
+					modalContent={Producao}
+					textoBotao={'Produção'}
+					classeBotao={'btn-warning px-4 py-2 text-sm'}
+					title="Registrar Produção"
 				/>
 			</div>
 		</div>
@@ -294,7 +374,7 @@
 						<details class="dropdown dropdown-end dropdown-bottom">
 							<summary class="btn m-1">...</summary>
 							<ul class="menu dropdown-content rounded-box bg-base-100 z-50 w-52 p-2 shadow-sm">
-								<li><button class="btn btn-info mt-2">Visualizar</button></li>
+								<li><button class="btn btn-info mt-2"> Visualizar </button></li>
 								<li><button class="btn btn-secondary mt-2">Editar</button></li>
 								<li><button class="btn btn-warning mt-2">Remover</button></li>
 							</ul>
