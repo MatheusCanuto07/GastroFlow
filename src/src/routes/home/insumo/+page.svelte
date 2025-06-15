@@ -1,138 +1,233 @@
 <script lang="ts">
+
   import type { PageData } from './$types';
   import Modal from '$lib/components/Modal.svelte';
 
   let { data }: { data: PageData } = $props();
 
-  import type { FornecedorSelect } from '$lib/server/schema/fornecedor';
+  // Estado do formulário
+  let nome = $state('');
+  let categoria = $state('');
+  let dataValidade = $state('');
+  let quantDisponivel = $state('');
+  let estoqueMinimo = $state('');
+  let custo = $state('');
 
-  // Lista simulada de fornecedores para seleção (pode vir do load)
-  let listaFornecedores: Array<FornecedorSelect> = [
-    { id: 1, nome: 'Fornecedor A' },
-    { id: 2, nome: 'Fornecedor B' }
-  ];
+  // Estado de edição
+  let editando = $state(false);
+  let idEditando: number | null = $state(null);
 
-  // Estado dos insumos cadastrados (simulação)
-  let listaInsumos: Array<{
-    id: number;
-    nome: string;
-    categoria: string;
-    dataValidade: string;
-    quantidadeDisponivel: number;
-    unidade: string;
-    fornecedorNome: string;
-  }> = [];
+  let listaInsumoSelecionado: Array<InsumoSelect> = $state([]);
 
-  // Para seleção no formulário
-  let fornecedorSelecionadoId: number | string = 'Selecione';
-
-  function sendNewForm() {
-    event?.preventDefault();
-    // Aqui você pode implementar o envio para o backend via fetch ou form POST
-    // Por enquanto só console.log para exemplificar
-
-    const form = event.target as HTMLFormElement;
-    const formData = new FormData(form);
-
-    const nome = formData.get('nome')?.toString() ?? '';
-    const categoria = formData.get('categoria')?.toString() ?? '';
-    const dataValidade = formData.get('dataValidade')?.toString() ?? '';
-    const quantidadeDisponivel = Number(formData.get('quantidadeDisponivel'));
-    const unidade = formData.get('unidade')?.toString() ?? '';
-    const idFornecedor = Number(formData.get('fornecedor'));
-
-    if (!nome || !categoria || !dataValidade || !quantidadeDisponivel || !unidade || idFornecedor === 0) {
-      alert('Preencha todos os campos corretamente!');
-      return;
+  // Lista de insumos (mock ou carregado do servidor)
+  let listaInsumos = $state<Array<any>>([
+    {
+      id: 1,
+      nome: 'Farinha',
+      categoria: 'Cereal',
+      dataValidade: '2025-12-01',
+      quantDisponivel: 100,
+      estoqueMinimo: 20,
+      custo: 12.5
+    },
+    {
+      id: 2,
+      nome: 'Sal',
+      categoria: 'Temperos',
+      dataValidade: '2026-01-10',
+      quantDisponivel: 50,
+      estoqueMinimo: 10,
+      custo: 4.3
     }
+  ]);
 
-    console.log({
+  function resetForm() {
+    nome = '';
+    categoria = '';
+    dataValidade = '';
+    quantDisponivel = '';
+    estoqueMinimo = '';
+    custo = '';
+    editando = false;
+    idEditando = null;
+  }
+
+  function enviarFormulario() {
+    event?.preventDefault();
+
+    const novoInsumo = {
+      id: editando && idEditando ? idEditando : Date.now(),
       nome,
       categoria,
       dataValidade,
-      quantidadeDisponivel,
-      unidade,
-      idFornecedor
-    });
+      quantDisponivel: Number(quantDisponivel),
+      estoqueMinimo: Number(estoqueMinimo),
+      custo: parseFloat(String(custo))
+    };
 
-    // Limpar form (exemplo)
-    form.reset();
-    fornecedorSelecionadoId = 'Selecione';
+    if (editando && idEditando !== null) {
+      // Atualiza insumo
+      listaInsumos = listaInsumos.map(i => i.id === idEditando ? novoInsumo : i);
+    } else {
+      // Adiciona novo
+      listaInsumos = [...listaInsumos, novoInsumo];
+    }
+
+    resetForm();
+  }
+
+  function editarInsumo(insumo: any) {
+    nome = insumo.nome;
+    categoria = insumo.categoria;
+    dataValidade = insumo.dataValidade;
+    quantDisponivel = insumo.quantDisponivel;
+    estoqueMinimo = insumo.estoqueMinimo;
+    custo = insumo.custo;
+
+    idEditando = insumo.id;
+    editando = true;
+  }
+
+  function excluirInsumo(id: number) {
+    if (confirm('Deseja realmente excluir este insumo?')) {
+      listaInsumos = listaInsumos.filter(i => i.id !== id);
+      if (id === idEditando) resetForm();
+    }
   }
 </script>
 
 {#snippet novoInsumo()}
-  <form on:submit={sendNewForm} class="flex flex-wrap gap-4">
-    <div class="w-6/12">
-      <h1>Nome</h1>
-      <input name="nome" type="text" placeholder="Nome do insumo" class="input input-bordered w-full" />
-    </div>
-    <div class="w-6/12">
-      <h1>Categoria</h1>
-      <input name="categoria" type="text" placeholder="Categoria" class="input input-bordered w-full" />
-    </div>
-    <div class="w-4/12">
-      <h1>Data de Validade</h1>
-      <input name="dataValidade" type="date" class="input input-bordered w-full" />
-    </div>
-    <div class="w-4/12">
-      <h1>Quantidade Disponível</h1>
-      <input
-        name="quantidadeDisponivel"
-        type="number"
-        min="0"
-        step="0.01"
-        placeholder="Quantidade"
-        class="input input-bordered w-full"
-      />
-    </div>
-    <div class="w-4/12">
-      <h1>Unidade</h1>
-      <input name="unidade" type="text" placeholder="Ex: kg, g, ml, un" class="input input-bordered w-full" />
-    </div>
-    <div class="w-full">
-      <h1>Fornecedor</h1>
-      <select name="fornecedor" bind:value={fornecedorSelecionadoId} class="select select-bordered w-full">
-        <option value="0" selected>Selecione</option>
-        {#each listaFornecedores as f}
-          <option value={f.id}>{f.nome}</option>
-        {/each}
-      </select>
+  <form id="formInsumo" on:submit|preventDefault={enviarFormulario}>
+    <div class="flex flex-wrap gap-4">
+      <div class="w-6/12">
+        <h1>Nome</h1>
+        <input
+          name="nome"
+          type="text"
+          placeholder="Digite o nome do insumo"
+          class="input input-bordered w-full"
+          required
+          bind:value={nome}
+        />
+      </div>
+      <div class="w-6/12">
+        <h1>Categoria</h1>
+        <input
+          name="categoria"
+          type="text"
+          placeholder="Categoria"
+          class="input input-bordered w-full"
+          bind:value={categoria}
+        />
+      </div>
+      <div class="w-4/12">
+        <h1>Data de Validade</h1>
+        <input
+          name="dataValidade"
+          type="date"
+          class="input input-bordered w-full"
+        />
+      </div>
+      <div class="w-4/12">
+        <h1>Quantidade Disponível</h1>
+        <input
+          name="quantDisponivel"
+          type="number"
+          min="0"
+          placeholder="Quantidade"
+          class="input input-bordered w-full"
+        />
+      </div>
+      <div class="w-4/12">
+        <h1>Estoque Mínimo</h1>
+        <input
+          name="estoqueMinimo"
+          type="number"
+          min="0"
+          placeholder="Estoque mínimo"
+          class="input input-bordered w-full"
+        />
+      </div>
+      <div class="w-4/12">
+        <h1>Custo</h1>
+        <input
+          name="custo"
+          type="number"
+          min="0"
+          step="0.01"
+          placeholder="Custo"
+          class="input input-bordered w-full"
+        />
+      </div>
     </div>
 
-    <div class="w-full mt-3">
-      <button type="submit" class="btn btn-success w-full">Cadastrar Insumo</button>
+    <div class="mt-6">
+      <button type="submit" class="btn btn-primary w-full">Salvar Insumo</button>
     </div>
+
+     <div class="min-h-40 w-full mt-4">
+			<table class="table min-h-10">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Nome</th>
+						<th>Quantidade Utilizada</th>
+						<th>Remover</th>
+					</tr>
+				</thead>
+				<tbody>
+					{#each listaInsumoSelecionado as i}
+						<tr>
+							<td>{i.id}</td>
+							<td>{i.nome}</td>
+							<td>
+								<input
+									class="input"
+									name={"quantidadeInsumo_" + i.id}
+									type="number"
+									min="0"
+									step="0.01"
+									placeholder="Quantidade"
+									required
+								/>
+							</td>
+							<td>
+								<button
+									class="btn btn-error btn-sm"
+									on:click={() => removeInsumo(i.id)}
+									type="button"
+								>
+									Excluir
+								</button>
+							</td>
+						</tr>
+					{/each}
+				</tbody>
+			</table>
+		</div>
   </form>
 {/snippet}
 
-{#snippet visualizarInsumos()}
-  <div class="overflow-x-auto mt-5">
-    <table class="table w-full">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nome</th>
-          <th>Categoria</th>
-          <th>Validade</th>
-          <th>Qtd Disponível</th>
-          <th>Unidade</th>
-          <th>Fornecedor</th>
-        </tr>
-      </thead>
-      <tbody>
-        {#each listaInsumos as i}
-          <tr>
-            <td>{i.id}</td>
-            <td>{i.nome}</td>
-            <td>{i.categoria}</td>
-            <td>{i.dataValidade}</td>
-            <td>{i.quantidadeDisponivel}</td>
-            <td>{i.unidade}</td>
-            <td>{i.fornecedorNome}</td>
-          </tr>
-        {/each}
-      </tbody>
-    </table>
-  </div>
-{/snippet}
+
+<div class="border px-16 py-5">
+	<div>
+		<div class="flex w-full gap-3">
+			<div class="w-8/12">
+				<input
+					type="text"
+					placeholder="Pesquisar um produto"
+					class="input input-bordered w-full"
+				/>
+			</div>
+			<div class="w-4/12">
+				<Modal
+          modalContent={novoInsumo}
+          textoBotao="Novo Insumo"
+          classeBotao="btn-success w-full"
+          title="Cadastrar Novo Insumo"
+        />
+			</div>
+		</div>
+	</div>
+</div>
+
