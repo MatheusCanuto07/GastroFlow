@@ -14,7 +14,7 @@
 "estoqueMinimo": "",
 "custo" : ""
 
-3° Passo -> Cadastrar uma Ficha técnica / Preparo (coloca os insumos necessarios) - Felipe
+3° Passo -> Cadastrar uma Ficha técnica / Preparo (coloca os insumos necessarios) - Felipe / Higor
 Isso vai ser uma lista: 
 "idinsumo" : selecionar os insumos necessários
 "quantInsumo" : selecionar a quantidade daquele insumo
