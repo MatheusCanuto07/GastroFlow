@@ -1,233 +1,173 @@
 <script lang="ts">
-
-  import type { PageData } from './$types';
   import Modal from '$lib/components/Modal.svelte';
 
-  let { data }: { data: PageData } = $props();
+  let termoBusca = '';
+  let insumos = [
+    { id: 1, nome: 'Insumo 1', categoria: 'Categoria Exemplo', quantidade: 10, custo: 45.0 },
+    { id: 2, nome: 'Insumo 2', categoria: 'Categoria Exemplo', quantidade: 10, custo: 45.0 },
+    { id: 3, nome: 'Insumo 3', categoria: 'Categoria Exemplo', quantidade: 10, custo: 45.0 }
+  ];
 
-  // Estado do formulário
-  let nome = $state('');
-  let categoria = $state('');
-  let dataValidade = $state('');
-  let quantDisponivel = $state('');
-  let estoqueMinimo = $state('');
-  let custo = $state('');
+  let insumosFiltrados = insumos;
 
-  // Estado de edição
-  let editando = $state(false);
-  let idEditando: number | null = $state(null);
+  // Modal
+  let showModal = false;
 
-  let listaInsumoSelecionado: Array<InsumoSelect> = $state([]);
+  function abrirModalNovoInsumo() {
+    showModal = true;
+  }
 
-  // Lista de insumos (mock ou carregado do servidor)
-  let listaInsumos = $state<Array<any>>([
-    {
-      id: 1,
-      nome: 'Farinha',
-      categoria: 'Cereal',
-      dataValidade: '2025-12-01',
-      quantDisponivel: 100,
-      estoqueMinimo: 20,
-      custo: 12.5
-    },
-    {
-      id: 2,
-      nome: 'Sal',
-      categoria: 'Temperos',
-      dataValidade: '2026-01-10',
-      quantDisponivel: 50,
-      estoqueMinimo: 10,
-      custo: 4.3
-    }
-  ]);
+  function fecharModal() {
+    showModal = false;
+  }
+
+  // Filtro
+  $: insumosFiltrados = insumos.filter(insumo =>
+    insumo.nome.toLowerCase().includes(termoBusca.toLowerCase())
+  );
+
+  // Formulário novo insumo (mock)
+  let nome = '';
+  let categoria = '';
+  let quantidade = '';
+  let custo = '';
+
+  function salvarInsumo() {
+    const novo = {
+      id: Date.now(),
+      nome,
+      categoria,
+      quantidade: Number(quantidade),
+      custo: parseFloat(custo)
+    };
+    insumos = [...insumos, novo];
+    fecharModal();
+    resetForm();
+  }
 
   function resetForm() {
     nome = '';
     categoria = '';
-    dataValidade = '';
-    quantDisponivel = '';
-    estoqueMinimo = '';
+    quantidade = '';
     custo = '';
-    editando = false;
-    idEditando = null;
-  }
-
-  function enviarFormulario() {
-    event?.preventDefault();
-
-    const novoInsumo = {
-      id: editando && idEditando ? idEditando : Date.now(),
-      nome,
-      categoria,
-      dataValidade,
-      quantDisponivel: Number(quantDisponivel),
-      estoqueMinimo: Number(estoqueMinimo),
-      custo: parseFloat(String(custo))
-    };
-
-    if (editando && idEditando !== null) {
-      // Atualiza insumo
-      listaInsumos = listaInsumos.map(i => i.id === idEditando ? novoInsumo : i);
-    } else {
-      // Adiciona novo
-      listaInsumos = [...listaInsumos, novoInsumo];
-    }
-
-    resetForm();
-  }
-
-  function editarInsumo(insumo: any) {
-    nome = insumo.nome;
-    categoria = insumo.categoria;
-    dataValidade = insumo.dataValidade;
-    quantDisponivel = insumo.quantDisponivel;
-    estoqueMinimo = insumo.estoqueMinimo;
-    custo = insumo.custo;
-
-    idEditando = insumo.id;
-    editando = true;
   }
 
   function excluirInsumo(id: number) {
-    if (confirm('Deseja realmente excluir este insumo?')) {
-      listaInsumos = listaInsumos.filter(i => i.id !== id);
-      if (id === idEditando) resetForm();
+    if (confirm('Deseja realmente excluir?')) {
+      insumos = insumos.filter(i => i.id !== id);
     }
   }
 </script>
 
+<!-- 🔍 Barra de Pesquisa e Botão -->
+<div class="border px-8 py-5 rounded">
+  <div class="flex w-full gap-3 items-center">
+    <input
+      type="text"
+      placeholder="Pesquisar um Insumo"
+      class="input input-bordered w-full"
+      bind:value={termoBusca}
+    />
+    <Modal
+      modalContent={novoInsumo}
+      textoBotao="Novo Insumo"
+      classeBotao="btn-success"
+      title="Cadastrar Novo Insumo"
+    />
+  </div>
+</div>
+
+<!-- 📋 Tabela de Insumos -->
+<div class="mt-6 overflow-x-auto">
+  <table class="table w-full border rounded">
+    <thead>
+      <tr class="bg-base-200 text-base font-bold">
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Categoria</th>
+        <th>Quantidade em estoque</th>
+        <th>Preço de custo</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {#each insumosFiltrados as insumo}
+        <tr class="hover:bg-base-100">
+          <td class="font-semibold">{insumo.id}</td>
+          <td>{insumo.nome}</td>
+          <td>{insumo.categoria}</td>
+          <td>{insumo.quantidade}</td>
+          <td>R$ {insumo.custo.toFixed(2).replace('.', ',')}</td>
+          <td>
+            <div class="dropdown dropdown-end">
+              <button class="btn btn-sm btn-neutral">⋯</button>
+              <!-- Exemplo de menu suspenso, ative se quiser -->
+              <!--
+              <ul class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                <li><a on:click={() => editarInsumo(insumo)}>Editar</a></li>
+                <li><a class="text-red-500" on:click={() => excluirInsumo(insumo.id)}>Excluir</a></li>
+              </ul>
+              -->
+            </div>
+          </td>
+        </tr>
+      {/each}
+    </tbody>
+  </table>
+</div>
+
+<!-- 🧾 Novo Insumo (conteúdo do modal) -->
 {#snippet novoInsumo()}
-  <form id="formInsumo" on:submit|preventDefault={enviarFormulario}>
+  <form on:submit|preventDefault={salvarInsumo}>
     <div class="flex flex-wrap gap-4">
-      <div class="w-6/12">
-        <h1>Nome</h1>
+      <div class="w-full">
+        <label class="font-semibold">Nome</label>
         <input
-          name="nome"
           type="text"
-          placeholder="Digite o nome do insumo"
           class="input input-bordered w-full"
-          required
           bind:value={nome}
+          required
         />
       </div>
-      <div class="w-6/12">
-        <h1>Categoria</h1>
+
+      <div class="w-full">
+        <label class="font-semibold">Categoria</label>
         <input
-          name="categoria"
           type="text"
-          placeholder="Categoria"
           class="input input-bordered w-full"
           bind:value={categoria}
+          required
         />
       </div>
-      <div class="w-4/12">
-        <h1>Data de Validade</h1>
+
+      <div class="w-6/12">
+        <label class="font-semibold">Quantidade</label>
         <input
-          name="dataValidade"
-          type="date"
-          class="input input-bordered w-full"
-        />
-      </div>
-      <div class="w-4/12">
-        <h1>Quantidade Disponível</h1>
-        <input
-          name="quantDisponivel"
           type="number"
+          class="input input-bordered w-full"
           min="0"
-          placeholder="Quantidade"
-          class="input input-bordered w-full"
+          bind:value={quantidade}
+          required
         />
       </div>
-      <div class="w-4/12">
-        <h1>Estoque Mínimo</h1>
+
+      <div class="w-6/12">
+        <label class="font-semibold">Preço de custo (R$)</label>
         <input
-          name="estoqueMinimo"
           type="number"
-          min="0"
-          placeholder="Estoque mínimo"
           class="input input-bordered w-full"
-        />
-      </div>
-      <div class="w-4/12">
-        <h1>Custo</h1>
-        <input
-          name="custo"
-          type="number"
           min="0"
           step="0.01"
-          placeholder="Custo"
-          class="input input-bordered w-full"
+          bind:value={custo}
+          required
         />
       </div>
     </div>
 
     <div class="mt-6">
-      <button type="submit" class="btn btn-primary w-full">Salvar Insumo</button>
+      <button type="submit" class="btn btn-primary w-full">
+        Salvar Insumo
+      </button>
     </div>
-
-     <div class="min-h-40 w-full mt-4">
-			<table class="table min-h-10">
-				<thead>
-					<tr>
-						<th>ID</th>
-						<th>Nome</th>
-						<th>Quantidade Utilizada</th>
-						<th>Remover</th>
-					</tr>
-				</thead>
-				<tbody>
-					{#each listaInsumoSelecionado as i}
-						<tr>
-							<td>{i.id}</td>
-							<td>{i.nome}</td>
-							<td>
-								<input
-									class="input"
-									name={"quantidadeInsumo_" + i.id}
-									type="number"
-									min="0"
-									step="0.01"
-									placeholder="Quantidade"
-									required
-								/>
-							</td>
-							<td>
-								<button
-									class="btn btn-error btn-sm"
-									on:click={() => removeInsumo(i.id)}
-									type="button"
-								>
-									Excluir
-								</button>
-							</td>
-						</tr>
-					{/each}
-				</tbody>
-			</table>
-		</div>
   </form>
 {/snippet}
-
-
-<div class="border px-16 py-5">
-	<div>
-		<div class="flex w-full gap-3">
-			<div class="w-8/12">
-				<input
-					type="text"
-					placeholder="Pesquisar um produto"
-					class="input input-bordered w-full"
-				/>
-			</div>
-			<div class="w-4/12">
-				<Modal
-          modalContent={novoInsumo}
-          textoBotao="Novo Insumo"
-          classeBotao="btn-success w-full"
-          title="Cadastrar Novo Insumo"
-        />
-			</div>
-		</div>
-	</div>
-</div>
-
