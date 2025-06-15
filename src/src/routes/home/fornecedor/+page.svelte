@@ -1,47 +1,21 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import Modal from '$lib/components/Modal.svelte';
+	import { onMount } from 'svelte';
 
 	let { data }: { data: PageData } = $props();
   const allFornecedores = data.allfornecedores?.allfornecedores;
   const idUser = data.idUser ?? 1;
 
-	import { type InsumoSelect } from '$lib/server/schema/fornecedor';
-
-	let listaInsumoDisponiveis: Array<InsumoSelect> = $state([
-		{
-			id: 1,
-			idFornecedor: 1,
-			nome: 'default',
-			categoria: '',
-			dataValidade: '',
-			quantidadeDisponivel: '',
-			createdAt: ''
-		},
-		{
-			id: 2,
-			idFornecedor: 1,
-			nome: 'default',
-			categoria: '',
-			dataValidade: '',
-			quantidadeDisponivel: '',
-			createdAt: ''
-		}
-	]);
-
-	let listaInsumoSelecionado: Array<InsumoSelect> = $state([]);
-
-	let insumoSelectionadoId: number | string = $state('Selecione');
-
-	function adicionaInsumo() {
-		event?.preventDefault();
-		if (insumoSelectionadoId == 'Selecione') return;
-
-		listaInsumoDisponiveis = listaInsumoDisponiveis.filter(
-			(insumo) => insumo.id !== insumoSelectionadoId
-		);
-		insumoSelectionadoId = 'Selecione';
+  async function getInsumos() {
+		const response = await fetch('../api');
+    const number = await response.json();
+    console.log(number)
 	}
+
+  onMount(() => {
+    getInsumos();
+  })
 </script>
 
 {#snippet novoFornecedor()}
@@ -81,15 +55,9 @@
   <div class="mt-3 flex flex-wrap">
     <div class="w-9/12">
       <h1>Insumo</h1>
-      <select class="select w-full" bind:value={insumoSelectionadoId}>
-        <option value="Selecione" selected>Selecione</option>
-        {#each listaInsumoDisponiveis as item}
-          <option value={item.id}>{item.nome}</option>
-        {/each}
-      </select>
     </div>
     <div class="flex w-3/12 flex-col">
-      <button onclick={adicionaInsumo} class="btn btn-success mt-auto">Adicionar Insumo</button>
+      <!-- <button onclick={adicionaInsumo} class="btn btn-success mt-auto">Adicionar Insumo</button> -->
     </div>
     <div class="min-h-40 w-full">
       <table class="table min-h-10">
@@ -101,15 +69,6 @@
           </tr>
         </thead>
         <tbody>
-          {#each listaInsumoSelecionado as i}
-            <tr>
-              <td>{i.id}</td>
-              <td>{i.nome}</td>
-              <td>
-                <input class="input" id="valorInsumo{i.id}" type="number" />
-              </td>
-            </tr>
-          {/each}
         </tbody>
       </table>
     </div>
@@ -117,9 +76,6 @@
 {/snippet}
 
 {#snippet visualizarFornecedor()}
-  <form action="">
-
-  </form>
 	<div class="flex">
 		<table class="table">
 			<thead>

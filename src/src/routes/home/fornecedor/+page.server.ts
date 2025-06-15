@@ -5,13 +5,13 @@ import {
 	fornecedorTable,
 	type fornecedorInsert
 } from '$lib/server/schema/fornecedor';
-import { fornecedorQueries } from '$lib/server/controller/insumo';
+import { fornecedorQueries } from '$lib/server/controller/fornecedor';
 
 export const load: PageServerLoad = async ({}) => {
   const idUser : number = 1;
   const allfornecedores = await fornecedorQueries.getAllFornecedores(idUser);
+  //const allInsumosFromFornecedor = await fornecedorQueries.getAllInsumosFromFornecedor(id, idUser);
   if (allfornecedores) {
-    console.log(allfornecedores);
     return { allfornecedores: allfornecedores, idUser : idUser };
   }
 };
@@ -39,7 +39,6 @@ export const actions = {
       idUser : parseInt(idUser),
 			createdAt: new Date().toISOString()
 		};
-    console.log(fornecedorInsert);
     
 		const newId = await fornecedorQueries.insertFornecedor(fornecedorInsert);
 		return { success: true, newId : newId  };

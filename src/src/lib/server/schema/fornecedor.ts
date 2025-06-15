@@ -25,6 +25,7 @@ export const insumoTable = sqliteTable('insumo', {
   dataValidade: text('dataValidade').notNull(),
   quantidadeDisponivel: text('quantidadeDisponivel').notNull(),
   createdAt: text('created_at').$defaultFn(() => new Date().toISOString()),
+  idUser: integer('id_user').notNull(),
 });
 
 export type InsumoSelect = typeof insumoTable.$inferSelect;
