@@ -251,7 +251,7 @@
 			{#each array as i, index}
 				<tr class="cursor-pointer hover:bg-base-300">
 					<th>{index + 1}</th>
-					<td>Enbutido {i}</td>
+					<td>Embutido {i}</td>
 					<td>Linguiça</td>
 					<td>R$ 35,50</td>
 					<td class="text-center">
