@@ -1,11 +1,11 @@
 <script lang="ts">
-	import type { PageData } from './$types';
+	import type { PageData, ActionData } from './$types';
 	import Modal from '$lib/components/Modal.svelte';
   import { enhance } from "$app/forms";
 	import { onMount } from 'svelte';
   import { filters } from "../params.svelte";
   import { invalidate } from "$app/navigation";
-	let { data }: { data: PageData } = $props();
+	let {data, form}: {data : PageData; form: ActionData} = $props();
   const allFornecedores = data.allfornecedores?.allfornecedores;
   const idUser = data.idUser ?? 1;
 
@@ -28,12 +28,16 @@
   onMount(() => {
     getInsumos();
   })
+
 </script>
 
 {#snippet novoFornecedor()}
   <div class="flex flex-wrap">
     <div class="w-9/12 pr-3">
       <h1>Nome</h1>
+        {#if form?.name}
+          <p class="text-red-500 bg-red-100 border border-red-400 p-2 rounded mb-4">Digite um nome válido</p>
+        {/if}
       <input name="nome" type="text" placeholder="Type here" class="input input-bordered w-full" />
     </div>
     <div class="w-3/12">
