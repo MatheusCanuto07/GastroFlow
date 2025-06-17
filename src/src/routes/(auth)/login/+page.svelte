@@ -4,9 +4,7 @@
   let password = "7198214";
   let rememberMe = false;
 
-  // Handle form submission
   function handleSubmit() {
-    // Handle login logic here
     console.log({ email, password, rememberMe });
   }
 </script>
