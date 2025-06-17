@@ -20,10 +20,11 @@ export type fornecedorInsert = typeof fornecedorTable.$inferInsert;
 export const insumoTable = sqliteTable('insumo', {
   id: integer('id').primaryKey({autoIncrement : true}),
   idFornecedor: integer('idFornecedor').notNull(),
-  nome : text('nome').notNull(),
+  name : text('name').notNull(),
   categoria: text('categoria'),
   dataValidade: text('dataValidade').notNull(),
-  quantidadeDisponivel: text('quantidadeDisponivel').notNull(),
+  quantidadeEstoque: integer('quantidadeEstoque').notNull(),
+  custo: integer('custo').notNull(),
   createdAt: text('created_at').$defaultFn(() => new Date().toISOString()),
   idUser: integer('id_user').notNull(),
 });

@@ -55,9 +55,19 @@ const fornecedoresComInsumos = await db.query.fornecedorTable.findMany({
 //   .from(fornecedorInsumo)
 //   .innerJoin(fornecedorTable, eq(fornecedorInsumo.fornecedorId, fornecedorTable.id))
 //   .where(eq(fornecedorInsumo.insumoId, 3));
+async function addInsumo (insumo : InsumoInsert) : Promise<{ id: number }> {
+  try{
+    const [idAddedInsumo] = await db.insert(insumoTable).values(insumo).returning({ id: insumoTable.id });
+    return idAddedInsumo;
+  } catch (error){
+    console.error('Erro ao adicionar insumo:', error);
+  }
+  return {id : 0}
+}
 
 export const insumoQueries = {
   getAllInsumo,
   deleteInsumo,
-  editInsumo
+  editInsumo,
+  addInsumo
 };

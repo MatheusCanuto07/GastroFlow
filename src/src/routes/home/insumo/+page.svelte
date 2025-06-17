@@ -69,11 +69,12 @@
 
 <!-- Novo Insumo (conteúdo do modal) -->
 {#snippet novoInsumo()}
-  <form id="formInsumo">
     <div class="flex flex-wrap gap-4">
       <div class="w-6/12">
         <h1>Nome</h1>
-        {#if form?.missing}<p class="error">The email field is required</p>{/if}
+        {#if form?.name}
+          <p class="text-red-500 bg-red-100 border border-red-400 p-2 rounded mb-4">Digite um nome válido</p>
+        {/if}
         <input
           name="nome"
           type="text"
@@ -86,6 +87,9 @@
 
       <div class="w-6/12">
         <h1>Categoria</h1>
+        {#if form?.categoria}
+          <p class="text-red-500 rounded mb-1">Digite uma categoria válida</p>
+        {/if}
         <input
           name="categoria"
           placeholder="Categoria"
@@ -143,7 +147,6 @@
         Salvar Insumo
       </button>
     </div>
-  </form>
 {/snippet}
 
 
@@ -156,14 +159,16 @@
       class="input input-bordered w-full"
     />
     <div class="w-4/12">
-      <Modal
-      modalContent={novoInsumo}
-      textoBotao={"Novo Insumo"}
-      classeBotao={'btn-success w-full'}
-      title="Cadastrar Novo Insumo"
-      />
-    </div>    
-  </div>
+      <form action="?/novoinsumo" method="POST" use:enhance>
+        <Modal
+        modalContent={novoInsumo}
+        textoBotao={"Novo Insumo"}
+        classeBotao={'btn-success w-full'}
+        title="Cadastrar Novo Insumo"
+        />
+      </form>
+    </div>
+  </div>    
 </div>
 
 

@@ -143,34 +143,7 @@
 			</div>
 			<div class="w-2/12">
         <form method="POST" action="?/novofornecedor" 
-        use:enhance={({
-    action,
-    cancel,
-    controller,
-    formData,
-    formElement,
-    submitter,
-  }) => {
-    //Será executado imediatamente antes do formulário ser enviado e (opcionalmente) retorne um retorno de chamada que seja executado com o ActionResult
-    
-    // inicio part 1
-    // antes de enviar a request
-    
-    //Validações no front-end
-    const name = formData.get("nameTask");
-    const desc = formData.get("descTask");
-    
-    isLoading = true;
-    // fim part 1
-    
-    return async () => {
-      // inicio part 2
-      // Se algo relacionado a essa dependência mudar (como um dado associado a "todos"), a função load será reexecutada
-      await invalidate("todoList");
-      isLoading = false;
-      // fim part 2
-    };
-  }}>
+        use:enhance>
           <input type="hidden" name="idUser" id="idUser" value={idUser}>
           <Modal
             modalContent={novoFornecedor}

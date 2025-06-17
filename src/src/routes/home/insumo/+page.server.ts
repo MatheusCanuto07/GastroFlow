@@ -17,6 +17,7 @@ export const load: PageServerLoad = async () => {
 
 export const actions: Actions = {
   novoinsumo: async ({ request }) => {
+    const idUser = 1;
     const data = await request.formData();
     
     const name = data.get('nome')?.toString();
@@ -26,26 +27,37 @@ export const actions: Actions = {
     const custo = Number(data.get('custo') || 0);
 
     if(!name){
-      return fail(400, {name, missing : true})
+      return fail(400, {name, invalid : true})
     }
 
-    if (!name || !categoria || !dataValidade || !quantidadeEstoque || !custo) {
-      throw new Error('Nome e status são obrigatórios');
+    if(categoria){
+      return fail(400, {categoria, invalid : true})
+    }
+
+    const dataValidadeDate = new Date(dataValidade);
+    if(dataValidadeDate.toString() === 'Invalid Date'){
+      return fail(400, {dataValidade, invalid : true})
+    }
+
+    if(quantidadeEstoque < 0){
+      return fail(400, {quantidadeEstoque, invalid : true})
+    }
+
+    if(custo < 0){
+      return fail(400, {custo, invalid : true})
     }  
-
-    // const fornecedorInsert: InsumoInsert = {
-    //   name,
-    //   status,
-    //   telefone,
-    //   contato: telefone,
-    //   email,
-    //   idUser : parseInt(idUser),
-    //   createdAt: new Date().toISOString()
-    // };
     
-    // const newId = await fornecedorQueries.insertFornecedor(fornecedorInsert);
+    const newId = await insumoQueries.addInsumo({
+      name,
+      categoria,
+      dataValidade: dataValidade,
+      quantidadeEstoque,
+      custo,
+      createdAt: new Date().toISOString(),
+      idUser,
+      idFornecedor: 1
+    })
     // return { success: true, newId : newId  };
-
     
   }
 };
