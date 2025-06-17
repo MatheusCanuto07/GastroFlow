@@ -23,9 +23,9 @@
   }
 
   // Filtro
-  $: insumosFiltrados = insumos.filter(insumo =>
-    insumo.nome.toLowerCase().includes(termoBusca.toLowerCase())
-  );
+  // $: insumosFiltrados = insumos.filter(insumo =>
+  //   insumo.nome.toLowerCase().includes(termoBusca.toLowerCase())
+  // );
 
   // Formulário novo insumo (mock)
   let nome = '';
@@ -61,14 +61,19 @@
       insumos = insumos.filter(i => i.id !== id);
     }
   }
+  import {enhance} from "$app/forms";
+  import type {PageData, ActionData} from './$types';
+
+	let {data, form}: {data : PageData; form: ActionData} = $props();
 </script>
 
 <!-- Novo Insumo (conteúdo do modal) -->
 {#snippet novoInsumo()}
-  <form id="formInsumo" on:submit|preventDefault={salvarInsumo}>
+  <form id="formInsumo">
     <div class="flex flex-wrap gap-4">
       <div class="w-6/12">
         <h1>Nome</h1>
+        {#if form?.missing}<p class="error">The email field is required</p>{/if}
         <input
           name="nome"
           type="text"
@@ -119,6 +124,7 @@
       <div class="w-4/12">
         <h1>Custo (R$)</h1>
         <input
+          name="custo"
           type="number"
           class="input input-bordered w-full"
           min="0"

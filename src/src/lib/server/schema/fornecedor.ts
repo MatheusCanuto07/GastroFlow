@@ -31,22 +31,18 @@ export const insumoTable = sqliteTable('insumo', {
 export type InsumoSelect = typeof insumoTable.$inferSelect;
 export type InsumoInsert = typeof insumoTable.$inferInsert;
 
-export const fornecedorInsumo = sqliteTable(
-  'fornecedor_insumo',
-  {
-    fornecedorId: integer('fornecedor_id')
-      .notNull()
-      .references(() => fornecedorTable.id, { onDelete: 'cascade' }),
-    insumoId: integer('insumo_id')
-      .notNull()
-      .references(() => insumoTable.id, { onDelete: 'cascade' }),
-    preco: integer('preco'), 
-    createdAt: text('created_at').$defaultFn(() => new Date().toISOString()),
-    idUser: integer('id_user').notNull(),
-  },
-  (t) => ({
-    pk: primaryKey({ columns: [t.fornecedorId, t.insumoId] }),
-  })
+export const fornecedorInsumo = sqliteTable('fornecedor_insumo',{
+  id: integer('id').primaryKey({autoIncrement : true}),
+  fornecedorId: integer('fornecedor_id')
+    .notNull()
+    .references(() => fornecedorTable.id, { onDelete: 'cascade' }),
+  insumoId: integer('insumo_id')
+    .notNull()
+    .references(() => insumoTable.id, { onDelete: 'cascade' }),
+  preco: integer('preco'), 
+  createdAt: text('created_at').$defaultFn(() => new Date().toISOString()),
+  idUser: integer('id_user').notNull(),
+  }
 );
 
 export const compras = sqliteTable('compras',{
@@ -63,7 +59,6 @@ export const compras = sqliteTable('compras',{
 
 export const fornecedorRelations = relations(fornecedorTable, ({ many }) => ({
   insumos: many(fornecedorInsumo),
-  // outras relações...
 }));
 
 export const insumoRelationsWithFornecedor = relations(insumoTable, ({ many }) => ({

@@ -1,1 +1,18 @@
-export { fornecedorTable, insumoTable, compras, fornecedorRelations, comprasRelations, insumoRelations } from './fornecedor'; 
+export { 
+  fornecedorTable, 
+  insumoTable,
+  compras,
+  fornecedorInsumo,
+  comprasRelations,
+  insumoRelations,
+  fornecedorRelations,
+  insumoRelationsWithFornecedor,
+  fornecedorInsumoRelations,
+  } from './fornecedor'; 
+
+export {
+  userTable, 
+  usersRelations, 
+  sessionTable, 
+  sessionTableRelations
+} from './user'
