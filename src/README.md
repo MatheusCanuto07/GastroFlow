@@ -81,6 +81,5 @@ O sistema deve permitir a configuração de eventos financeiros recorrentes. :bl
 
 O sistema deve enviar notificações de vencimento de contas. :black_square_button:
 
-
-TODO: 
-Tratativa de erro no formulário de fornecedor
+TODO: Pedir ajuda André
+Ler os dados dos inputs no back-end e fazer a pesquisa

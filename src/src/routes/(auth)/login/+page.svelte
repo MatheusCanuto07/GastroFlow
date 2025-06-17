@@ -14,9 +14,9 @@
 <div class="flex items-center justify-center min-h-screen bg-gray-50">
   <div class="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
     <div class="text-center">
-      <h1 class="text-3xl font-bold text-gray-900">Welcome back</h1>
+      <h1 class="text-3xl font-bold text-gray-900">Bem-vindo de volta!</h1>
       <p class="mt-2 text-sm text-gray-600">
-        Sign in to your account
+        Faça login para continuar navegando
       </p>
     </div>
     
@@ -41,10 +41,10 @@
         <div>
           <div class="flex items-center justify-between">
             <label for="password" class="block text-sm font-medium text-gray-700">
-              Password
+              Senha
             </label>
             <a href="/forgetpassword" class="text-xs text-blue-600 hover:text-blue-800">
-              Forgot password?
+              Esqueceu sua senha ?
             </a>
           </div>
           <input
@@ -67,7 +67,7 @@
             class="checkbox checkbox-sm checkbox-primary"
           />
           <label for="remember-me" class="ml-2 block text-sm text-gray-700">
-            Remember me
+            Me lembre
           </label>
         </div>
       </div>
@@ -76,16 +76,16 @@
         <button
           type="submit"
           class="btn btn-primary w-full">
-          Sign in
+          Fazer login
         </button>
       </div>
     </form>
     
     <div class="text-center mt-4">
       <p class="text-sm text-gray-600">
-        Don't have an account?
+        Não tem uma conta criada?
         <a href="/signup" class="font-medium text-blue-600 hover:text-blue-800">
-          Sign up
+          Se inscreva
         </a>
       </p>
     </div>

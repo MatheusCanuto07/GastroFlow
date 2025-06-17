@@ -2,7 +2,7 @@
 	import type { PageData } from './$types';
 	import Modal from '$lib/components/Modal.svelte';
 	import { onMount } from 'svelte';
-
+  import { filters } from "../params.svelte";
 	let { data }: { data: PageData } = $props();
   const allFornecedores = data.allfornecedores?.allfornecedores;
   const idUser = data.idUser ?? 1;
@@ -12,6 +12,16 @@
     const number = await response.json();
     console.log(number)
 	}
+  let search = $state("");
+  let searchCategory = $state("");
+  let searchParams : string | null = "";
+  let searchCategoryParams : string | null = "";
+  function changeUrl(){
+    searchParams = filters.get(search);
+    searchCategoryParams = filters.get(searchCategory);
+    console.log(searchParams)
+    filters.update({search : search, category : searchCategory})
+  }
 
   onMount(() => {
     getInsumos();
@@ -105,7 +115,7 @@
 {#snippet apagarFornecedor()}
   <div class="flex flex-wrap">
     <!-- <h1 class="text-2xl font-bold text-gray-900">Tem certeza que deseja apagar esse fornecedor?</h1> -->
-    <button>Quero apagar</button>
+    <p class="text-md font-semibold">ESSA AÇÃO É IRREVERSÍVEL!</p>
   </div>
 {/snippet}
 
@@ -117,14 +127,16 @@
 					type="text"
 					placeholder="Pesquisar um fornecedor"
 					class="input input-bordered w-full"
+          bind:value={search} 
+          oninput={changeUrl}
 				/>
 			</div>
 			<div class="w-2/12">
-				<select class="select select-bordered w-full">
-					<option disabled selected>Status</option>
-					<option>Crimson</option>
-					<option>Amber</option>
-					<option>Velvet</option>
+				<select class="select select-bordered w-full" bind:value={searchCategory} onchange={changeUrl}>
+					<option value="" selected>Status</option>
+					<option value="teste2">Crimson</option>
+					<option value="test3e">Amber</option>
+					<option value="teste4">Velvet</option>
 				</select>
 			</div>
 			<div class="w-2/12">
@@ -186,12 +198,15 @@
                   />
                 </form>
                 <div>
-                  <form action="?/apagarfornecedor" method="POST" onsubmit={event?.preventDefault}>
+                  <form action="?/apagarFornecedor" method="POST" onsubmit={event?.preventDefault}>
+                    <input type="hidden" name="idFornecedor" id="idFornecedor" value={f.id}>
                     <Modal 
-                      classeBotao="btn-warning w-full mt-2"
+                      classeBotao="btn-error w-full mt-2"
                       textoBotao="Apagar"
+                      textBtn="Quero apagar"
                       title="Apagar"        
                       tamanhoModal="w-3/12 max-w-5xl"
+                      classBtnEnviar ="error"
                       modalContent={apagarFornecedor}
                     />
                   </form>

@@ -1,6 +1,6 @@
 <script lang="ts">
   let modal : HTMLDialogElement | undefined  = $state();
-  let { modalContent, textoBotao, classeBotao, title, tamanhoModal = "", textBtn = "Enviar" } = $props();
+  let { modalContent, textoBotao, classeBotao, title, tamanhoModal = "", textBtn = "Enviar", classBtnEnviar = "success" } = $props();
 
 </script>
 
@@ -17,7 +17,7 @@
       <form method="dialog" onsubmit={event?.preventDefault}>
         <button class="btn">Close</button>
       </form>
-      <button class="btn btn-success">{textBtn}</button>
+      <button class="btn btn-{classBtnEnviar}">{textBtn}</button>
     </div>
   </div>
 </dialog>

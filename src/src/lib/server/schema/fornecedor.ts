@@ -1,4 +1,4 @@
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { integer, primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { relations } from 'drizzle-orm';
 
 export const fornecedorTable = sqliteTable('fornecedor', {
@@ -31,6 +31,24 @@ export const insumoTable = sqliteTable('insumo', {
 export type InsumoSelect = typeof insumoTable.$inferSelect;
 export type InsumoInsert = typeof insumoTable.$inferInsert;
 
+export const fornecedorInsumo = sqliteTable(
+  'fornecedor_insumo',
+  {
+    fornecedorId: integer('fornecedor_id')
+      .notNull()
+      .references(() => fornecedorTable.id, { onDelete: 'cascade' }),
+    insumoId: integer('insumo_id')
+      .notNull()
+      .references(() => insumoTable.id, { onDelete: 'cascade' }),
+    preco: integer('preco'), 
+    createdAt: text('created_at').$defaultFn(() => new Date().toISOString()),
+    idUser: integer('id_user').notNull(),
+  },
+  (t) => ({
+    pk: primaryKey({ columns: [t.fornecedorId, t.insumoId] }),
+  })
+);
+
 export const compras = sqliteTable('compras',{
   id: integer('id').primaryKey({autoIncrement : true}),
   idFornecedor: integer('idFornecedor').notNull()
@@ -44,8 +62,24 @@ export const compras = sqliteTable('compras',{
 })
 
 export const fornecedorRelations = relations(fornecedorTable, ({ many }) => ({
-  compras: many(compras),
-  insumos: many(insumoTable),
+  insumos: many(fornecedorInsumo),
+  // outras relações...
+}));
+
+export const insumoRelationsWithFornecedor = relations(insumoTable, ({ many }) => ({
+  fornecedores: many(fornecedorInsumo),
+  // outras relações...
+}));
+
+export const fornecedorInsumoRelations = relations(fornecedorInsumo, ({ one }) => ({
+  fornecedor: one(fornecedorTable, {
+    fields: [fornecedorInsumo.fornecedorId],
+    references: [fornecedorTable.id],
+  }),
+  insumo: one(insumoTable, {
+    fields: [fornecedorInsumo.insumoId],
+    references: [insumoTable.id],
+  }),
 }));
 
 export const comprasRelations = relations(compras, ({ one }) => ({

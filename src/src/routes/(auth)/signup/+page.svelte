@@ -5,7 +5,7 @@
 <div class="flex items-center justify-center min-h-screen bg-gray-50">
   <div class="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
     <div class="text-center">
-      <h1 class="text-3xl font-bold text-gray-900">Sign up</h1>
+      <h1 class="text-3xl font-bold text-gray-900">Se inscreva!</h1>
     </div>
     
     <form class="mt-8 space-y-6" method="POST">
@@ -28,7 +28,7 @@
         <div>
           <div class="flex items-center justify-between">
             <label for="password" class="block text-sm font-medium text-gray-700">
-              Password
+              Senha
             </label>
           </div>
           <input id="password" name="password" type="password" autocomplete="current-password" required value="7198214" class="input input-bordered w-full mt-1" />
@@ -37,7 +37,7 @@
 
       <div>
         <button type="submit" class="btn btn-primary w-full">
-          Sign in
+          Se inscrever
         </button>
       </div>
     </form>
