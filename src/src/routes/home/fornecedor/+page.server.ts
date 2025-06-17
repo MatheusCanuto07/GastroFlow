@@ -6,6 +6,7 @@ import {
 	type fornecedorInsert
 } from '$lib/server/schema/fornecedor';
 import { fornecedorQueries } from '$lib/server/controller/fornecedor';
+import { request } from 'http';
 
 export const load: PageServerLoad = async ({}) => {
   const idUser : number = 1;
@@ -69,5 +70,15 @@ export const actions = {
 
     const idUpdatedUser = await fornecedorQueries.updateFornecedor(fornecedorUpdate, parseInt(id));
     return { success: true, idUpdatedUser };
+  },
+  apagarFornecedor: async ({request}) => {
+    const data = await request.formData();
+
+    const id = data.get('id')?.toString();
+    if (!id){
+      throw new Error('Selecione um fornecedor válido.');
+    }
+
+    const idDeletedFornecedor = await fornecedorQueries.deleteFornecedor(parseInt(id));
   },
 } satisfies Actions;

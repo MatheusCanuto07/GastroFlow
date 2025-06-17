@@ -102,6 +102,13 @@
 	</div>
 {/snippet}
 
+{#snippet apagarFornecedor()}
+  <div class="flex flex-col">
+    <!-- <h1 class="text-2xl font-bold text-gray-900">Tem certeza que deseja apagar esse fornecedor?</h1> -->
+    <button>Quero apagar</button>
+  </div>
+{/snippet}
+
 <div class="border px-16 py-5">
 	<div>
 		<div class="flex w-full gap-3">
@@ -178,6 +185,17 @@
                     modalContent={visualizarFornecedor}
                   />
                 </form>
+                <div>
+                  <form action="?/apagarfornecedor" method="POST">
+                    <Modal 
+                      classeBotao="btn-danger mt-2"
+                      textoBotao="Apagar"
+                      title="Apagar"                
+                      tamanhoModal="w-11/12 max-w-5xl"
+                      modalContent={apagarFornecedor}
+                    />
+                  </form>
+                </div>
                 <li>
                   <button class="btn btn-success mt-2">Realizar Compra</button>
                 </li>

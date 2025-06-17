@@ -76,10 +76,21 @@ function insertInsumo(insumo : InsumoInsert){
   return db.insert(insumoTable).values(insumo).returning({id : insumoTable.id});
 }
 
+function deleteFornecedor(id : number){
+  try{
+    db.delete(insumoTable).where(eq(insumoTable.idFornecedor, id));
+  } catch (error) {
+    console.error('Erro ao deletar fornecedor:', error);
+  }
+  return db.delete(fornecedorTable).where(eq(fornecedorTable.id, id));
+}
+
 export const fornecedorQueries = {
   insertInsumo,
   insertFornecedor,
   updateFornecedor,
   getAllFornecedores,
   getAllInsumosFromFornecedor,
+  deleteFornecedor,
+  
 };
