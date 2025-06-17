@@ -3,9 +3,10 @@
 
   let termoBusca = '';
   let insumos = [
-    { id: 1, nome: 'Insumo 1', categoria: 'Categoria Exemplo', quantidade: 10, custo: 45.0 },
-    { id: 2, nome: 'Insumo 2', categoria: 'Categoria Exemplo', quantidade: 10, custo: 45.0 },
-    { id: 3, nome: 'Insumo 3', categoria: 'Categoria Exemplo', quantidade: 10, custo: 45.0 }
+    { id: 1, nome: 'Páprica picante', categoria: 'Especiaria', validade: '10/10/2025', quantidade: 2, custo: 45.0 },
+    { id: 2, nome: 'Sal', categoria: 'Tempero', validade: '10/01/2026', quantidade: 10, custo: 20.0 },
+    { id: 3, nome: 'Pimenta', categoria: 'Pimentas', validade: '25/09/2025', quantidade: 5, custo: 30.0 },
+    { id: 4, nome: 'Fumaça líquida', categoria: 'Especiais', validade: '25/12/2025', quantidade: 5, custo: 30.0 }
   ];
 
   let insumosFiltrados = insumos;
@@ -29,6 +30,7 @@
   // Formulário novo insumo (mock)
   let nome = '';
   let categoria = '';
+  let validade = '';
   let quantidade = '';
   let custo = '';
 
@@ -37,6 +39,7 @@
       id: Date.now(),
       nome,
       categoria,
+      validade,
       quantidade: Number(quantidade),
       custo: parseFloat(custo)
     };
@@ -48,6 +51,7 @@
   function resetForm() {
     nome = '';
     categoria = '';
+    validade = '';
     quantidade = '';
     custo = '';
   }
@@ -59,110 +63,74 @@
   }
 </script>
 
-<!-- 🔍 Barra de Pesquisa e Botão -->
-<div class="border px-8 py-5 rounded">
-  <div class="flex w-full gap-3 items-center">
-    <input
-      type="text"
-      placeholder="Pesquisar um Insumo"
-      class="input input-bordered w-full"
-      bind:value={termoBusca}
-    />
-    <Modal
-      modalContent={novoInsumo}
-      textoBotao="Novo Insumo"
-      classeBotao="btn-success"
-      title="Cadastrar Novo Insumo"
-    />
-  </div>
-</div>
-
-<!-- 📋 Tabela de Insumos -->
-<div class="mt-6 overflow-x-auto">
-  <table class="table w-full border rounded">
-    <thead>
-      <tr class="bg-base-200 text-base font-bold">
-        <th>ID</th>
-        <th>Nome</th>
-        <th>Categoria</th>
-        <th>Quantidade em estoque</th>
-        <th>Preço de custo</th>
-        <th>Ações</th>
-      </tr>
-    </thead>
-    <tbody>
-      {#each insumosFiltrados as insumo}
-        <tr class="hover:bg-base-100">
-          <td class="font-semibold">{insumo.id}</td>
-          <td>{insumo.nome}</td>
-          <td>{insumo.categoria}</td>
-          <td>{insumo.quantidade}</td>
-          <td>R$ {insumo.custo.toFixed(2).replace('.', ',')}</td>
-          <td>
-            <div class="dropdown dropdown-end">
-              <button class="btn btn-sm btn-neutral">⋯</button>
-              <!-- Exemplo de menu suspenso, ative se quiser -->
-              <!--
-              <ul class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                <li><a on:click={() => editarInsumo(insumo)}>Editar</a></li>
-                <li><a class="text-red-500" on:click={() => excluirInsumo(insumo.id)}>Excluir</a></li>
-              </ul>
-              -->
-            </div>
-          </td>
-        </tr>
-      {/each}
-    </tbody>
-  </table>
-</div>
-
-<!-- 🧾 Novo Insumo (conteúdo do modal) -->
+<!-- Novo Insumo (conteúdo do modal) -->
 {#snippet novoInsumo()}
-  <form on:submit|preventDefault={salvarInsumo}>
+  <form id="formInsumo" on:submit|preventDefault={salvarInsumo}>
     <div class="flex flex-wrap gap-4">
-      <div class="w-full">
-        <label class="font-semibold">Nome</label>
+      <div class="w-6/12">
+        <h1>Nome</h1>
         <input
+          name="nome"
           type="text"
+          placeholder="Digite o nome do insumo"
           class="input input-bordered w-full"
           bind:value={nome}
           required
         />
       </div>
 
-      <div class="w-full">
-        <label class="font-semibold">Categoria</label>
+      <div class="w-6/12">
+        <h1>Categoria</h1>
         <input
+          name="categoria"
+          placeholder="Categoria"
           type="text"
           class="input input-bordered w-full"
           bind:value={categoria}
           required
         />
+        </div>
+
+      <div class="w-4/12">
+        <h1>Data de Validade</h1>
+        <input
+          name="dataValidade"
+          type="date"
+          class="input input-bordered w-full"
+          placeholder="Validade"
+          bind:value={validade}
+          required
+        />
       </div>
 
-      <div class="w-6/12">
-        <label class="font-semibold">Quantidade</label>
+      <div class="w-4/12">
+        <h1>Quantidade</h1>
         <input
+          name="quantidadeEstoque"
           type="number"
           class="input input-bordered w-full"
           min="0"
+          placeholder="Quantidade"
           bind:value={quantidade}
           required
         />
       </div>
 
-      <div class="w-6/12">
-        <label class="font-semibold">Preço de custo (R$)</label>
+      <div class="w-4/12">
+        <h1>Custo (R$)</h1>
         <input
           type="number"
           class="input input-bordered w-full"
           min="0"
           step="0.01"
+          placeholder="Custo"
           bind:value={custo}
           required
         />
       </div>
     </div>
+
+    
 
     <div class="mt-6">
       <button type="submit" class="btn btn-primary w-full">
@@ -171,3 +139,68 @@
     </div>
   </form>
 {/snippet}
+
+
+<!--Barra de Pesquisa e Botão. TÁ CERTO -->
+<div class="border px-8 py-5 rounded">
+  <div class="flex w-full gap-3 items-center">
+    <input
+      type="text"
+      placeholder="Pesquisar um insumo"
+      class="input input-bordered w-full"
+    />
+    <div class="w-4/12">
+      <Modal
+      modalContent={novoInsumo}
+      textoBotao={"Novo Insumo"}
+      classeBotao={'btn-success w-full'}
+      title="Cadastrar Novo Insumo"
+      />
+    </div>    
+  </div>
+</div>
+
+
+<!--Tabela de Insumos: é a que tá aparecendo. TÁ CERTA-->
+<div class="mt-6 overflow-x-auto">
+  <table class="table w-full border rounded">
+    <thead>
+      <tr class="bg-base-200 text-base font-bold">
+        <th></th>
+        <th>Nome</th>
+        <th>Categoria</th>
+        <th>Estoque</th>
+        <th>Preço</th>
+        <th class="text-center">Ações</th>          
+      </tr>
+    </thead>
+    <tbody>
+      {#each insumosFiltrados as insumo}
+        <tr class="cursor-pointer hover:bg-base-300">
+          <td class="font-semibold">{insumo.id}</td>
+          <td>{insumo.nome}</td>
+          <td>{insumo.categoria}</td>
+          <td>{insumo.quantidade}</td>
+          <td>R$ {insumo.custo.toFixed(2).replace('.', ',')}</td>
+            <td class="text-center">
+              <details class="dropdown dropdown-end dropdown-bottom">
+                <summary class="btn m-1">...</summary>
+                <ul class="menu dropdown-content z-50 w-52 rounded-box bg-base-100 p-2 shadow-sm">
+                  <li><button class="btn btn-info mt-2">Visualizar</button></li>
+                  <li><button class="btn btn-secondary mt-2">Editar</button></li>
+                  <li><button class="btn btn-warning mt-2">Remover</button></li>
+                </ul>
+              </details>
+					</td>
+        </tr>
+      {/each}
+    </tbody>
+  </table>
+</div>
+
+
+
+
+
+
+
