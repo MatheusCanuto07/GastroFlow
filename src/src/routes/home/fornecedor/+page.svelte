@@ -1,8 +1,10 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import Modal from '$lib/components/Modal.svelte';
+  import { enhance } from "$app/forms";
 	import { onMount } from 'svelte';
   import { filters } from "../params.svelte";
+  import { invalidate } from "$app/navigation";
 	let { data }: { data: PageData } = $props();
   const allFornecedores = data.allfornecedores?.allfornecedores;
   const idUser = data.idUser ?? 1;
@@ -19,10 +21,10 @@
   function changeUrl(){
     searchParams = filters.get(search);
     searchCategoryParams = filters.get(searchCategory);
-    console.log(searchParams)
     filters.update({search : search, category : searchCategory})
   }
 
+  let isLoading = $state(false);
   onMount(() => {
     getInsumos();
   })
@@ -140,7 +142,35 @@
 				</select>
 			</div>
 			<div class="w-2/12">
-        <form method="POST" action="?/novofornecedor" onsubmit={event?.preventDefault}>
+        <form method="POST" action="?/novofornecedor" 
+        use:enhance={({
+    action,
+    cancel,
+    controller,
+    formData,
+    formElement,
+    submitter,
+  }) => {
+    //Será executado imediatamente antes do formulário ser enviado e (opcionalmente) retorne um retorno de chamada que seja executado com o ActionResult
+    
+    // inicio part 1
+    // antes de enviar a request
+    
+    //Validações no front-end
+    const name = formData.get("nameTask");
+    const desc = formData.get("descTask");
+    
+    isLoading = true;
+    // fim part 1
+    
+    return async () => {
+      // inicio part 2
+      // Se algo relacionado a essa dependência mudar (como um dado associado a "todos"), a função load será reexecutada
+      await invalidate("todoList");
+      isLoading = false;
+      // fim part 2
+    };
+  }}>
           <input type="hidden" name="idUser" id="idUser" value={idUser}>
           <Modal
             modalContent={novoFornecedor}
@@ -154,7 +184,7 @@
 	</div>
 </div>
 
-<div class="mt-3 h-screen overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
+<div class="mb-10 mt-3 h-2/4 overflow-x-auto rounded-box border border-base-content/5 bg-base-10">
 	<table class="table">
 		<thead>
 			<tr>
@@ -188,7 +218,8 @@
                   />
                   <input type="hidden" name="idUser" id="idUser" value={f.idUser}>
                 </div>
-                <form method="POST" action="?/editarfornecedor" onsubmit={event?.preventDefault}>
+                <form method="POST" action="?/editarfornecedor">
+                  
                   <Modal
                     classeBotao="btn-info w-full mt-2"
                     textoBotao="Editar"
@@ -198,7 +229,9 @@
                   />
                 </form>
                 <div>
-                  <form action="?/apagarFornecedor" method="POST" onsubmit={event?.preventDefault}>
+                  <form action="?/apagarFornecedor" 
+                    method="POST">
+                    
                     <input type="hidden" name="idFornecedor" id="idFornecedor" value={f.id}>
                     <Modal 
                       classeBotao="btn-error w-full mt-2"

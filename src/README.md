@@ -83,3 +83,6 @@ O sistema deve enviar notificações de vencimento de contas. :black_square_butt
 
 TODO: Pedir ajuda André
 Ler os dados dos inputs no back-end e fazer a pesquisa
+validação nos formulários (Importante)
+load nos formulários, não precisar recarregar a tela
+Login (back-end) , cadastro, esqueci minha senha

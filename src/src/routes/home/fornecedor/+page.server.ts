@@ -24,8 +24,6 @@ export const load: PageServerLoad = async ({depends, url}) => {
   }
 };
 
-
-
 export const actions = {
 	novofornecedor: async ({ request }) => {
     const data = await request.formData();
