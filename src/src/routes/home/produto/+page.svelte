@@ -59,6 +59,14 @@
 		margemLucro = parseFloat((event.target as HTMLInputElement).value) || 0;
 		recalcularPrecos();
 	}
+
+	let filtroBusca = '';
+	let produtosFiltrados = [];
+
+	// Supondo que 'data.produtos' seja o array com os produtos do backend
+	$: produtosFiltrados = filtroBusca
+		? data.produtos.filter((p) => p.nome.toLowerCase().includes(filtroBusca.toLowerCase()))
+		: data.produtos;
 </script>
 
 <!-- FORM NOVO PRODUTO -->
@@ -178,6 +186,15 @@
 
 <!-- Botões para abrir os modais -->
 <div class="mt-4 flex gap-3">
+	<div class="w-6/12">
+		<input
+			type="text"
+			placeholder="Pesquisar um produto"
+			class="input input-bordered w-full"
+			bind:value={filtroBusca}
+		/>
+	</div>
+
 	<Modal
 		modalContent={novoProduto}
 		textoBotao={'Novo Produto'}
