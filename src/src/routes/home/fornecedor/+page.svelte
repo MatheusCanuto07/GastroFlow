@@ -4,7 +4,6 @@
   import { enhance } from "$app/forms";
 	import { onMount } from 'svelte';
   import { filters } from "../params.svelte";
-  import { invalidate } from "$app/navigation";
 	let {data, form}: {data : PageData; form: ActionData} = $props();
   const allFornecedores = data.allfornecedores?.allfornecedores;
   const idUser = data.idUser ?? 1;
@@ -12,7 +11,6 @@
   async function getInsumos() {
 		const response = await fetch('../api');
     const number = await response.json();
-    console.log(number)
 	}
   let search = $state("");
   let searchCategory = $state("");
@@ -24,7 +22,25 @@
     filters.update({search : search, category : searchCategory})
   }
 
-  let isLoading = $state(false);
+  let modalLoading : HTMLDialogElement | undefined  = $state();
+  function handleSubmit (event : any, rota : string) {
+    event?.preventDefault();
+    modalLoading?.showModal()    
+    
+    fetch(rota, {
+      method: 'POST',
+      body: new FormData(event.target),
+    })
+    .then(response => response.json())
+    .then(data => {
+      modalLoading?.close();
+    })
+    .catch(error => console.error(error))
+    .finally(() => {
+      modalLoading?.close();
+    });
+  }
+
   onMount(() => {
     getInsumos();
   })
@@ -35,13 +51,16 @@
   <div class="flex flex-wrap">
     <div class="w-9/12 pr-3">
       <h1>Nome</h1>
-        {#if form?.name}
+        {#if form?.errors?.name}
           <p class="text-red-500 bg-red-100 border border-red-400 p-2 rounded mb-4">Digite um nome válido</p>
         {/if}
-      <input name="nome" type="text" placeholder="Type here" class="input input-bordered w-full" />
+      <input name="nome" type="text" placeholder="Type here" class="input input-bordered w-full" value="trsete" />
     </div>
     <div class="w-3/12">
       <h1>Status</h1>
+      {#if form?.errors?.status}
+        <p class="text-red-500 bg-red-100 border border-red-400 p-2 rounded mb-4">Digite um status válido</p>
+      {/if}
       <select name="status" class="select select-bordered w-full">
         <option value="ativo" selected>Ativo</option>
         <option value="inativo">Inativo</option>
@@ -49,15 +68,22 @@
     </div>
     <div class="w-4/12 pr-3">
       <h1>Telefone</h1>
+      {#if form?.errors?.telefone}
+        <p class="text-red-500 bg-red-100 border border-red-400 p-2 rounded mb-4">Digite um telefone válido</p>
+      {/if}
       <input
         name="telefone"
         type="number"
         placeholder="Type here"
         class="input input-bordered w-full"
+        value="21321313"
       />
     </div>
     <div class="w-8/12">
       <h1>E-mail</h1>
+      {#if form?.errors?.email}
+        <p class="text-red-500 bg-red-100 border border-red-400 p-2 rounded mb-4">Digite um email válido</p>
+      {/if}
       <input
         name="email"
         type="email"
@@ -146,8 +172,7 @@
 				</select>
 			</div>
 			<div class="w-2/12">
-        <form method="POST" action="?/novofornecedor" 
-        use:enhance>
+        <form method="POST" action="?/novofornecedor" use:enhance onsubmit={(event) => handleSubmit(event, "?/novofornecedor")}>
           <input type="hidden" name="idUser" id="idUser" value={idUser}>
           <Modal
             modalContent={novoFornecedor}
@@ -232,3 +257,10 @@
 		</tbody>
 	</table>
 </div>
+
+
+<dialog bind:this={modalLoading} class="modal">
+  <div class="modal-box flex justify-center w-2/12">
+    <span class="loading loading-bars loading-xl"></span>
+  </div>
+</dialog>

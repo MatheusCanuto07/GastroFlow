@@ -35,26 +35,33 @@ export const actions = {
 		const status = data.get('status')?.toString();
 		const idUser = data.get('idUser')?.toString();
 
+		const errors: any = {};
+
 		if (!name) {
-			return fail(400, { name, invalid: true });
+			errors.name = { invalid: true };
 		}
 
-    if (!telefone || telefone.length > 20) {
-      return fail(400, { telefone, invalid: true });
-    }
+		if (!telefone || telefone.length > 20) {
+			errors.telefone = { invalid: true };
+		}
 
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email || regex.test(email)) {
-      return fail(400, { email, invalid: true });      
-    }
+		const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		if (!email || !regex.test(email)) {
+			errors.email = { invalid: true };
+		}
 
-    if (!status) {
-      return fail(400, { status, invalid: true });
-    }
+		if (!status) {
+			errors.status = { invalid: true };
+		}
 
-    if (!idUser) {
-      return fail(400, { idUser, invalid: true });
-    }
+		if (!idUser) {
+			errors.idUser = { invalid: true };
+		}
+
+		console.log(errors);
+		if (Object.keys(errors).length > 0) {
+			return fail(400, { errors });
+		}
 
 		const fornecedorInsert: fornecedorInsert = {
 			name,
@@ -66,8 +73,12 @@ export const actions = {
 			createdAt: new Date().toISOString()
 		};
 
-		const newId = await fornecedorQueries.insertFornecedor(fornecedorInsert);
-		return { success: true, newId: newId };
+		try {
+			const newId = await fornecedorQueries.insertFornecedor(fornecedorInsert);
+			return { success: true, newId: newId };
+		} catch (error) {
+			return { success: false, message: 'Erro ao inserir fornecedor' };
+		}
 	},
 	editarfornecedor: async ({ request }) => {
 		const data = await request.formData();

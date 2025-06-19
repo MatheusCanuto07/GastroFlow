@@ -17,7 +17,7 @@
       <form method="dialog" onsubmit={event?.preventDefault}>
         <button class="btn">Close</button>
       </form>
-      <button class="btn btn-{classBtnEnviar}">{textBtn}</button>
+      <button class="btn btn-{classBtnEnviar}" onclick={() => modal?.close()}>{textBtn}</button>
     </div>
   </div>
 </dialog>
