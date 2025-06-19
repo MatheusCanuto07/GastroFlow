@@ -12,6 +12,39 @@
 	let precoCusto = 0;
 	let precoVenda = 0;
 
+	let produtoVisualizar = null;
+	let produtoEditar = null;
+
+	function abrirVisualizar(produto) {
+		produtoVisualizar = produto;
+	}
+
+	function fecharVisualizar() {
+		produtoVisualizar = null;
+	}
+
+	function abrirEditar(produto) {
+		produtoEditar = { ...produto }; // clone para edição
+	}
+
+	function fecharEditar() {
+		produtoEditar = null;
+	}
+
+	function salvarEdicao() {
+		const idx = data.produtos.findIndex((p) => p.id === produtoEditar.id);
+		if (idx > -1) {
+			data.produtos[idx] = { ...produtoEditar };
+		}
+		produtoEditar = null;
+	}
+
+	function removerProduto(id) {
+		if (confirm('Tem certeza que deseja remover este produto?')) {
+			data.produtos = data.produtos.filter((p) => p.id !== id);
+		}
+	}
+
 	function adicionaInsumo(event: Event) {
 		event.preventDefault();
 		if (insumoSelectionadoId == 'Selecione') return;
@@ -233,5 +266,102 @@
 				</tr>
 			{/each}
 		</tbody>
+		<tbody>
+			{#each produtosFiltrados as produto, index}
+				<tr class="hover:bg-base-300 cursor-pointer">
+					<th>{index + 1}</th>
+					<td>{produto.nome}</td>
+					<td>{produto.categoria}</td>
+					<td>{produto.quantidadeEstoque}</td>
+					<td>R$ {produto.precoVenda.toFixed(2)}</td>
+					<td class="text-center">
+						<details class="dropdown dropdown-end dropdown-bottom">
+							<summary class="btn m-1">...</summary>
+							<ul class="menu dropdown-content rounded-box bg-base-100 z-50 w-52 p-2 shadow-sm">
+								<li><button class="btn btn-info mt-2">Visualizar</button></li>
+								<li><button class="btn btn-secondary mt-2">Editar</button></li>
+								<li><button class="btn btn-warning mt-2">Remover</button></li>
+							</ul>
+						</details>
+					</td>
+				</tr>
+			{/each}
+			{#if produtosFiltrados.length === 0}
+				<tr>
+					<td colspan="6" class="text-center">Nenhum produto encontrado.</td>
+					<td class="text-center">
+						<button class="btn btn-info btn-sm mr-1" onclick={() => abrirVisualizar(produto)}
+							>Visualizar</button
+						>
+						<button class="btn btn-secondary btn-sm mr-1" onclick={() => abrirEditar(produto)}
+							>Editar</button
+						>
+						<button class="btn btn-error btn-sm" onclick={() => removerProduto(produto.id)}
+							>Remover</button
+						>
+					</td>
+				</tr>
+			{/if}
+		</tbody>
 	</table>
+	{#if produtoVisualizar}
+		<div class="modal modal-open">
+			<div class="modal-box">
+				<h3 class="mb-4 text-lg font-bold">Detalhes do Produto</h3>
+				<p><strong>Nome:</strong> {produtoVisualizar.nome}</p>
+				<p><strong>Categoria:</strong> {produtoVisualizar.categoria}</p>
+				<p><strong>Estoque:</strong> {produtoVisualizar.quantidadeEstoque}</p>
+				<p><strong>Preço de Venda:</strong> R$ {produtoVisualizar.precoVenda.toFixed(2)}</p>
+				<p><strong>Descrição:</strong> {produtoVisualizar.descricao}</p>
+				<button class="btn btn-primary mt-4" click={fecharVisualizar}>Fechar</button>
+			</div>
+		</div>
+	{/if}
+
+	{#if produtoEditar}
+		<div class="modal modal-open">
+			<div class="modal-box">
+				<h3 class="mb-4 text-lg font-bold">Editar Produto</h3>
+				<div class="mb-2">
+					<label>Nome</label>
+					<input type="text" bind:value={produtoEditar.nome} class="input input-bordered w-full" />
+				</div>
+				<div class="mb-2">
+					<label>Categoria</label>
+					<input
+						type="text"
+						bind:value={produtoEditar.categoria}
+						class="input input-bordered w-full"
+					/>
+				</div>
+				<div class="mb-2">
+					<label>Quantidade Estoque</label>
+					<input
+						type="number"
+						min="0"
+						bind:value={produtoEditar.quantidadeEstoque}
+						class="input input-bordered w-full"
+					/>
+				</div>
+				<div class="mb-2">
+					<label>Preço Venda</label>
+					<input
+						type="number"
+						step="0.01"
+						bind:value={produtoEditar.precoVenda}
+						class="input input-bordered w-full"
+					/>
+				</div>
+				<div class="mb-2">
+					<label>Descrição</label>
+					<textarea bind:value={produtoEditar.descricao} class="textarea textarea-bordered w-full"
+					></textarea>
+				</div>
+				<div class="mt-4 flex justify-end gap-2">
+					<button class="btn btn-secondary" onclick={fecharEditar}>Cancelar</button>
+					<button class="btn btn-primary" onclick={salvarEdicao}>Salvar</button>
+				</div>
+			</div>
+		</div>
+	{/if}
 </div>
