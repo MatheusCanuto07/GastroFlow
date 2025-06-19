@@ -5,7 +5,7 @@
   let rememberMe = false;
 
   function handleSubmit() {
-    console.log({ email, password, rememberMe });
+    
   }
 </script>
 

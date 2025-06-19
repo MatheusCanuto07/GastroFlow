@@ -14,7 +14,6 @@ export const load: PageServerLoad = async ({ depends, url }) => {
 	//Se algo relacionado a essa dependência mudar (como um dado associado a "todos"), a função load será reexecutada
 	depends('pagination');
 	const searchParams = url.searchParams;
-	console.log(searchParams);
 
 	const page = Number(searchParams.get('page') ?? '1');
 	const pageSize = Number(searchParams.get('pageSize') ?? '5');
@@ -58,7 +57,6 @@ export const actions = {
 			errors.idUser = { invalid: true };
 		}
 
-		console.log(errors);
 		if (Object.keys(errors).length > 0) {
 			return fail(400, { errors });
 		}
@@ -111,7 +109,6 @@ export const actions = {
 		const data = await request.formData();
 
 		const idFornecedor = data.get('idFornecedor')?.toString();
-		console.log(idFornecedor);
 		if (!idFornecedor) {
 			throw new Error('Selecione um fornecedor válido.');
 		}

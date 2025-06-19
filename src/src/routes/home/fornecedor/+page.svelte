@@ -5,13 +5,12 @@
 	import { onMount } from 'svelte';
   import { filters } from "../params.svelte";
 	let {data, form}: {data : PageData; form: ActionData} = $props();
+
+  // Dados de quando a página carrega
   const allFornecedores = data.allfornecedores?.allfornecedores;
   const idUser = data.idUser ?? 1;
 
-  async function getInsumos() {
-		const response = await fetch('../api');
-    const number = await response.json();
-	}
+  // Lógica da pesquisa
   let search = $state("");
   let searchCategory = $state("");
   let searchParams : string | null = "";
@@ -22,6 +21,7 @@
     filters.update({search : search, category : searchCategory})
   }
 
+  // Lógica de envio dos formulários
   let modalLoading : HTMLDialogElement | undefined  = $state();
   function handleSubmit (event : any, rota : string) {
     event?.preventDefault();
@@ -41,9 +41,15 @@
     });
   }
 
-  onMount(() => {
-    getInsumos();
-  })
+  // Conseguir os insumos de um forncedor
+  let insumos = [];
+
+  async function getInsumos(idFornecedor : number | undefined) {
+    if(idFornecedor){
+      const response = await fetch('../api/insumo/' + idFornecedor );
+      insumos = await response.json();
+    }
+	}
 
 </script>
 
@@ -130,7 +136,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<!-- {#each array as i, index}
+				<!-- {#each insumos?.insumos as i, index}
 					<tr>
 						<th>{index}</th>
 						<th>Farinha</th>
@@ -210,30 +216,28 @@
             <details class="dropdown dropdown-end dropdown-bottom">
               <summary class="btn m-1">...</summary>
               <ul class="menu dropdown-content z-50 w-52 rounded-box bg-base-100 p-2 shadow-sm">
-                <div>
-                  <Modal
+                <Modal
                     classeBotao="success w-full"
                     textoBotao="Visualizar"
                     title="Visualizar"
                     tamanhoModal="w-11/12 max-w-5xl"
                     modalContent={visualizarFornecedor}
                   />
-                  <input type="hidden" name="idUser" id="idUser" value={f.idUser}>
-                </div>
-                <form method="POST" action="?/editarfornecedor">
-                  
-                  <Modal
-                    classeBotao="btn-info w-full mt-2"
-                    textoBotao="Editar"
-                    title="Editar Fornecedor "
-                    tamanhoModal="w-11/12 max-w-5xl"
-                    modalContent={visualizarFornecedor}
-                  />
-                </form>
+                <button class="tiraEstiloBotao" onclick={() => {getInsumos(f.id)}}>
+                  <input type="hidden" name="idUser" id="idUser" value={f.idUser}>  
+                  <form method="POST" action="?/editarfornecedor" >
+                    <Modal
+                      classeBotao="btn-info w-full mt-2"
+                      textoBotao="Editar"
+                      title="Editar Fo   rnecedor "
+                      tamanhoModal="w-11/12 max-w-5xl"
+                      modalContent={visualizarFornecedor}
+                    />
+                  </form>
+                </button>
                 <div>
                   <form action="?/apagarFornecedor" 
                     method="POST">
-                    
                     <input type="hidden" name="idFornecedor" id="idFornecedor" value={f.id}>
                     <Modal 
                       classeBotao="btn-error w-full mt-2"
@@ -264,3 +268,10 @@
     <span class="loading loading-bars loading-xl"></span>
   </div>
 </dialog>
+
+<style>
+  .tiraEstiloBotao{
+    background: none;
+    border: none;
+  }
+</style>

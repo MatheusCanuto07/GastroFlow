@@ -1,7 +1,15 @@
 <script lang="ts">
   let modal : HTMLDialogElement | undefined  = $state();
-  let { modalContent, textoBotao, classeBotao, title, tamanhoModal = "", textBtn = "Enviar", classBtnEnviar = "success" } = $props();
-
+  let 
+  { 
+    modalContent, 
+    textoBotao, 
+    classeBotao, 
+    title, 
+    tamanhoModal = "", 
+    textBtn = "Enviar", 
+    classBtnEnviar = "success"
+  } = $props();
 </script>
 
 <!-- svelte-ignore a11y_invalid_attribute -->
