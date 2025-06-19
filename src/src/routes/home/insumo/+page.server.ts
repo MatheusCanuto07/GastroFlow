@@ -1,63 +1,68 @@
 import type { Actions, PageServerLoad } from './$types';
 import { fail } from '@sveltejs/kit';
-import {
-  insumoTable,
-  type InsumoInsert,
-} from '$lib/server/schema/fornecedor';
+import { insumoTable, type InsumoInsert } from '$lib/server/schema/insumo';
 import { insumoQueries } from '$lib/server/controller/insumo';
 
 export const load: PageServerLoad = async () => {
-  const idUser = 1;
-  const insumos = await insumoQueries.getAllInsumo(idUser);
+	const idUser = 1;
+	const insumos = await insumoQueries.getAllInsumo(idUser);
 
-  return {
-    insumos
-  };
+	return {
+		insumos
+	};
 };
 
 export const actions: Actions = {
-  novoinsumo: async ({ request }) => {
-    const idUser = 1;
-    const data = await request.formData();
-    
-    const name = data.get('nome')?.toString();
-    const categoria = data.get('categoria')?.toString() || '';
-    const dataValidade = data.get('dataValidade')?.toString() || '';
-    const quantidadeEstoque = Number(data.get('quantidadeEstoque') || 0);
-    const custo = Number(data.get('custo') || 0);
+	novoinsumo: async ({ request }) => {
+		const idUser = 1;
+		const data = await request.formData();
 
-    if(!name){
-      return fail(400, {name, invalid : true})
-    }
+		const name = data.get('nome')?.toString();
+		const categoria = data.get('categoria')?.toString() || '';
+		const dataValidade = data.get('dataValidade')?.toString() || '';
+		const quantidadeEstoque = Number(data.get('quantidadeEstoque') || 0);
+		const custo = Number(data.get('custo') || 0);
 
-    if(categoria){
-      return fail(400, {categoria, invalid : true})
-    }
+		const errors: any = {};
 
-    const dataValidadeDate = new Date(dataValidade);
-    if(dataValidadeDate.toString() === 'Invalid Date'){
-      return fail(400, {dataValidade, invalid : true})
-    }
+		if (!name) {
+			errors.name = { invalid: true };
+		}
 
-    if(quantidadeEstoque < 0){
-      return fail(400, {quantidadeEstoque, invalid : true})
-    }
+		if (categoria) {
+			errors.categoria = { invalid: true };
+		}
 
-    if(custo < 0){
-      return fail(400, {custo, invalid : true})
-    }  
-    
-    const newId = await insumoQueries.addInsumo({
-      name,
-      categoria,
-      dataValidade: dataValidade,
-      quantidadeEstoque,
-      custo,
-      createdAt: new Date().toISOString(),
-      idUser,
-      idFornecedor: 1
-    })
-    // return { success: true, newId : newId  };
-    
-  }
+		const dataValidadeDate = new Date(dataValidade);
+		if (dataValidadeDate.toString() === 'Invalid Date') {
+			errors.dataValidade = { invalid: true };
+		}
+
+		if (quantidadeEstoque < 0) {
+			errors.quantidadeEstoque = { invalid: true };
+		}
+
+		if (custo < 0) {
+			errors.custo = { invalid: true };
+		}
+
+		if (Object.keys(errors).length > 0) {
+			return fail(400, { errors });
+		}
+
+		try {
+			const newId = await insumoQueries.addInsumo({
+				name,
+				categoria,
+				dataValidade,
+				quantidadeEstoque,
+				custo,
+				idUser
+			});
+			return { success: true, newId: newId };
+		} catch (error) {
+			return { success: false, message: 'Erro ao inserir fornecedor' };
+		}
+		// return { success: true, newId : newId  };
+	}
 };

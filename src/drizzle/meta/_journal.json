@@ -57,6 +57,13 @@
       "when": 1750172096883,
       "tag": "0007_cute_terrax",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1750374904641,
+      "tag": "0008_medical_arclight",
+      "breakpoints": true
     }
   ]
 }

@@ -2,7 +2,6 @@ export {
   fornecedorTable, 
   fornecedorInsumo,
   comprasRelations,
-  insumoRelations,
   fornecedorRelations,
   insumoRelationsWithFornecedor,
   fornecedorInsumoRelations,
