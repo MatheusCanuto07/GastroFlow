@@ -67,3 +67,71 @@
 // 		}
 // 	}
 // };
+
+
+import type { Actions, PageServerLoad } from './$types';
+import { produtos, insumos, criarProduto } from '$lib/server/db';
+import { redirect } from '@sveltejs/kit';
+
+export const load: PageServerLoad = async () => {
+	return {
+		produtos,
+		insumos
+	};
+};
+
+export const actions: Actions = {
+	criarProduto: async ({ request }) => {
+		const data = await request.formData();
+
+		const nome = data.get('nome')?.toString() ?? '';
+		const categoria = data.get('categoria')?.toString() ?? '';
+		const quantidadeEstoque = Number(data.get('quantidadeEstoque') ?? 0);
+		const margemLucro = Number(data.get('margemLucro') ?? 0);
+		const precoCusto = Number(data.get('precoCusto') ?? 0);
+		const precoVenda = Number(data.get('precoVenda') ?? 0);
+		const descricao = data.get('descricao')?.toString() ?? '';
+
+		// Processa insumos
+		const insumosDoProduto = insumos
+			.map((insumo) => {
+				const quantidade = Number(data.get(`quantidadeInsumo_${insumo.id}`));
+				if (quantidade > 0) {
+					return { idInsumo: insumo.id, quantidade };
+				}
+				return null;
+			})
+			.filter((i) => i !== null) as { idInsumo: number; quantidade: number }[];
+
+		criarProduto({
+			nome,
+			categoria,
+			quantidadeEstoque,
+			precoCusto,
+			precoVenda,
+			descricao,
+			insumos: insumosDoProduto
+		});
+
+		// Após salvar, recarrega a página
+		throw redirect(303, '/home/produto');
+	},
+
+	registrarProducao: async ({ request }) => {
+		const data = await request.formData();
+
+		const idProduto = Number(data.get('produto'));
+		const multiplicador = Number(data.get('multiplicador') ?? 1);
+
+		const produto = produtos.find((p) => p.id === idProduto);
+		if (!produto) {
+			return { error: 'Produto não encontrado' };
+		}
+
+		// Atualiza estoque (exemplo simples)
+		produto.quantidadeEstoque += multiplicador;
+
+		throw redirect(303, '/home/produto');
+	}
+};
+
