@@ -1,5 +1,7 @@
 import { integer, primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { relations } from 'drizzle-orm';
+import { insumoTable } from "./insumo.js";
+import {comprasTable} from "./compras.js"
 
 export const fornecedorTable = sqliteTable('fornecedor', {
   id: integer('id').primaryKey({autoIncrement : true}),
@@ -17,21 +19,6 @@ export const fornecedorTable = sqliteTable('fornecedor', {
 export type fornecedorSelect = typeof fornecedorTable.$inferSelect;
 export type fornecedorInsert = typeof fornecedorTable.$inferInsert;
 
-export const insumoTable = sqliteTable('insumo', {
-  id: integer('id').primaryKey({autoIncrement : true}),
-  idFornecedor: integer('idFornecedor').notNull(),
-  name : text('name').notNull(),
-  categoria: text('categoria'),
-  dataValidade: text('dataValidade').notNull(),
-  quantidadeEstoque: integer('quantidadeEstoque').notNull(),
-  custo: integer('custo').notNull(),
-  createdAt: text('created_at').$defaultFn(() => new Date().toISOString()),
-  idUser: integer('id_user').notNull(),
-});
-
-export type InsumoSelect = typeof insumoTable.$inferSelect;
-export type InsumoInsert = typeof insumoTable.$inferInsert;
-
 export const fornecedorInsumo = sqliteTable('fornecedor_insumo',{
   id: integer('id').primaryKey({autoIncrement : true}),
   fornecedorId: integer('fornecedor_id')
@@ -46,25 +33,12 @@ export const fornecedorInsumo = sqliteTable('fornecedor_insumo',{
   }
 );
 
-export const compras = sqliteTable('compras',{
-  id: integer('id').primaryKey({autoIncrement : true}),
-  idFornecedor: integer('idFornecedor').notNull()
-    .references(() => fornecedorTable.id, {
-      onDelete: 'cascade', 
-      onUpdate: 'no action'
-    }),
-  idInsumo: integer('idInsumo').notNull(),
-  date: text('date').notNull(),
-  createdAt: text('created_at').$defaultFn(() => new Date().toISOString()),
-})
-
 export const fornecedorRelations = relations(fornecedorTable, ({ many }) => ({
   insumos: many(fornecedorInsumo),
 }));
 
 export const insumoRelationsWithFornecedor = relations(insumoTable, ({ many }) => ({
   fornecedores: many(fornecedorInsumo),
-  // outras relações...
 }));
 
 export const fornecedorInsumoRelations = relations(fornecedorInsumo, ({ one }) => ({
@@ -78,13 +52,13 @@ export const fornecedorInsumoRelations = relations(fornecedorInsumo, ({ one }) =
   }),
 }));
 
-export const comprasRelations = relations(compras, ({ one }) => ({
+export const comprasRelations = relations(comprasTable, ({ one }) => ({
   fornecedor: one(fornecedorTable, {
-    fields: [compras.idFornecedor],
+    fields: [comprasTable.idFornecedor],
     references: [fornecedorTable.id],
   }),
   insumo: one(insumoTable, {
-    fields: [compras.idInsumo],
+    fields: [comprasTable.idInsumo],
     references: [insumoTable.id],
   }),
 }));
@@ -94,5 +68,5 @@ export const insumoRelations = relations(insumoTable, ({ one, many }) => ({
     fields: [insumoTable.idFornecedor],
     references: [fornecedorTable.id],
   }),
-  compras: many(compras),
+  compras: many(comprasTable),
 }));

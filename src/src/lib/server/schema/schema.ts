@@ -1,14 +1,20 @@
 export { 
   fornecedorTable, 
-  insumoTable,
-  compras,
   fornecedorInsumo,
   comprasRelations,
   insumoRelations,
   fornecedorRelations,
   insumoRelationsWithFornecedor,
   fornecedorInsumoRelations,
-  } from './fornecedor'; 
+ } from './fornecedor'; 
+
+export {
+  insumoTable
+} from './insumo';
+
+export {
+  comprasTable
+} from './compras';
 
 export {
   userTable, 
