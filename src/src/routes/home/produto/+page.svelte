@@ -100,6 +100,53 @@
 	$: produtosFiltrados = filtroBusca
 		? data.produtos.filter((p) => p.nome.toLowerCase().includes(filtroBusca.toLowerCase()))
 		: data.produtos;
+
+	type FichaTecnica = {
+		id: number;
+		nome: string;
+		insumos: Array<{ id: number; nome: string }>;
+	};
+
+	let fichasTecnicas: FichaTecnica[] = [
+		{
+			id: 1,
+			nome: 'Hambúrguer de Porco',
+			insumos: [
+				{ id: 1, nome: 'Carne de Porco' },
+				{ id: 2, nome: 'Sal' }
+			]
+		},
+		{
+			id: 2,
+			nome: 'Tempero Especial',
+			insumos: [
+				{ id: 2, nome: 'Sal' },
+				{ id: 3, nome: 'Pimenta' }
+			]
+		}
+	];
+
+	let fichaTecnicaSelecionadaId: number | string = '';
+
+	function handleFichaTecnicaChange() {
+		const ficha = fichasTecnicas.find((f) => f.id == fichaTecnicaSelecionadaId);
+		if (!ficha) return;
+
+		// Limpa insumos já selecionados
+		listaInsumoSelecionado = [];
+
+		// Adiciona os insumos da ficha técnica
+		for (const insumo of ficha.insumos) {
+			const insumoDisponivel = listaInsumoDisponiveis.find((i) => i.id === insumo.id);
+			if (insumoDisponivel) {
+				listaInsumoSelecionado = [...listaInsumoSelecionado, insumoDisponivel];
+				listaInsumoDisponiveis = listaInsumoDisponiveis.filter((i) => i.id !== insumo.id);
+			}
+		}
+
+		// Recalcula o preço, caso precise
+		recalcularPrecos();
+	}
 </script>
 
 <!-- FORM NOVO PRODUTO -->
@@ -157,6 +204,21 @@
 		<div class="mb-2">
 			<label>Descrição</label>
 			<textarea name="descricao" class="textarea textarea-bordered w-full"></textarea>
+		</div>
+
+		<div class="mb-2">
+			<label>Ficha Técnica</label>
+			<select
+				name="fichaTecnicaId"
+				bind:value={fichaTecnicaSelecionadaId}
+				class="select select-bordered w-full"
+				onchange={handleFichaTecnicaChange}
+			>
+				<option value="">Selecione uma ficha técnica</option>
+				{#each fichasTecnicas as ficha}
+					<option value={ficha.id}>{ficha.nome}</option>
+				{/each}
+			</select>
 		</div>
 
 		<div class="mb-2">
