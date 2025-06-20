@@ -15,7 +15,7 @@
   </ul>
 </div>
 
-<form method="POST" action="">
+<form method="POST" action="?/editarfornecedor">
   <FormFornecedor 
     idUser={1} 
     {fornecedor} 
