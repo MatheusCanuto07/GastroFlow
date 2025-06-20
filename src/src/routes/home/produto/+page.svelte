@@ -2,48 +2,36 @@
 	import type { PageData } from './$types';
 	import Modal from '$lib/components/Modal.svelte';
 
-	export let data: PageData;
+	let { data }: { data: PageData } = $props();
+	let array = [1, 2, 3]; // exemplo para visualizar lista
 
-	let listaInsumoDisponiveis = [...data.insumos];
-	let listaInsumoSelecionado = [];
+	import { type InsumoSelect } from '$lib/server/schema/fornecedor';
 
-	let insumoSelectionadoId: number | string = 'Selecione';
-	let margemLucro = 0;
-	let precoCusto = 0;
-	let precoVenda = 0;
-
-	let produtoVisualizar = null;
-	let produtoEditar = null;
-
-	function abrirVisualizar(produto) {
-		produtoVisualizar = produto;
-	}
-
-	function fecharVisualizar() {
-		produtoVisualizar = null;
-	}
-
-	function abrirEditar(produto) {
-		produtoEditar = { ...produto }; // clone para edição
-	}
-
-	function fecharEditar() {
-		produtoEditar = null;
-	}
-
-	function salvarEdicao() {
-		const idx = data.produtos.findIndex((p) => p.id === produtoEditar.id);
-		if (idx > -1) {
-			data.produtos[idx] = { ...produtoEditar };
+	// Exemplo de insumos disponíveis para adicionar ao produto
+	let listaInsumoDisponiveis: Array<InsumoSelect> = $state([
+		{
+			id: 1,
+			idFornecedor: 1,
+			nome: 'Carne de Porco',
+			categoria: 'Carne',
+			dataValidade: '',
+			quantidadeDisponivel: '',
+			createdAt: ''
+		},
+		{
+			id: 2,
+			idFornecedor: 1,
+			nome: 'Sal',
+			categoria: 'Temperos',
+			dataValidade: '',
+			quantidadeDisponivel: '',
+			createdAt: ''
 		}
-		produtoEditar = null;
-	}
+	]);
 
-	function removerProduto(id) {
-		if (confirm('Tem certeza que deseja remover este produto?')) {
-			data.produtos = data.produtos.filter((p) => p.id !== id);
-		}
-	}
+	let listaInsumoSelecionado: Array<InsumoSelect> = $state([]);
+
+	let insumoSelectionadoId: number | string = $state('Selecione');
 
 	function adicionaInsumo(event: Event) {
 		event.preventDefault();
@@ -52,9 +40,19 @@
 		const insumo = listaInsumoDisponiveis.find((i) => i.id === insumoSelectionadoId);
 		if (!insumo) return;
 
+		// Adiciona o insumo na lista selecionada e remove da disponíveis
 		listaInsumoSelecionado = [...listaInsumoSelecionado, insumo];
 		listaInsumoDisponiveis = listaInsumoDisponiveis.filter((i) => i.id !== insumoSelectionadoId);
+
 		insumoSelectionadoId = 'Selecione';
+	}
+
+	// Multiplicador padrão 1
+	let multiplicador = 1;
+
+	// Função para atualizar multiplicador
+	function onMultiplicadorChange(event) {
+		multiplicador = Number(event.target.value) || 1;
 	}
 
 	function removeInsumo(event: Event, id: number) {
@@ -63,9 +61,27 @@
 		const insumo = listaInsumoSelecionado.find((i) => i.id === id);
 		if (!insumo) return;
 
+		// Remove da selecionada e adiciona de volta na disponíveis
 		listaInsumoSelecionado = listaInsumoSelecionado.filter((i) => i.id !== id);
 		listaInsumoDisponiveis = [...listaInsumoDisponiveis, insumo];
 	}
+
+	function sendNewForm(event: Event) {
+		event.preventDefault();
+
+		// Aqui você pode pegar os dados do formulário e insumos selecionados
+		const form = new FormData(document.getElementById('formProduto') as HTMLFormElement);
+
+		// Você pode também coletar os valores dos insumos selecionados se precisar
+		// Exemplo: Quantidade de cada insumo para receita
+
+		// Por enquanto só enviaremos o form
+		// Enviar por fetch ou usar action no backend
+	}
+
+	let margemLucro = 0;
+	let precoCusto = 0;
+	let precoVenda = 0;
 
 	function recalcularPrecos() {
 		let novoPrecoCusto = 0;
@@ -75,13 +91,17 @@
 				`input[name="quantidadeInsumo_${insumo.id}"]`
 			);
 			const quantidade = input ? parseFloat(input.value) || 0 : 0;
+
+			// Exemplo de preço fixo por insumo (ajuste conforme quiser depois)
 			const precoUnitario = insumo.id === 1 ? 5 : 2;
+
 			novoPrecoCusto += quantidade * precoUnitario;
 		}
 
 		precoCusto = parseFloat(novoPrecoCusto.toFixed(2));
 		precoVenda = parseFloat((precoCusto * (1 + margemLucro / 100)).toFixed(2));
 
+		// Atualizar os inputs na tela
 		const inputCusto = document.querySelector<HTMLInputElement>('input[name="precoCusto"]');
 		const inputVenda = document.querySelector<HTMLInputElement>('input[name="precoVenda"]');
 		if (inputCusto) inputCusto.value = precoCusto.toFixed(2);
@@ -92,255 +112,269 @@
 		margemLucro = parseFloat((event.target as HTMLInputElement).value) || 0;
 		recalcularPrecos();
 	}
-
-	let filtroBusca = '';
-	let produtosFiltrados = [];
-
-	// Supondo que 'data.produtos' seja o array com os produtos do backend
-	$: produtosFiltrados = filtroBusca
-		? data.produtos.filter((p) => p.nome.toLowerCase().includes(filtroBusca.toLowerCase()))
-		: data.produtos;
-
-	type FichaTecnica = {
-		id: number;
-		nome: string;
-		insumos: Array<{ id: number; nome: string }>;
-	};
-
-	let fichasTecnicas: FichaTecnica[] = [
-		{
-			id: 1,
-			nome: 'Hambúrguer de Porco',
-			insumos: [
-				{ id: 1, nome: 'Carne de Porco' },
-				{ id: 2, nome: 'Sal' }
-			]
-		},
-		{
-			id: 2,
-			nome: 'Tempero Especial',
-			insumos: [
-				{ id: 2, nome: 'Sal' },
-				{ id: 3, nome: 'Pimenta' }
-			]
-		}
-	];
-
-	let fichaTecnicaSelecionadaId: number | string = '';
-
-	function handleFichaTecnicaChange() {
-		const ficha = fichasTecnicas.find((f) => f.id == fichaTecnicaSelecionadaId);
-		if (!ficha) return;
-
-		// Limpa insumos já selecionados
-		listaInsumoSelecionado = [];
-
-		// Adiciona os insumos da ficha técnica
-		for (const insumo of ficha.insumos) {
-			const insumoDisponivel = listaInsumoDisponiveis.find((i) => i.id === insumo.id);
-			if (insumoDisponivel) {
-				listaInsumoSelecionado = [...listaInsumoSelecionado, insumoDisponivel];
-				listaInsumoDisponiveis = listaInsumoDisponiveis.filter((i) => i.id !== insumo.id);
-			}
-		}
-
-		// Recalcula o preço, caso precise
-		recalcularPrecos();
-	}
 </script>
 
-<!-- FORM NOVO PRODUTO -->
 {#snippet novoProduto()}
-	<form id="formProduto" method="POST" action="?/criarProduto" class="p-4">
-		<div class="mb-2">
-			<label>Nome</label>
-			<input name="nome" type="text" required class="input input-bordered w-full" />
-		</div>
-
-		<div class="mb-2">
-			<label>Categoria</label>
-			<input name="categoria" type="text" class="input input-bordered w-full" />
-		</div>
-
-		<div class="mb-2">
-			<label>Quantidade Estoque</label>
-			<input name="quantidadeEstoque" type="number" min="0" class="input input-bordered w-full" />
-		</div>
-
-		<div class="mb-2">
-			<label>Margem Lucro (%)</label>
-			<input
-				name="margemLucro"
-				type="number"
-				min="0"
-				step="0.01"
-				oninput={handleMargemChange}
-				class="input input-bordered w-full"
-			/>
-		</div>
-
-		<div class="mb-2">
-			<label>Preço Custo</label>
-			<input
-				name="precoCusto"
-				type="number"
-				step="0.01"
-				readonly
-				class="input input-bordered w-full"
-			/>
-		</div>
-
-		<div class="mb-2">
-			<label>Preço Venda</label>
-			<input
-				name="precoVenda"
-				type="number"
-				step="0.01"
-				readonly
-				class="input input-bordered w-full"
-			/>
-		</div>
-
-		<div class="mb-2">
-			<label>Descrição</label>
-			<textarea name="descricao" class="textarea textarea-bordered w-full"></textarea>
-		</div>
-
-		<div class="mb-2">
-			<label>Ficha Técnica</label>
-			<select
-				name="fichaTecnicaId"
-				bind:value={fichaTecnicaSelecionadaId}
-				class="select select-bordered w-full"
-				onchange={handleFichaTecnicaChange}
-			>
-				<option value="">Selecione uma ficha técnica</option>
-				{#each fichasTecnicas as ficha}
-					<option value={ficha.id}>{ficha.nome}</option>
-				{/each}
-			</select>
-		</div>
-
-		<div class="mb-2">
-			<label>Adicionar Insumos</label>
-			<select bind:value={insumoSelectionadoId} class="select w-full">
-				<option value="Selecione">Selecione</option>
-				{#each listaInsumoDisponiveis as i}
-					<option value={i.id}>{i.nome}</option>
-				{/each}
-			</select>
-			<button onclick={adicionaInsumo} class="btn btn-sm btn-success mt-2">Adicionar Insumo</button>
-		</div>
-
-		<!-- Insumos Selecionados -->
-		{#each listaInsumoSelecionado as i}
-			<div class="mb-1 flex items-center gap-2">
-				<span>{i.nome}</span>
+	<form id="formProduto" class="p-4">
+		<div class="flex flex-wrap gap-4">
+			<!-- Nome -->
+			<div class="w-full md:w-6/12">
+				<label class="mb-1 block font-semibold" for="nome">Nome</label>
 				<input
-					name={'quantidadeInsumo_' + i.id}
+					id="nome"
+					name="nome"
+					type="text"
+					placeholder="Digite o nome do produto"
+					class="input input-bordered w-full"
+					required
+				/>
+			</div>
+
+			<!-- Categoria -->
+			<div class="w-full md:w-6/12">
+				<label class="mb-1 block font-semibold" for="categoria">Categoria</label>
+				<input
+					id="categoria"
+					name="categoria"
+					type="text"
+					placeholder="Categoria"
+					class="input input-bordered w-full"
+				/>
+			</div>
+
+			<!-- Quantidade em estoque -->
+			<div class="w-full md:w-4/12">
+				<label class="mb-1 block font-semibold" for="quantidadeEstoque">Quantidade em Estoque</label
+				>
+				<input
+					id="quantidadeEstoque"
+					name="quantidadeEstoque"
+					type="number"
+					min="0"
+					placeholder="Quantidade"
+					class="input input-bordered w-full"
+				/>
+			</div>
+
+			<!-- Margem de Lucro -->
+			<div class="w-full md:w-4/12">
+				<label class="mb-1 block font-semibold" for="margemLucro">Margem de Lucro (%)</label>
+				<input
+					id="margemLucro"
+					name="margemLucro"
 					type="number"
 					min="0"
 					step="0.01"
-					oninput={recalcularPrecos}
-					class="input input-bordered w-20"
+					placeholder="Ex: 30"
+					class="input input-bordered w-full"
+					oninput={handleMargemChange}
 				/>
-				<button onclick={(e) => removeInsumo(e, i.id)} class="btn btn-error btn-sm">Remover</button>
 			</div>
-		{/each}
 
-		<button type="submit" class="btn btn-primary mt-4">Salvar Produto</button>
+			<!-- Preço de Custo -->
+			<div class="w-full md:w-4/12">
+				<label class="mb-1 block font-semibold" for="precoCusto">Preço de Custo</label>
+				<input
+					id="precoCusto"
+					name="precoCusto"
+					type="number"
+					min="0"
+					step="0.01"
+					placeholder="Preço de custo"
+					class="input input-bordered w-full"
+					readonly
+					value="0"
+				/>
+			</div>
+
+			<!-- Preço de Venda -->
+			<div class="w-full md:w-4/12">
+				<label class="mb-1 block font-semibold" for="precoVenda">Preço de Venda</label>
+				<input
+					id="precoVenda"
+					name="precoVenda"
+					type="number"
+					min="0"
+					step="0.01"
+					placeholder="Preço de venda"
+					class="input input-bordered w-full"
+					readonly
+					value="0"
+				/>
+			</div>
+
+			<!-- Descrição -->
+			<div class="w-full">
+				<label class="mb-1 block font-semibold" for="descricao">Descrição</label>
+				<textarea
+					id="descricao"
+					name="descricao"
+					placeholder="Descrição do produto (opcional)"
+					class="textarea textarea-bordered w-full"
+					rows="3"
+				></textarea>
+			</div>
+		</div>
+
+		<!-- Insumos -->
+		<div class="mt-6 flex flex-wrap items-end gap-4">
+			<div class="w-full md:w-9/12">
+				<label class="mb-1 block font-semibold" for="insumoSelect">
+					Insumos (para cálculo futuro do custo)
+				</label>
+				<select id="insumoSelect" class="select w-full" bind:value={insumoSelectionadoId}>
+					<option value="Selecione" selected>Selecione</option>
+					{#each listaInsumoDisponiveis as item}
+						<option value={item.id}>{item.nome}</option>
+					{/each}
+				</select>
+			</div>
+			<div class="flex w-full flex-col md:w-3/12">
+				<button onclick={adicionaInsumo} class="btn btn-success mt-auto" type="button">
+					Adicionar Insumo
+				</button>
+			</div>
+		</div>
+
+		<!-- Tabela de Insumos -->
+		<div class="mt-6 max-h-60 w-full overflow-auto">
+			<table class="table w-full">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Nome</th>
+						<th>Quantidade Utilizada</th>
+						<th>Remover</th>
+					</tr>
+				</thead>
+				<tbody>
+					{#each listaInsumoSelecionado as i}
+						<tr>
+							<td>{i.id}</td>
+							<td>{i.nome}</td>
+							<td>
+								<input
+									class="input input-bordered w-full"
+									name={'quantidadeInsumo_' + i.id}
+									type="number"
+									min="0"
+									step="0.01"
+									placeholder="Quantidade"
+									required
+									oninput={recalcularPrecos}
+								/>
+							</td>
+							<td>
+								<button
+									class="btn btn-error btn-sm"
+									onclick={(event) => removeInsumo(event, i.id)}
+									type="button"
+								>
+									Excluir
+								</button>
+							</td>
+						</tr>
+					{/each}
+				</tbody>
+			</table>
+		</div>
 	</form>
 {/snippet}
 
-<!-- FORM REGISTRAR PRODUÇÃO -->
 {#snippet Producao()}
-	<form id="formProducao" method="POST" action="?/registrarProducao" class="p-4">
-		<div class="mb-2">
-			<label>Produto</label>
-			<select name="produto" required class="select w-full">
-				{#each data.produtos as p}
-					<option value={p.id}>{p.nome}</option>
+	<form id="formProducao" class="p-4">
+		<div class="mb-4">
+			<label class="mb-1 block font-semibold" for="produto">Produto</label>
+			<select id="produto" name="produto" class="select w-full">
+				{#each array as i}
+					<option value={i}>Produto {i}</option>
 				{/each}
 			</select>
 		</div>
 
-		<div class="mb-2">
-			<label>Multiplicador</label>
+		<div class="mb-4">
+			<label class="mb-1 block font-semibold" for="multiplicador">Multiplicador</label>
 			<input
+				id="multiplicador"
 				name="multiplicador"
 				type="number"
 				min="1"
-				value="1"
+				placeholder="Multiplicador"
 				class="input input-bordered w-full"
+				required
 			/>
 		</div>
 
-		<button type="submit" class="btn btn-warning">Registrar Produção</button>
+		<div class="mb-4">
+			<label class="mb-1 block font-semibold">Insumos Utilizados</label>
+			<div
+				id="insumos"
+				class="input input-bordered h-24 w-full overflow-auto bg-gray-50"
+				aria-live="polite"
+			>
+				<!-- Insumos do produto selecionado vão aparecer aqui -->
+			</div>
+		</div>
+
+		<div class="mb-4">
+			<label class="mb-1 block font-semibold" for="data">Data de Produção</label>
+			<input id="data" name="data" type="date" class="input input-bordered w-full" />
+		</div>
+
+		<button class="btn btn-primary w-full" type="submit">Registrar Produção</button>
 	</form>
 {/snippet}
 
-<!-- Botões para abrir os modais -->
-<div class="mt-4 flex gap-3">
-	<div class="w-6/12">
-		<input
-			type="text"
-			placeholder="Pesquisar um produto"
-			class="input input-bordered w-full"
-			bind:value={filtroBusca}
-		/>
+<div class="border px-16 py-5">
+	<div>
+		<div class="flex w-full gap-3">
+			<div class="w-8/12">
+				<input type="text" placeholder="Pesquisar um produto" class="input input-bordered w-full" />
+			</div>
+			<div class="flex w-6/12 gap-3">
+				<Modal
+					modalContent={novoProduto}
+					textoBotao={'Novo Produto'}
+					classeBotao={'btn-success px-4 py-2 text-sm'}
+					title="Cadastrar Novo Produto"
+				/>
+
+				<Modal
+					modalContent={Producao}
+					textoBotao={'Produção'}
+					classeBotao={'btn-warning px-4 py-2 text-sm'}
+					title="Registrar Produção"
+				/>
+			</div>
+		</div>
 	</div>
-
-	<Modal
-		modalContent={novoProduto}
-		textoBotao={'Novo Produto'}
-		classeBotao={'btn-success'}
-		title="Cadastrar Novo Produto"
-	/>
-
-	<Modal
-		modalContent={Producao}
-		textoBotao={'Produção'}
-		classeBotao={'btn-warning'}
-		title="Registrar Produção"
-	/>
 </div>
 
-<!-- TABELA DE PRODUTOS -->
-<div class="mt-4">
-	<table class="table w-full">
+<div class="rounded-box border-base-content/5 bg-base-100 mt-3 h-screen overflow-x-auto border">
+	<table class="table">
 		<thead>
 			<tr>
-				<th>#</th>
+				<th></th>
 				<th>Nome</th>
 				<th>Categoria</th>
-				<th>Estoque</th>
-				<th>Preço Venda</th>
+				<th>Quantidade em estoque</th>
+				<th>Preço de venda</th>
+				<th class="text-center">Ações</th>
 			</tr>
 		</thead>
 		<tbody>
-			{#each data.produtos as produto, index}
-				<tr>
-					<td>{index + 1}</td>
-					<td>{produto.nome}</td>
-					<td>{produto.categoria}</td>
-					<td>{produto.quantidadeEstoque}</td>
-					<td>{produto.precoVenda}</td>
-				</tr>
-			{/each}
-		</tbody>
-		<tbody>
-			{#each produtosFiltrados as produto, index}
+			{#each array as i, index}
 				<tr class="hover:bg-base-300 cursor-pointer">
 					<th>{index + 1}</th>
-					<td>{produto.nome}</td>
-					<td>{produto.categoria}</td>
-					<td>{produto.quantidadeEstoque}</td>
-					<td>R$ {produto.precoVenda.toFixed(2)}</td>
+					<td>Produto {i}</td>
+					<td>Categoria Exemplo</td>
+					<td>10</td>
+					<td>R$ 45,00</td>
 					<td class="text-center">
 						<details class="dropdown dropdown-end dropdown-bottom">
 							<summary class="btn m-1">...</summary>
 							<ul class="menu dropdown-content rounded-box bg-base-100 z-50 w-52 p-2 shadow-sm">
-								<li><button class="btn btn-info mt-2">Visualizar</button></li>
+								<li><button class="btn btn-info mt-2"> Visualizar </button></li>
 								<li><button class="btn btn-secondary mt-2">Editar</button></li>
 								<li><button class="btn btn-warning mt-2">Remover</button></li>
 							</ul>
@@ -348,82 +382,6 @@
 					</td>
 				</tr>
 			{/each}
-			{#if produtosFiltrados.length === 0}
-				<tr>
-					<td colspan="6" class="text-center">Nenhum produto encontrado.</td>
-					<td class="text-center">
-						<button class="btn btn-info btn-sm mr-1" onclick={() => abrirVisualizar(produto)}
-							>Visualizar</button
-						>
-						<button class="btn btn-secondary btn-sm mr-1" onclick={() => abrirEditar(produto)}
-							>Editar</button
-						>
-						<button class="btn btn-error btn-sm" onclick={() => removerProduto(produto.id)}
-							>Remover</button
-						>
-					</td>
-				</tr>
-			{/if}
 		</tbody>
 	</table>
-	{#if produtoVisualizar}
-		<div class="modal modal-open">
-			<div class="modal-box">
-				<h3 class="mb-4 text-lg font-bold">Detalhes do Produto</h3>
-				<p><strong>Nome:</strong> {produtoVisualizar.nome}</p>
-				<p><strong>Categoria:</strong> {produtoVisualizar.categoria}</p>
-				<p><strong>Estoque:</strong> {produtoVisualizar.quantidadeEstoque}</p>
-				<p><strong>Preço de Venda:</strong> R$ {produtoVisualizar.precoVenda.toFixed(2)}</p>
-				<p><strong>Descrição:</strong> {produtoVisualizar.descricao}</p>
-				<button class="btn btn-primary mt-4" click={fecharVisualizar}>Fechar</button>
-			</div>
-		</div>
-	{/if}
-
-	{#if produtoEditar}
-		<div class="modal modal-open">
-			<div class="modal-box">
-				<h3 class="mb-4 text-lg font-bold">Editar Produto</h3>
-				<div class="mb-2">
-					<label>Nome</label>
-					<input type="text" bind:value={produtoEditar.nome} class="input input-bordered w-full" />
-				</div>
-				<div class="mb-2">
-					<label>Categoria</label>
-					<input
-						type="text"
-						bind:value={produtoEditar.categoria}
-						class="input input-bordered w-full"
-					/>
-				</div>
-				<div class="mb-2">
-					<label>Quantidade Estoque</label>
-					<input
-						type="number"
-						min="0"
-						bind:value={produtoEditar.quantidadeEstoque}
-						class="input input-bordered w-full"
-					/>
-				</div>
-				<div class="mb-2">
-					<label>Preço Venda</label>
-					<input
-						type="number"
-						step="0.01"
-						bind:value={produtoEditar.precoVenda}
-						class="input input-bordered w-full"
-					/>
-				</div>
-				<div class="mb-2">
-					<label>Descrição</label>
-					<textarea bind:value={produtoEditar.descricao} class="textarea textarea-bordered w-full"
-					></textarea>
-				</div>
-				<div class="mt-4 flex justify-end gap-2">
-					<button class="btn btn-secondary" onclick={fecharEditar}>Cancelar</button>
-					<button class="btn btn-primary" onclick={salvarEdicao}>Salvar</button>
-				</div>
-			</div>
-		</div>
-	{/if}
 </div>
