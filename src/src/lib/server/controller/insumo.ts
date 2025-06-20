@@ -12,6 +12,23 @@ async function getAllInsumo (idUser: number) : Promise<{ allInsumo: Array<Insumo
   return { allInsumo: [] };
 }
 
+async function getAllInsumoFromFornecedor(idUser : number, idFornecedor : number) : 
+  Promise<{allInsumosFromFornecedor : Array<InsumoSelect>}>
+  {
+  try{
+    const allInsumosFromFornecedor = 
+      await db
+        .select()
+        .from(insumoTable)
+        .where(and(eq(insumoTable.idUser, idUser), eq(insumoTable.idFornecedor, idFornecedor)));
+    return { allInsumosFromFornecedor };
+  }
+  catch{
+    console.error('Erro ao buscar insumos:', Error);
+  }
+  return {allInsumosFromFornecedor : []}
+}
+
 async function deleteInsumo (idUser: number, idInsumo: number) : Promise<{ id: number }>{
   try{
     const [idDeletedInsumo] = await db
@@ -63,5 +80,6 @@ export const insumoQueries = {
   getAllInsumo,
   deleteInsumo,
   editInsumo,
-  addInsumo
+  addInsumo,
+  getAllInsumoFromFornecedor
 };

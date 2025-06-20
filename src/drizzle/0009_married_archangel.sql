@@ -1,0 +1,1 @@
+ALTER TABLE `insumo` ADD `idFornecedor` integer;

@@ -1,99 +1,90 @@
 <script lang="ts">
   import Modal from '$lib/components/Modal.svelte';
-
-  
   import {enhance} from "$app/forms";
   import type {PageData, ActionData} from './$types';
 
 	let {data, form}: {data : PageData; form: ActionData} = $props();
   let dataInsumos = data.insumos;
-  console.log(dataInsumos);
 </script>
 
-{#snippet novoInsumo()}
-    <div class="flex flex-wrap gap-4">
-      <div class="w-6/12">
-        <h1>Nome</h1>
-        {#if form?.errors?.name}
-          <p class="text-red-500 bg-red-100 border border-red-400 p-2 rounded mb-4">Digite um nome válido</p>
-        {/if}
-        <input
-          name="nome"
-          type="text"
-          placeholder="Digite o nome do insumo"
-          class="input input-bordered w-full"
-          required
-        />
-      </div>
-
-      <div class="w-6/12">
-        <h1>Categoria</h1>
-        {#if form?.errors.categoria}
-          <p class="text-red-500 rounded mb-1">Digite uma categoria válida</p>
-        {/if}
-        <input
-          name="categoria"
-          placeholder="Categoria"
-          type="text"
-          class="input input-bordered w-full"
-          required
-        />
-        </div>
-
-      <div class="w-4/12">
-        <h1>Data de Validade</h1>
-        {#if form?.errors.dataValidade}
-          <p class="text-red-500 rounded mb-1">Digite uma data válida</p>
-        {/if}
-        <input
-          name="dataValidade"
-          type="date"
-          class="input input-bordered w-full"
-          placeholder="Validade"
-          required
-        />
-      </div>
-
-      <div class="w-4/12">
-        <h1>Quantidade</h1>
-        {#if form?.errors.quantidadeEstoque}
-          <p class="text-red-500 rounded mb-1">Digite uma quantidade válida</p>
-        {/if}
-        <input
-          name="quantidadeEstoque"
-          type="number"
-          class="input input-bordered w-full"
-          min="0"
-          placeholder="Quantidade"
-          required
-        />
-      </div>
-
-      <div class="w-4/12">
-        <h1>Custo (R$)</h1>
-        {#if form?.errors.custo}
-          <p class="text-red-500 rounded mb-1">Digite um custo válido</p>
-        {/if}
-        <input
-          name="custo"
-          type="number"
-          class="input input-bordered w-full"
-          min="0"
-          step="0.01"
-          placeholder="Custo"
-          required
-        />
-      </div>
+{#snippet formInsumo()}
+  <div class="flex flex-wrap">
+    <div class="w-6/12 pr-3">
+      <h1>Nome</h1>
+      {#if form?.errors?.name}
+        <p class="text-red-500 bg-red-100 border border-red-400 p-2 rounded mb-4">Digite um nome válido</p>
+      {/if}
+      <input
+        name="nome"
+        type="text"
+        placeholder="Digite o nome do insumo"
+        class="input input-bordered w-full"
+        required
+      />
     </div>
 
-    <div class="mt-6">
-      <button type="submit" class="btn btn-primary w-full">
-        Salvar Insumo
-      </button>
+    <div class="w-6/12">
+      <h1>Categoria</h1>
+      {#if form?.errors.categoria}
+        <p class="text-red-500 rounded mb-1">Digite uma categoria válida</p>
+      {/if}
+      <input
+        name="categoria"
+        placeholder="Categoria"
+        type="text"
+        class="input input-bordered w-full"
+        required
+      />
+      </div>
+
+    <div class="w-6/12 pr-3">
+      <h1>Data de Validade</h1>
+      {#if form?.errors.dataValidade}
+        <p class="text-red-500 rounded mb-1">Digite uma data válida</p>
+      {/if}
+      <input
+        name="dataValidade"
+        type="date"
+        class="input input-bordered w-full"
+        placeholder="Validade"
+        required
+      />
     </div>
+
+    <div class="w-4/12 pr-3">
+      <h1>Quantidade</h1>
+      {#if form?.errors.quantidadeEstoque}
+        <p class="text-red-500 rounded mb-1">Digite uma quantidade válida</p>
+      {/if}
+      <input
+        name="quantidadeEstoque"
+        type="number"
+        class="input input-bordered w-full"
+        min="0"
+        placeholder="Quantidade"
+        required
+      />
+    </div>
+
+    <div class="w-4/12">
+      <h1>Custo (R$)</h1>
+      {#if form?.errors.custo}
+        <p class="text-red-500 rounded mb-1">Digite um custo válido</p>
+      {/if}
+      <input
+        name="custo"
+        type="number"
+        class="input input-bordered w-full"
+        min="0"
+        step="0.01"
+        placeholder="Custo"
+        required
+      />
+    </div>
+  </div>
 {/snippet}
 
-<div class="border px-8 py-5 rounded">
+<div class="border px-8 py-5">
   <div class="flex w-full gap-3 items-center">
     <input
       type="text"
@@ -103,20 +94,20 @@
     <div class="w-4/12">
       <form action="?/novoinsumo" method="POST" use:enhance>
         <Modal
-        modalContent={novoInsumo}
-        textoBotao={"Novo Insumo"}
-        classeBotao={'btn-success w-full'}
-        title="Cadastrar Novo Insumo"
+          modalContent={formInsumo}
+          textoBotao={"Novo Insumo"}
+          classeBotao={'btn-success w-full'}
+          title="Cadastrar Novo Insumo"
         />
       </form>
     </div>
   </div>    
 </div>
 
-<div class="mt-6 overflow-x-auto">
-  <table class="table w-full border rounded">
+<div class="mb-10 mt-3 h-2/4 overflow-x-auto rounded-box border border-base-content/5 bg-base-10">
+  <table class="table">
     <thead>
-      <tr class="bg-base-200 text-base font-bold">
+      <tr>
         <th></th>
         <th>Nome</th>
         <th>Categoria</th>

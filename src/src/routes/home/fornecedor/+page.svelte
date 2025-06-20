@@ -4,6 +4,7 @@
   import { enhance } from "$app/forms";
   import { filters } from "../params.svelte";
 	import type { fornecedorSelect } from '$lib/server/schema/fornecedor';
+	import type { InsumoSelect } from '$lib/server/schema/insumo';
 	let {data, form}: {data : PageData; form: ActionData} = $props();
 
   // Dados de quando a página carrega
@@ -42,12 +43,12 @@
   }
 
   // Conseguir os insumos de um forncedor
-  let insumos = [];
-
-  async function getInsumos(idFornecedor : number | undefined) {
+  let insumos : InsumoSelect[] = $state([]);
+  async function getInsumos(idFornecedor : number, idUser : number) {
     if(idFornecedor){
-      const response = await fetch('../api/insumo/' + idFornecedor );
-      insumos = await response.json();
+      const response = await fetch(`../api/insumo/${idFornecedor}/${idUser}`);
+      const data = await response.json();
+      insumos = data.allInsumosFromFornecedor;
     }
 	}
 
@@ -120,8 +121,8 @@
   </div>
 
   <div class="mt-3 flex flex-wrap">
-    <div class="w-9/12">
-      <h1>Insumo</h1>
+    <div class="w-full">
+      <h1 class="text-xl font-semibold text-center">Insumo</h1>
     </div>
     <div class="flex w-3/12 flex-col">
       <!-- <button onclick={adicionaInsumo} class="btn btn-success mt-auto">Adicionar Insumo</button> -->
@@ -136,6 +137,13 @@
           </tr>
         </thead>
         <tbody>
+          {#each insumos as i}
+            <tr class="cursor-pointer hover:bg-base-300">
+              <td>{i.id}</td>
+              <td>{i.name}</td>
+              <td>{i.custo}</td>
+            </tr>
+          {/each}
         </tbody>
       </table>
     </div>
@@ -226,7 +234,7 @@
                 <button
                   class="tiraEstiloBotao" 
                   onclick={() => {
-                    getInsumos(f.id);
+                    getInsumos(f.id, idUser);
                     selectedFornecedor = f
                     disableCampos = true
                   }}>
@@ -241,7 +249,7 @@
                 <button 
                   class="tiraEstiloBotao" 
                   onclick={() => {
-                    getInsumos(f.id);
+                    getInsumos(f.id, idUser);
                     selectedFornecedor = f
                     disableCampos = false
                   }}>
