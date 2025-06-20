@@ -2,8 +2,8 @@
 	import type { PageData, ActionData } from './$types';
 	import Modal from '$lib/components/Modal.svelte';
   import { enhance } from "$app/forms";
-	import { onMount } from 'svelte';
   import { filters } from "../params.svelte";
+	import type { fornecedorSelect } from '$lib/server/schema/fornecedor';
 	let {data, form}: {data : PageData; form: ActionData} = $props();
 
   // Dados de quando a página carrega
@@ -51,23 +51,40 @@
     }
 	}
 
+  let selectedFornecedor : fornecedorSelect | null = $state(null);
+  let disableCampos = $state(false);
 </script>
 
-{#snippet novoFornecedor()}
+{#snippet formFornecedor()}
   <div class="flex flex-wrap">
+    <input 
+      type="hidden" 
+      name="idUser" 
+      id="idUser" 
+      value={selectedFornecedor?.idUser}>
     <div class="w-9/12 pr-3">
       <h1>Nome</h1>
         {#if form?.errors?.name}
           <p class="text-red-500 bg-red-100 border border-red-400 p-2 rounded mb-4">Digite um nome válido</p>
         {/if}
-      <input name="nome" type="text" placeholder="Type here" class="input input-bordered w-full" value="trsete" />
+      <input 
+        disabled={disableCampos} 
+        name="nome" 
+        type="text" 
+        placeholder="Type here" 
+        class="input input-bordered w-full" 
+        value={selectedFornecedor?.name}/>
     </div>
     <div class="w-3/12">
       <h1>Status</h1>
       {#if form?.errors?.status}
         <p class="text-red-500 bg-red-100 border border-red-400 p-2 rounded mb-4">Digite um status válido</p>
       {/if}
-      <select name="status" class="select select-bordered w-full">
+      <select 
+        name="status" 
+        class="select select-bordered w-full" 
+        value={selectedFornecedor?.status} 
+        disabled={disableCampos}>
         <option value="ativo" selected>Ativo</option>
         <option value="inativo">Inativo</option>
       </select>
@@ -82,7 +99,8 @@
         type="number"
         placeholder="Type here"
         class="input input-bordered w-full"
-        value="21321313"
+        value={selectedFornecedor?.telefone}
+        disabled={disableCampos}
       />
     </div>
     <div class="w-8/12">
@@ -93,9 +111,10 @@
       <input
         name="email"
         type="email"
-        value="atendimento@extra.br.com"
         placeholder="Type here"
         class="input input-bordered w-full"
+        value={selectedFornecedor?.email}
+        disabled={disableCampos}
       />
     </div>
   </div>
@@ -121,33 +140,6 @@
       </table>
     </div>
   </div>
-{/snippet}
-
-{#snippet visualizarFornecedor()}
-	<div class="flex">
-		<table class="table">
-			<thead>
-				<tr>
-					<th></th>
-					<th>Nome</th>
-					<th>Categoria</th>
-					<th>Quantidade em estoque</th>
-					<th>Estoque mínimo</th>
-				</tr>
-			</thead>
-			<tbody>
-				<!-- {#each insumos?.insumos as i, index}
-					<tr>
-						<th>{index}</th>
-						<th>Farinha</th>
-						<th>Sei lá</th>
-						<th>33</th>
-						<th>12</th>
-					</tr>
-				{/each} -->
-			</tbody>
-		</table>
-	</div>
 {/snippet}
 
 {#snippet apagarFornecedor()}
@@ -178,15 +170,30 @@
 				</select>
 			</div>
 			<div class="w-2/12">
-        <form method="POST" action="?/novofornecedor" use:enhance onsubmit={(event) => handleSubmit(event, "?/novofornecedor")}>
-          <input type="hidden" name="idUser" id="idUser" value={idUser}>
-          <Modal
-            modalContent={novoFornecedor}
-            textoBotao={'Novo'}
-            classeBotao={'btn-success w-full'}
-            title="Cadastrar Novo Fornecedor"
-          />
-        </form>
+        <button
+        class="tiraEstiloBotao w-full" 
+        onclick={() => {
+          selectedFornecedor = null
+          disableCampos = false
+         }}>
+          <form 
+            method="POST" 
+            action="?/novofornecedor" 
+            use:enhance 
+            onsubmit={(event) => {
+              handleSubmit(event, "?/novofornecedor");
+              selectedFornecedor = null
+            }}
+            >
+            <input type="hidden" name="idUser" id="idUser" value={idUser}>
+            <Modal
+              modalContent={formFornecedor}
+              textoBotao={'Novo'}
+              classeBotao={'btn-success w-full'}
+              title="Cadastrar Novo Fornecedor"
+            />
+          </form>
+        </button>
 			</div>
 		</div>
 	</div>
@@ -216,22 +223,35 @@
             <details class="dropdown dropdown-end dropdown-bottom">
               <summary class="btn m-1">...</summary>
               <ul class="menu dropdown-content z-50 w-52 rounded-box bg-base-100 p-2 shadow-sm">
-                <Modal
-                    classeBotao="success w-full"
-                    textoBotao="Visualizar"
-                    title="Visualizar"
-                    tamanhoModal="w-11/12 max-w-5xl"
-                    modalContent={visualizarFornecedor}
-                  />
-                <button class="tiraEstiloBotao" onclick={() => {getInsumos(f.id)}}>
+                <button
+                  class="tiraEstiloBotao" 
+                  onclick={() => {
+                    getInsumos(f.id);
+                    selectedFornecedor = f
+                    disableCampos = true
+                  }}>
+                  <Modal
+                      classeBotao="success w-full"
+                      textoBotao="Visualizar"
+                      title="Visualizar"
+                      modalContent={formFornecedor}
+                      readOnly={true}
+                    />
+                </button>
+                <button 
+                  class="tiraEstiloBotao" 
+                  onclick={() => {
+                    getInsumos(f.id);
+                    selectedFornecedor = f
+                    disableCampos = false
+                  }}>
                   <input type="hidden" name="idUser" id="idUser" value={f.idUser}>  
-                  <form method="POST" action="?/editarfornecedor" >
+                  <form method="POST" action="?/editarfornecedor">
                     <Modal
                       classeBotao="btn-info w-full mt-2"
                       textoBotao="Editar"
                       title="Editar Fo   rnecedor "
-                      tamanhoModal="w-11/12 max-w-5xl"
-                      modalContent={visualizarFornecedor}
+                      modalContent={formFornecedor}
                     />
                   </form>
                 </button>
@@ -273,5 +293,6 @@
   .tiraEstiloBotao{
     background: none;
     border: none;
+    cursor: default;
   }
 </style>

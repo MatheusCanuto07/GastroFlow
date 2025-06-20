@@ -1,6 +1,6 @@
 import type { Actions, PageServerLoad } from './$types';
 import { fail } from '@sveltejs/kit';
-import { insumoTable, type InsumoInsert } from '$lib/server/schema/insumo';
+// import { insumoTable, type InsumoInsert } from '$lib/server/schema/insumo';
 import { insumoQueries } from '$lib/server/controller/insumo';
 
 export const load: PageServerLoad = async () => {
@@ -29,7 +29,7 @@ export const actions: Actions = {
 			errors.name = { invalid: true };
 		}
 
-		if (categoria) {
+		if (!categoria) {
 			errors.categoria = { invalid: true };
 		}
 
@@ -52,7 +52,7 @@ export const actions: Actions = {
 
 		try {
 			const newId = await insumoQueries.addInsumo({
-				name,
+				name : name ?? "",
 				categoria,
 				dataValidade,
 				quantidadeEstoque,
@@ -63,6 +63,5 @@ export const actions: Actions = {
 		} catch (error) {
 			return { success: false, message: 'Erro ao inserir fornecedor' };
 		}
-		// return { success: true, newId : newId  };
 	}
 };

@@ -1,8 +1,7 @@
 import { createClient } from "@libsql/client";
 import { drizzle } from "drizzle-orm/libsql";
 import {configDataBase} from "../../../config";
-// TODO: Olhar esse import
-import * as schema from "../server/schema/fornecedor";
+import * as schema from "../server/schema/schema";
 
 const client = createClient({
   url: configDataBase.databaseUrl || "",

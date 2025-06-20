@@ -1,5 +1,6 @@
 import { db } from "../db";
-import { insumoTable, type InsumoInsert, type InsumoSelect, fornecedorTable, type fornecedorInsert, type fornecedorSelect } from "$lib/server/schema/fornecedor";
+import { fornecedorTable, type fornecedorInsert, type fornecedorSelect } from "$lib/server/schema/fornecedor";
+import { insumoTable, type InsumoInsert, type InsumoSelect } from '$lib/server/schema/insumo'
 import { eq, and } from "drizzle-orm";
 
 async function insertFornecedor(fornecedor: fornecedorInsert): Promise<{ id: number } | { error: string }> {
@@ -64,7 +65,7 @@ async function getAllFornecedores (idUser: number) : Promise<{ allfornecedores: 
 
 async function getAllInsumosFromFornecedor (id : number, idUser : number) : Promise<{allInsumos : Array<InsumoSelect>}>{
   try{
-    const allInsumos = await db.select().from(insumoTable).where(and(eq(insumoTable.idFornecedor, id), eq(insumoTable.idUser, idUser)));
+    const allInsumos = await db.select().from(insumoTable).where(eq(insumoTable.idUser, idUser));
     return { allInsumos };
   } catch (error) {
     console.error('Erro ao buscar insumos:', error);
@@ -76,14 +77,6 @@ function insertInsumo(insumo : InsumoInsert){
   return db.insert(insumoTable).values(insumo).returning({id : insumoTable.id});
 }
 
-function deleteFornecedor(id : number){
-  try{
-    db.delete(insumoTable).where(eq(insumoTable.idFornecedor, id));
-  } catch (error) {
-    console.error('Erro ao deletar fornecedor:', error);
-  }
-  return db.delete(fornecedorTable).where(eq(fornecedorTable.id, id));
-}
 
 export const fornecedorQueries = {
   insertInsumo,
@@ -91,6 +84,5 @@ export const fornecedorQueries = {
   updateFornecedor,
   getAllFornecedores,
   getAllInsumosFromFornecedor,
-  deleteFornecedor,
   
 };

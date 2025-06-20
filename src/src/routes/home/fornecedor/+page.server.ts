@@ -1,7 +1,5 @@
 import type { Actions, PageServerLoad } from './$types';
 import {
-	insumoTable,
-	type InsumoInsert,
 	fornecedorTable,
 	type fornecedorInsert
 } from '$lib/server/schema/fornecedor';
@@ -61,18 +59,15 @@ export const actions = {
 			return fail(400, { errors });
 		}
 
-		const fornecedorInsert: fornecedorInsert = {
-			name,
-			status,
-			telefone,
-			contato: telefone,
-			email,
-			idUser: parseInt(idUser),
-			createdAt: new Date().toISOString()
-		};
-
 		try {
-			const newId = await fornecedorQueries.insertFornecedor(fornecedorInsert);
+			const newId = await fornecedorQueries.insertFornecedor({
+        name: name ?? "",
+        idUser: idUser ? parseInt(idUser) : 0,
+        status: status ?? "",
+        telefone: telefone ?? "",
+        contato: telefone ?? "",
+        email: email ?? ""
+      });
 			return { success: true, newId: newId };
 		} catch (error) {
 			return { success: false, message: 'Erro ao inserir fornecedor' };
@@ -105,17 +100,17 @@ export const actions = {
 		const idUpdatedUser = await fornecedorQueries.updateFornecedor(fornecedorUpdate, parseInt(id));
 		return { success: true, idUpdatedUser };
 	},
-	apagarFornecedor: async ({ request }) => {
-		const data = await request.formData();
+	// apagarFornecedor: async ({ request }) => {
+	// 	const data = await request.formData();
 
-		const idFornecedor = data.get('idFornecedor')?.toString();
-		if (!idFornecedor) {
-			throw new Error('Selecione um fornecedor válido.');
-		}
+	// 	const idFornecedor = data.get('idFornecedor')?.toString();
+	// 	if (!idFornecedor) {
+	// 		throw new Error('Selecione um fornecedor válido.');
+	// 	}
 
-		const idDeletedFornecedor = await fornecedorQueries.deleteFornecedor(parseInt(idFornecedor));
-		return idDeletedFornecedor.rows.length > 0
-			? { success: true, idDeletedFornecedor }
-			: { error: 'Nenhum fornecedor deletado' };
-	}
+	// 	const idDeletedFornecedor = await fornecedorQueries.deleteFornecedor(parseInt(idFornecedor));
+	// 	return idDeletedFornecedor.rows.length > 0
+	// 		? { success: true, idDeletedFornecedor }
+	// 		: { error: 'Nenhum fornecedor deletado' };
+	// }
 } satisfies Actions;
