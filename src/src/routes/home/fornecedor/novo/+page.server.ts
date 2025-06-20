@@ -1,4 +1,4 @@
-import { fail, type Actions } from '@sveltejs/kit';
+import { fail, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { fornecedorQueries } from '$lib/server/controller/fornecedor';
 
@@ -52,9 +52,9 @@ export const actions = {
         contato: telefone ?? "",
         email: email ?? ""
       });
-      return { success: true, newId: newId };
     } catch (error) {
       return { success: false, message: 'Erro ao inserir fornecedor' };
     }
+    redirect(303, '/home/fornecedor');
   },
 } satisfies Actions;

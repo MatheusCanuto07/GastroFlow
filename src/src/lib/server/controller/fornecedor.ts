@@ -1,7 +1,7 @@
 import { db } from "../db";
 import { fornecedorTable, type fornecedorInsert, type fornecedorSelect } from "$lib/server/schema/fornecedor";
 import { insumoTable, type InsumoInsert, type InsumoSelect } from '$lib/server/schema/insumo'
-import { eq, and } from "drizzle-orm";
+import { eq, and, desc, like, count } from "drizzle-orm";
 
 async function insertFornecedor(fornecedor: fornecedorInsert): Promise<{ id: number } | { error: string }> {
   try {
@@ -29,11 +29,11 @@ async function insertFornecedor(fornecedor: fornecedorInsert): Promise<{ id: num
   }
 }
 
-async function updateFornecedor (fornecedor: fornecedorInsert, id: number): Promise<{ id: number } | { error: string }> {
+async function updateFornecedor (fornecedor: fornecedorInsert, id: string): Promise<{ id: number } | { error: string }> {
   try{
     const [result] = await db.update(fornecedorTable)
       .set(fornecedor)
-      .where(eq(fornecedorTable.id, id))
+      .where(eq(fornecedorTable.id, parseInt(id)))
       .returning({ id: fornecedorTable.id });
 
     if(!result){
@@ -53,14 +53,38 @@ async function updateFornecedor (fornecedor: fornecedorInsert, id: number): Prom
   return { error: 'Erro desconhecido ao cadastrar fornecedor'};
 }
 
-async function getAllFornecedores (idUser: number) : Promise<{ allfornecedores: Array<fornecedorSelect> }>{
+async function getAllFornecedores (idUser: number, searchName : string | null, pageNumber : string | null, status : string | null) : Promise<{ allfornecedores: Array<fornecedorSelect> }>{
   try{
-    const allfornecedores = await db.select().from(fornecedorTable).where(eq(fornecedorTable.idUser, idUser));
+    const allfornecedores = await db
+      .select()
+      .from(fornecedorTable)
+      .where(
+        and(
+          like(fornecedorTable.name, `%${searchName}%`),
+          eq(fornecedorTable.status, status ?? 'ativo'),
+          eq(fornecedorTable.idUser, idUser)
+        ))
+      .orderBy(desc(fornecedorTable.id))
+      .limit(searchName ? 100 : 10)
+      .offset(searchName == null ? pageNumber == null || pageNumber == '1' ? 0 : parseInt(pageNumber) * 5 : 0);
     return { allfornecedores };
   } catch (error) {
     console.error('Erro ao buscar fornecedores:', error);
   }
   return { allfornecedores: [] };
+}
+
+async function numberOfFornecedores(idUser : number) : Promise<{ numberOfFornecedores: number }> {
+  try{
+    const [numberOfFornecedores] = await db
+      .select({ count: count() })
+      .from(fornecedorTable)
+      .where(eq(fornecedorTable.idUser, idUser));
+    return {numberOfFornecedores : numberOfFornecedores.count};
+  } catch (error) {
+    console.error('Erro ao buscar fornecedores:', error);
+  }
+  return { numberOfFornecedores: 0 };
 }
 
 async function getAllInsumosFromFornecedor (id : number, idUser : number) : Promise<{allInsumos : Array<InsumoSelect>}>{
@@ -98,5 +122,6 @@ export const fornecedorQueries = {
   updateFornecedor,
   getAllFornecedores,
   getAllInsumosFromFornecedor,
-  getFornecedorById
+  getFornecedorById,
+  numberOfFornecedores
 };

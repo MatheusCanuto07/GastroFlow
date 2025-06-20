@@ -8,13 +8,15 @@
     idUser : number;
     viewOnly : boolean
     insumos : InsumoSelect[] | null
+    isNew : boolean
 	}
 
-	let { fornecedor, form = null, idUser, viewOnly = false, insumos = null }: Props = $props();
+	let { fornecedor, form = null, idUser, viewOnly = false, insumos = null, isNew = false }: Props = $props();
 </script>
 
 <div class="flex flex-wrap">
 	<input type="hidden" name="idUser" id="idUser" value={idUser} />
+	<input type="hidden" name="id" id="id" value={fornecedor?.id} />
 	<div class="w-9/12 pr-3">
 		<h1>Nome</h1>
 		{#if form?.errors?.name}
@@ -39,6 +41,7 @@
 			</p>
 		{/if}
 		<select
+      id="status"
 			name="status"
 			class="select select-bordered w-full"
 			value={fornecedor?.status}
@@ -82,35 +85,37 @@
 	</div>
 </div>
 
-{#if insumos}
-  <h1 class="text-center text-xl font-semibold">Esse fornecedor não tem insumos cadastrados!</h1>
-  {:else}
-  <div class="mt-3 flex flex-wrap">
-    <div class="w-full">
-      <h1 class="text-center text-xl font-semibold">Insumo</h1>
-    </div>
-    <div class="flex w-3/12 flex-col">
-      <!-- <button onclick={adicionaInsumo} class="btn btn-success mt-auto">Adicionar Insumo</button> -->
-    </div>
-    <div class="min-h-40 w-full">
-      <table class="table min-h-10">
-        <thead>
-          <tr>
-            <td>ID</td>
-            <td>Nome</td>
-            <td>Valor</td>
-          </tr>
-        </thead>
-        <tbody>
-          {#each (insumos || []) as i}
-            <tr class="cursor-pointer hover:bg-base-300">
-              <td>{i.id}</td>
-              <td>{i.name}</td>
-              <td>{i.custo}</td>
+{#if !isNew}
+  {#if insumos}
+    <h1 class="text-center text-xl font-semibold">Esse fornecedor não tem insumos cadastrados!</h1>
+    {:else}
+    <div class="mt-3 flex flex-wrap">
+      <div class="w-full">
+        <h1 class="text-center text-xl font-semibold">Insumo</h1>
+      </div>
+      <div class="flex w-3/12 flex-col">
+        <!-- <button onclick={adicionaInsumo} class="btn btn-success mt-auto">Adicionar Insumo</button> -->
+      </div>
+      <div class="min-h-40 w-full">
+        <table class="table min-h-10">
+          <thead>
+            <tr>
+              <td>ID</td>
+              <td>Nome</td>
+              <td>Valor</td>
             </tr>
-          {/each}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {#each (insumos || []) as i}
+              <tr class="cursor-pointer hover:bg-base-300">
+                <td>{i.id}</td>
+                <td>{i.name}</td>
+                <td>{i.custo}</td>
+              </tr>
+            {/each}
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
+  {/if}
 {/if}

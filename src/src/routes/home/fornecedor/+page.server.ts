@@ -4,19 +4,24 @@ import { fornecedorQueries } from '$lib/server/controller/fornecedor';
 
 export const load: PageServerLoad = async ({ depends, url }) => {
 	const idUser: number = 1;
-	const {allfornecedores} = await fornecedorQueries.getAllFornecedores(idUser);
-  const searchParams = url.searchParams.get('search');
-
-	// const page = Number(searchParams.get('page') ?? '1');
-	// const pageSize = Number(searchParams.get('pageSize') ?? '5');
-	//const todos = await todoQueries.obterTodoWithLimit(page,pageSize);
-	//const allInsumosFromFornecedor = await fornecedorQueries.getAllInsumosFromFornecedor(id, idUser);
+  const searchName = url.searchParams.get('search');
+  const page = url.searchParams.get('page') ?? '1';
+  const searchStatus = url.searchParams.get('status');
+  
+	const {allfornecedores} = await fornecedorQueries.getAllFornecedores(idUser, searchName || '', page, searchStatus);
+  const {numberOfFornecedores} = await fornecedorQueries.numberOfFornecedores(idUser);
+  const nPages = Math.floor(numberOfFornecedores / 10) + (numberOfFornecedores % 10 > 0 ? 1 : 0);
 	if (allfornecedores) {
-		return { allfornecedores: allfornecedores, idUser: idUser };
+		return {
+      allfornecedores: allfornecedores, 
+      idUser: idUser,
+      nPages 
+    };
 	}
   return {
     allfornecedores: {},
-    idUser: idUser
+    idUser: idUser,
+    nPages : {}
   }
 };
 

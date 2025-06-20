@@ -11,7 +11,7 @@
   <ul>
     <li><a href="/home">Home</a></li>
     <li><a href="/home/fornecedor">Fornecedor</a></li>
-    <li><a href="/home/fornecedor">Fornecedor específico</a></li>
+    <li><a href="/home/fornecedor">{fornecedor.name}</a></li>
   </ul>
 </div>
 
@@ -22,6 +22,7 @@
     insumos={insumosList} 
     viewOnly={false}
     form={null}
+    isNew={false}
   />
   <div class="w-full flex justify-end">
     <button class="btn btn-success">Enviar</button>

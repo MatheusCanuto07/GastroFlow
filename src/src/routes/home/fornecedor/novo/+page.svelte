@@ -1,4 +1,5 @@
 <script lang="ts">
+	import FormFornecedor from "$lib/components/Formularios/FormFornecedor.svelte";
 
 </script>
 
@@ -10,4 +11,16 @@
   </ul>
 </div>
 
-<h1>Criar novo fornecedor</h1>
+<form method="POST" action="?/novofornecedor">
+  <FormFornecedor 
+    idUser={1} 
+    viewOnly={false}
+    form={null}
+    insumos={null}
+    fornecedor={null}
+    isNew={true}
+  />
+  <div class="w-full flex justify-end mt-2">
+    <button class="btn btn-success">Enviar</button>
+  </div>
+</form>

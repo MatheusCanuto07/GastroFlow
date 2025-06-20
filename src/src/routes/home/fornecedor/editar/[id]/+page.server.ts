@@ -2,6 +2,8 @@ import type { PageServerLoad } from './$types';
 import { fornecedorQueries } from '$lib/server/controller/fornecedor';
 import { insumoQueries } from '$lib/server/controller/insumo';
 import type { fornecedorInsert } from '$lib/server/schema/fornecedor';
+import { fail, redirect } from '@sveltejs/kit';
+import { goto } from '$app/navigation';
 
 export const load = (async ({params}) => {
   let idUser = 1;
@@ -9,6 +11,7 @@ export const load = (async ({params}) => {
   const insumos = await insumoQueries.getAllInsumoFromFornecedor(
     idUser, parseInt(params.id)
   );
+
   return {
     fornecedor : getFornecedorById.fornecedor,
     insumos : insumos.allInsumosFromFornecedor
@@ -16,8 +19,7 @@ export const load = (async ({params}) => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-  editarfornecedor: async ({ request }) => {
-      console.log("chegou aquiS")
+  editarfornecedor: async ({ request, url }) => {
       const data = await request.formData();
   
       const id = data.get('id')?.toString();
@@ -27,21 +29,48 @@ export const actions = {
       const email = data.get('email')?.toString();
       const status = data.get('status')?.toString();
   
-      if (!name || !status || !email || !telefone || !id || !idUser) {
-        throw new Error('Nome e status são obrigatórios');
+      const errors: any = {};
+      if (!name) {
+        errors.name = { invalid: true };
       }
   
-      const fornecedorUpdate: fornecedorInsert = {
-        name,
-        status,
-        telefone,
-        contato: telefone,
-        email,
-        idUser: parseInt(idUser),
-        updatedAt: new Date().toISOString()
-      };
+      if (!telefone || telefone.length > 20) {
+        errors.telefone = { invalid: true };
+      }
   
-      const idUpdatedUser = await fornecedorQueries.updateFornecedor(fornecedorUpdate, parseInt(id));
-      return { success: true, idUpdatedUser };
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email || !regex.test(email)) {
+        errors.email = { invalid: true };
+      }
+  
+      if (!status) {
+        errors.status = { invalid: true };
+      }
+  
+      if (!idUser) {
+        errors.idUser = { invalid: true };
+      }
+
+      if (!id){
+        errors.id = { invalid: true };
+      }
+
+      if (Object.keys(errors).length > 0) {
+        return fail(400, { errors });
+      }
+      
+      try {
+      const newId = await fornecedorQueries.updateFornecedor({
+        name: name ?? "",
+        idUser: idUser ? parseInt(idUser) : 0,
+        status: status ?? "",
+        telefone: telefone ?? "",
+        contato: telefone ?? "",
+        email: email ?? ""
+      }, id ?? "");
+    } catch (error) {
+      return { success: false, message: 'Erro ao inserir fornecedor' };
+    }
+    throw redirect(303, '/home/fornecedor');
   },
 }
