@@ -1,16 +1,30 @@
 <script lang="ts">
+	import type { Component } from "svelte";
+
   let modal : HTMLDialogElement | undefined  = $state();
-  let 
+
+  interface Props {
+    Componente : Component
+    textoBotao : string, 
+    classeBotao : string, 
+    title : string, 
+    tamanhoModal : string, 
+    textBtn : string, 
+    classBtnEnviar : string,
+    readOnly : boolean
+	}
+
+  const 
   { 
-    modalContent,
+    Componente, 
     textoBotao, 
     classeBotao, 
     title, 
     tamanhoModal = "", 
     textBtn = "Enviar", 
-    classBtnEnviar = "success",
+    classBtnEnviar = "success", 
     readOnly = false
-  } = $props();
+  }: Props = $props();
 </script>
 
 <!-- svelte-ignore a11y_invalid_attribute -->
@@ -21,7 +35,7 @@
     <h3 class="text-lg font-bold">
       {title}
     </h3>
-    {@render modalContent?.()}
+    <Componente />
     <div class="modal-action">
       <form method="dialog" onsubmit={event?.preventDefault}>
         <button class="btn">Close</button>

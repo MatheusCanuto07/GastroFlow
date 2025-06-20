@@ -8,18 +8,20 @@ import { fornecedorQueries } from '$lib/server/controller/fornecedor';
 
 export const load: PageServerLoad = async ({ depends, url }) => {
 	const idUser: number = 1;
-	const allfornecedores = await fornecedorQueries.getAllFornecedores(idUser);
-	//Se algo relacionado a essa dependência mudar (como um dado associado a "todos"), a função load será reexecutada
-	depends('pagination');
-	const searchParams = url.searchParams;
+	const {allfornecedores} = await fornecedorQueries.getAllFornecedores(idUser);
+  const searchParams = url.searchParams.get('search');
 
-	const page = Number(searchParams.get('page') ?? '1');
-	const pageSize = Number(searchParams.get('pageSize') ?? '5');
+	// const page = Number(searchParams.get('page') ?? '1');
+	// const pageSize = Number(searchParams.get('pageSize') ?? '5');
 	//const todos = await todoQueries.obterTodoWithLimit(page,pageSize);
 	//const allInsumosFromFornecedor = await fornecedorQueries.getAllInsumosFromFornecedor(id, idUser);
 	if (allfornecedores) {
 		return { allfornecedores: allfornecedores, idUser: idUser };
 	}
+  return {
+    allfornecedores: {},
+    idUser: idUser
+  }
 };
 
 export const actions = {

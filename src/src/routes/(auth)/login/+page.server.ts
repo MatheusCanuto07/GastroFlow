@@ -30,9 +30,7 @@ export const actions: Actions = {
     if (!validPassword) {
       throw redirect(303, '/login?error=invalidCredentials');
     }
-    // //Este código segue o padrão de autenticação baseada em sessões. Quando o usuário faz login, é gerado um token exclusivo para a sessão atual. Esse token é associado ao usuário e armazenado no servidor (banco de dados ou cache).
     const token = generateSessionToken();
-    // //Quando o processo de criação de sessão termina, a Promise muda seu estado para "cumprida" (resolved), retornando o resultado do processo, ou para "rejeitada" (rejected) caso ocorra um erro.
     const session = await createSession(token, existingUser.id);
     setSessionTokenCookie(event, token, session.expiresAt)
 

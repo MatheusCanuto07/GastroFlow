@@ -73,6 +73,20 @@ async function getAllInsumosFromFornecedor (id : number, idUser : number) : Prom
   return {allInsumos : []}
 }
 
+async function getFornecedorById(id : number, idUser : number) : Promise<{fornecedor : fornecedorSelect}> {
+  try{
+    const [fornecedor] = await db
+      .select()
+      .from(fornecedorTable)
+      .where(and(eq(fornecedorTable.idUser, idUser), eq(fornecedorTable.id, id)));
+    return {
+      fornecedor : fornecedor
+    };
+  } catch (error) {
+    console.error('Erro ao buscar insumos:', error);
+  }
+  return {fornecedor : {} as fornecedorSelect}
+}
 function insertInsumo(insumo : InsumoInsert){
   return db.insert(insumoTable).values(insumo).returning({id : insumoTable.id});
 }
@@ -84,5 +98,5 @@ export const fornecedorQueries = {
   updateFornecedor,
   getAllFornecedores,
   getAllInsumosFromFornecedor,
-  
+  getFornecedorById
 };

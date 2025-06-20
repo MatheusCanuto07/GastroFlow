@@ -9,7 +9,6 @@
 
 <Nav />
 
-
 <div class="xl:px-60 lg:px-40">
   {@render children()} 
 </div>
