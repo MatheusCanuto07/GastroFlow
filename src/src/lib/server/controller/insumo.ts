@@ -1,10 +1,48 @@
-import { relations, eq, and } from 'drizzle-orm';
+import { relations, eq, and, like, desc, count } from 'drizzle-orm';
 import { db } from "../db";
-import { insumoTable, type InsumoInsert, type InsumoSelect } from '../schema/insumo'
+import { 
+  insumoTable, 
+  type InsumoInsert, 
+  type InsumoSelect,
+  insumoFornecedorTable
+} from '../schema/insumo'
 
-async function getAllInsumo (idUser: number) : Promise<{ allInsumo: Array<InsumoSelect> }>{
+async function insertInsumo (insumo : InsumoInsert) : Promise<{ id: number }> {
+  try {
+    const [result]  = await db.insert(insumoTable).values(insumo).returning({ id: insumoTable.id });
+    return { id : result.id };
+  } catch (error) {
+    console.error('Erro ao inserir insumo:', error);
+  }
+  return { id: 0 };
+}
+
+async function updateInsumo (idUser : number, insumo : InsumoInsert) : Promise<{ id: number }> {
+  try {
+    const [result]  = await db
+      .update(insumoTable)
+      .set(insumo)
+      .where(and(eq(insumoTable.id, insumo.id ?? 1), eq(insumoTable.idUser, idUser)))
+      .returning({ id: insumoTable.id });
+    return { id : result.id };
+  } catch (error) {
+    console.error('Erro ao editar insumo:', error);
+  }
+  return { id: 0 };
+}
+
+async function getAllInsumo (idUser: number, searchName : string | null, pageNumber : string | null) : Promise<{ allInsumo: Array<InsumoSelect> }>{
   try{
-    const allInsumo = await db.select().from(insumoTable).where(eq(insumoTable.idUser, idUser));
+    const allInsumo = await db
+      .select()
+      .from(insumoTable)
+      .where(and(
+        like(insumoTable.name, `%${searchName}%`),
+        eq(insumoTable.idUser, idUser)
+      ))
+      .orderBy(desc(insumoTable.id))
+      .limit(searchName ? 100 : 10)
+      .offset(searchName == null ? pageNumber == null || pageNumber == '1' ? 0 : parseInt(pageNumber) * 5 : 0);
     return { allInsumo };
   } catch (error) {
     console.error('Erro ao buscar insumos:', error);
@@ -12,21 +50,39 @@ async function getAllInsumo (idUser: number) : Promise<{ allInsumo: Array<Insumo
   return { allInsumo: [] };
 }
 
-async function getAllInsumoFromFornecedor(idUser : number, idFornecedor : number) : 
-  Promise<{allInsumosFromFornecedor : Array<InsumoSelect>}>
-  {
+async function numberOfInsumos(idUser : number) : Promise<{ numberOfInsumos: number }> {
   try{
-    const allInsumosFromFornecedor = 
-      await db
-        .select()
-        .from(insumoTable)
-        .where(and(eq(insumoTable.idUser, idUser), eq(insumoTable.idFornecedor, idFornecedor)));
-    return { allInsumosFromFornecedor };
+    const [numberOfInsumos] = await db
+      .select({ count: count() })
+      .from(insumoTable)
+      .where(eq(insumoTable.idUser, idUser));
+    return {numberOfInsumos : numberOfInsumos.count};
+  } catch (error) {
+    console.error('Erro ao buscar insumos:', error);
   }
-  catch{
-    console.error('Erro ao buscar insumos:', Error);
+  return { numberOfInsumos: 0 };
+}
+
+async function getInsumosByFornecedorId(fornecedorId: number) {
+  try {
+    const insumos = await db
+      .select({
+        insumo: insumoTable, // Todos os campos do insumo
+        preco: insumoFornecedorTable.preco, // O preço específico deste fornecedor
+      })
+      .from(insumoFornecedorTable)
+      .innerJoin(
+        insumoTable,
+        eq(insumoFornecedorTable.insumoId, insumoTable.id)
+      )
+      .where(
+        eq(insumoFornecedorTable.fornecedorId, fornecedorId)
+      )
+    return insumos;
+  } catch (error) {
+    console.error('Erro ao buscar insumos:', error);
   }
-  return {allInsumosFromFornecedor : []}
+  return {insumos : []};
 }
 
 async function deleteInsumo (idUser: number, idInsumo: number) : Promise<{ id: number }>{
@@ -55,16 +111,6 @@ async function editInsumo (idUser : number, idInsumo : number, insumo : InsumoIn
   }
   return {id : 0}
 }
-
-const fornecedoresComInsumos = await db.query.fornecedorTable.findMany({
-  with: {
-    insumos: {
-      with: {
-        insumo: true,
-      },
-    },
-  },
-});
 
 async function addInsumo (insumo : InsumoInsert) : Promise<{ id: number }> {
   try{

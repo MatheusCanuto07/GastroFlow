@@ -1,6 +1,11 @@
 import { db } from "../db";
 import { fornecedorTable, type fornecedorInsert, type fornecedorSelect } from "$lib/server/schema/fornecedor";
-import { insumoTable, type InsumoInsert, type InsumoSelect } from '$lib/server/schema/insumo'
+import { 
+  insumoTable, 
+  type InsumoInsert, 
+  type InsumoSelect,
+  insumoFornecedorTable 
+} from '$lib/server/schema/insumo'
 import { eq, and, desc, like, count } from "drizzle-orm";
 
 async function insertFornecedor(fornecedor: fornecedorInsert): Promise<{ id: number } | { error: string }> {
@@ -72,6 +77,25 @@ async function getAllFornecedores (idUser: number, searchName : string | null, p
     console.error('Erro ao buscar fornecedores:', error);
   }
   return { allfornecedores: [] };
+}
+
+async function getInsumosByFornecedorId(fornecedorId: number) {
+  const insumos = await db
+    .select({
+      insumo: insumoTable, // Todos os campos do insumo
+      preco: insumoFornecedorTable.preco, // O preço específico deste fornecedor
+    })
+    .from(insumoFornecedorTable)
+    .innerJoin(
+      insumoTable,
+      eq(insumoFornecedorTable.insumoId, insumoTable.id)
+    )
+    .where(
+      eq(insumoFornecedorTable.fornecedorId, fornecedorId)
+    )
+    .execute();
+
+  return insumos;
 }
 
 async function numberOfFornecedores(idUser : number) : Promise<{ numberOfFornecedores: number }> {
