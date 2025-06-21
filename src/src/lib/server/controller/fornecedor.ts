@@ -135,12 +135,8 @@ async function getFornecedorById(id : number, idUser : number) : Promise<{fornec
   }
   return {fornecedor : {} as fornecedorSelect}
 }
-function insertInsumo(insumo : InsumoInsert){
-  return db.insert(insumoTable).values(insumo).returning({id : insumoTable.id});
-}
 
 export const fornecedorQueries = {
-  insertInsumo,
   insertFornecedor,
   updateFornecedor,
   getAllFornecedores,

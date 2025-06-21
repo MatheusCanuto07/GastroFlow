@@ -7,7 +7,7 @@ import {
 } from "$lib/server/schema/receita";
 import { eq, and, desc, like, count, sql } from "drizzle-orm";
 import { insumoTable } from "../schema/insumo";
-import { produtoTable } from "./produto";
+import { produtoTable } from "../schema/produto";
 
 export async function insertReceita(receita : receitaInsert){
   try{
