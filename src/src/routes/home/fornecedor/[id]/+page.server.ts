@@ -4,7 +4,7 @@ import { insumoQueries } from '$lib/server/controller/insumo';
 
 export const load = (async ({params}) => {
   let idUser = 1;
-  let getFornecedorById = await fornecedorQueries.getFornecedorById(2, idUser);
+  let getFornecedorById = await fornecedorQueries.getFornecedorById(parseInt(params.id), idUser);
   const insumos = await insumoQueries.getAllInsumoFromFornecedor(
     idUser, parseInt(params.id)
   );
