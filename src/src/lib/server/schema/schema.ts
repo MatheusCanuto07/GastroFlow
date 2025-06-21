@@ -8,7 +8,8 @@ export {
  } from './fornecedor'; 
 
 export {
-  insumoTable
+  insumoTable,
+  insumoFornecedorTable
 } from './insumo';
 
 export {
@@ -21,3 +22,12 @@ export {
   sessionTable, 
   sessionTableRelations
 } from './user'
+
+export {
+  receitaTable,
+  insumosReceita
+} from './receita';
+
+export {
+  produtoTable,
+} from './produto'

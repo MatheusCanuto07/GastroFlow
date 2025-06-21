@@ -7,6 +7,7 @@ export const receitaTable = sqliteTable("receita", {
   nome: text("nome").notNull(),
   unidadeDeMedida: text("unidadeDeMedida").notNull(),
   idUser: integer("id_user").notNull(),
+  descricao: text("descricao").notNull()
 });
 
 export const insumosReceita = sqliteTable("insumos_receita", {

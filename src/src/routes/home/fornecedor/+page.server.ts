@@ -19,7 +19,7 @@ export const load: PageServerLoad = async ({ depends, url }) => {
     };
 	}
   return {
-    allfornecedores: {},
+    allfornecedores: [],
     idUser: idUser,
     nPages : {}
   }

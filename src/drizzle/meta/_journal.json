@@ -71,6 +71,27 @@
       "when": 1750383366179,
       "tag": "0009_married_archangel",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "6",
+      "when": 1750511804692,
+      "tag": "0010_typical_squadron_sinister",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "6",
+      "when": 1750514516569,
+      "tag": "0011_glamorous_lila_cheney",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "6",
+      "when": 1750514838146,
+      "tag": "0012_blushing_black_queen",
+      "breakpoints": true
     }
   ]
 }

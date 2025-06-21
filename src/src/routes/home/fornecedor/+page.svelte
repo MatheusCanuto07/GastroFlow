@@ -1,7 +1,5 @@
 <script lang="ts">
-	import type { PageData, ActionData } from '../../$types';
-	import Modal from '$lib/components/Modal.svelte';
-	import { enhance } from '$app/forms';
+	import type { PageData, ActionData } from './$types';
 	import { filters } from '../params.svelte';
 	import type { fornecedorSelect } from '$lib/server/schema/fornecedor';
 	import type { InsumoSelect } from '$lib/server/schema/insumo';
@@ -133,7 +131,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each allFornecedores || [] as f, index}
+			{#each allFornecedores as f, index}
 				<tr class="cursor-pointer hover:bg-base-300">
 					<th>{f.id}</th>
 					<td>{f.name}</td>

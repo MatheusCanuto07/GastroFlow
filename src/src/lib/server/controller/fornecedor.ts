@@ -82,8 +82,8 @@ async function getAllFornecedores (idUser: number, searchName : string | null, p
 async function getInsumosByFornecedorId(fornecedorId: number) {
   const insumos = await db
     .select({
-      insumo: insumoTable, // Todos os campos do insumo
-      preco: insumoFornecedorTable.preco, // O preço específico deste fornecedor
+      insumo: insumoTable,
+      preco: insumoFornecedorTable.preco, 
     })
     .from(insumoFornecedorTable)
     .innerJoin(

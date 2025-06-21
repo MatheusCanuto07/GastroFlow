@@ -9,7 +9,7 @@ import { eq, and, desc, like, count, sql } from "drizzle-orm";
 import { insumoTable } from "../schema/insumo";
 import { produtoTable } from "./produto";
 
-async function insertReceita(receita : receitaInsert){
+export async function insertReceita(receita : receitaInsert){
   try{
     const [newReceita] = await db.insert(receitaTable).values(receita).returning();
     return newReceita;
@@ -19,11 +19,15 @@ async function insertReceita(receita : receitaInsert){
   return null;
 }
 
-async function getAllReceitas(idUser : number, searchName : string | null, pageNumber : string | null){
+export async function getAllReceitas(idUser : number, searchName : string | null, pageNumber : string | null){
   try{
     const allReceitas = await db
-      .select()
+      .select({
+        receitas : receitaTable,
+        nomeProdutoGera : produtoTable.nome
+      })
       .from(receitaTable)
+      .innerJoin(produtoTable, eq(receitaTable.idProduto, produtoTable.id))
       .where(and(
         like(receitaTable.nome, `%${searchName}%`),
         eq(receitaTable.idUser, idUser)
@@ -38,7 +42,7 @@ async function getAllReceitas(idUser : number, searchName : string | null, pageN
   return { allReceitas : [] }
 }
 
-async function numberOfReceitas(idUser : number){
+export async function numberOfReceitas(idUser : number){
   try{
     const [numberOfReceitas] = await db
       .select({ count: count() })
@@ -51,7 +55,7 @@ async function numberOfReceitas(idUser : number){
   return { numberOfReceitas: 0 };
 }
 
-async function getAllInsumosFromReceita(
+export async function getAllInsumosFromReceita(
   idUser : number, 
   idReceita : number  
 ){
@@ -66,7 +70,7 @@ async function getAllInsumosFromReceita(
         insumosReceita,
         eq(insumoTable.id, insumosReceita.idInsumo)
       )
-      .where(eq(insumosReceita.idReceita, idReceita))
+      .where(eq(insumosReceita.idReceita, idReceita ))
       .execute();
     return { allInsumosFromReceita };
   } catch (error) {
@@ -75,7 +79,7 @@ async function getAllInsumosFromReceita(
   return { allInsumosFromReceita : [] };
 }
 
-async function getReceitaById(id : number, idUser : number){
+export async function getReceitaById(id : number, idUser : number){
   try{
     const [receita] = await db
       .select()
@@ -92,7 +96,7 @@ async function getReceitaById(id : number, idUser : number){
   return { receita : {} as receitaSelect };
 }
 
-async function updateReceita(receita : receitaInsert, idUser : number){
+export async function updateReceita(receita : receitaInsert, idUser : number){
   try{
     const [result]  = await db
       .update(receitaTable)
@@ -109,7 +113,7 @@ async function updateReceita(receita : receitaInsert, idUser : number){
   return { id: 0 };
 }
 
-async function excludeReceita(idReceita : number, idUser : number){
+export async function excludeReceita(idReceita : number, idUser : number){
   try{
     const [result] = await db
       .delete(receitaTable)
@@ -125,7 +129,7 @@ async function excludeReceita(idReceita : number, idUser : number){
   return { id: 0 };
 }
 
-async function fazerReceita(idReceita : number, quantidadeReceita : number, idUser : number){
+export async function fazerReceita(idReceita : number, quantidadeReceita : number, idUser : number){
   try{
     // Conseguir os insumos daquela receita
     let {allInsumosFromReceita} = await getAllInsumosFromReceita(idUser, idReceita);
@@ -161,7 +165,7 @@ async function fazerReceita(idReceita : number, quantidadeReceita : number, idUs
   }
 }
 
-async function acrescentaProduto(idProduto : number, idUser : number, quantidadeFezProduto : number){
+export async function acrescentaProduto(idProduto : number, idUser : number, quantidadeFezProduto : number){
   try{
     const [result] = await db
       .update(produtoTable)
@@ -181,7 +185,7 @@ async function acrescentaProduto(idProduto : number, idUser : number, quantidade
   return { id: 0 };
 }
 
-async function decrementaInsumo(idInsumo : number, idUser : number, quantidadeDecrementa : number){
+export async function decrementaInsumo(idInsumo : number, idUser : number, quantidadeDecrementa : number){
   try{
     const [result] = await db
       .update(insumoTable)
