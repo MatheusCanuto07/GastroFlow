@@ -127,5 +127,8 @@ export const insumoQueries = {
   deleteInsumo,
   editInsumo,
   addInsumo,
-  getAllInsumoFromFornecedor
+  insertInsumo,
+  updateInsumo,
+  numberOfInsumos,
+  getInsumosByFornecedorId
 };

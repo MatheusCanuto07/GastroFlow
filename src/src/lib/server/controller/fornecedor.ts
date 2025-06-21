@@ -139,7 +139,6 @@ function insertInsumo(insumo : InsumoInsert){
   return db.insert(insumoTable).values(insumo).returning({id : insumoTable.id});
 }
 
-
 export const fornecedorQueries = {
   insertInsumo,
   insertFornecedor,
