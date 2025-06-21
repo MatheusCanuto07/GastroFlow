@@ -1,8 +1,6 @@
 <script lang="ts">
 	import type { PageData, ActionData } from './$types';
 	import { filters } from '../params.svelte';
-	import type { fornecedorSelect } from '$lib/server/schema/fornecedor';
-	import type { InsumoSelect } from '$lib/server/schema/insumo';
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 
 	// Dados de quando a página carrega
@@ -20,36 +18,6 @@
 
 	// Lógica de envio dos formulários
 	let modalLoading: HTMLDialogElement | undefined = $state();
-	function handleSubmit(event: any, rota: string) {
-		event?.preventDefault();
-		modalLoading?.showModal();
-
-		fetch(rota, {
-			method: 'POST',
-			body: new FormData(event.target)
-		})
-			.then((response) => response.json())
-			.then((data) => {
-				modalLoading?.close();
-			})
-			.catch((error) => console.error(error))
-			.finally(() => {
-				modalLoading?.close();
-			});
-	}
-
-	// Conseguir os insumos de um forncedor
-	let insumos: InsumoSelect[] = $state([]);
-	async function getInsumos(idFornecedor: number, idUser: number) {
-		if (idFornecedor) {
-			const response = await fetch(`../api/insumo/${idFornecedor}/${idUser}`);
-			const data = await response.json();
-			insumos = data.allInsumosFromFornecedor;
-		}
-	}
-
-	let selectedFornecedor: fornecedorSelect | null = $state(null);
-	let disableCampos = $state(false);
 </script>
 
 {#snippet apagarFornecedor()}

@@ -3,12 +3,23 @@ import { fail } from '@sveltejs/kit';
 // import { insumoTable, type InsumoInsert } from '$lib/server/schema/insumo';
 import { insumoQueries } from '$lib/server/controller/insumo';
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({url}) => {
 	const idUser = 1;
-	const insumos = await insumoQueries.getAllInsumo(idUser);
-
+  const searchName = url.searchParams.get('search');
+  const page = url.searchParams.get('page') ?? '1';
+  const searchStatus = url.searchParams.get('status');
+	const {allInsumo} = await insumoQueries.getAllInsumo(idUser, searchName || '', page);
+  const {numberOfInsumos} = await insumoQueries.numberOfInsumos(idUser);
+  const nPages = Math.floor(numberOfInsumos / 10) + (numberOfInsumos % 10 > 0 ? 1 : 0);
+  if(allInsumo){
+    return{
+      allInsumo,
+      nPages
+    }
+  }
 	return {
-		insumos
+		allInsumo : [],
+    nPages : 0
 	};
 };
 

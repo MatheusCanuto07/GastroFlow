@@ -2,9 +2,20 @@
   import Modal from '$lib/components/Modal.svelte';
   import {enhance} from "$app/forms";
   import type {PageData, ActionData} from './$types';
+  import { filters } from '../params.svelte';
 
+  // Dados de quando a página carrega
 	let {data, form}: {data : PageData; form: ActionData} = $props();
-  let dataInsumos = data.insumos;
+  let allInsumos = $derived(data.allInsumo);
+  let nPages = data.nPages;
+  
+  // Lógica da pesquisa
+	let search = $state('');
+	let searchStatus = $state('ativo');
+  let page = $state(1);
+	async function changeUrl() {
+		filters.update({ search: search, status: searchStatus, page: page.toString() });
+	}
 </script>
 
 <div class="border px-8 py-5">
@@ -13,6 +24,8 @@
       type="text"
       placeholder="Pesquisar um insumo"
       class="input input-bordered w-full"
+      bind:value={search}
+			oninput={changeUrl}
     />
   </div>    
 </div>
@@ -30,7 +43,7 @@
       </tr>
     </thead>
     <tbody>
-      {#each dataInsumos?.allInsumo as insumo}
+      {#each allInsumos as insumo}
         <tr class="cursor-pointer hover:bg-base-300">
           <td class="font-semibold">{insumo.id}</td>
           <td>{insumo.name}</td>
@@ -51,4 +64,12 @@
       {/each}
     </tbody>
   </table>
+</div>
+
+<div class="w-full flex justify-center mb-5">
+  <div class="join">
+    {#each Array(nPages) ?? [1] as n, index}
+      <button class="join-item btn {page === index + 1 ? 'btn-active' : ''}" onclick={() => {page = index + 1; changeUrl()}}>{index + 1}</button>
+    {/each}
+  </div>
 </div>
