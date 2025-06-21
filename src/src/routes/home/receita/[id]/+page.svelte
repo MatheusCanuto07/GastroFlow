@@ -4,9 +4,16 @@
 
   let { data, form }: { data: PageData; form: ActionData } = $props();
   let allInsumosFromFornecedor = $derived(data.allInsumosFromReceita);
+  let receita = data.receita
 </script>
 
-<FormReceita />
+<FormReceita 
+  idUser={1} 
+  form={null} 
+  isNew={false}
+  viewOnly={true}
+  receita={data.receita}
+/>
 
 <div class="bg-base-10 mb-10 mt-3 h-2/4 overflow-x-auto rounded-box border border-base-content/5">
 	<table class="table">

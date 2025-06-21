@@ -16,6 +16,7 @@
 </div>
 
 <FormFornecedor 
+  isNew={false}
   idUser={1} 
   {fornecedor} 
   insumos={insumosList} 

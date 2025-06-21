@@ -7,7 +7,6 @@
 		form: Actions | null;
     idUser : number;
     viewOnly : boolean
-    insumos : InsumoSelect[] | null
     isNew : boolean
 	}
 
