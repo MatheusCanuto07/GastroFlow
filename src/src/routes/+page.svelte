@@ -82,12 +82,17 @@
 </script>
 
 
+
 <!-- html vai aqui -->
 
 
 <header>
   <nav id="navbar">
+
+    
     <i class="fa-solid fa-thermometer" id="nav_logo"> gastro flow</i>
+   
+    
     <ul id="nav_list">
       <li class="nav-item">
         <a href="#home">Início</a>
@@ -527,14 +532,15 @@ header {
 */
 
 #nav_logo {
-  font-size: 30px;
+  font-size: 28px;
   color: var(--color-primary-6);
-  font-weight: 450;
+  font-weight: 440;
   font-family: 'Poppins', sans-serif;
   text-transform: uppercase; /* Faz aparecer como GASTRO FLOW */
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
+  font-style: normal;
 }
 
 #nav_list {
@@ -939,7 +945,6 @@ section {
 .section-subtitle {
     font-size: 2.1875rem;
 } 
-
 
 
 
