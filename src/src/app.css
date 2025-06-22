@@ -41,8 +41,6 @@ section {
     scroll-margin-top: 100px; /* ou o tamanho do seu header */
 }
 
-
-
 .btn-default {
     border: none;
     display: flex;
@@ -226,9 +224,7 @@ section {
     padding: 60px 20px;
 }
 
-#team .section-subtitle {
-    font-size: 3rem;
-}
+
 
 #team_content {
     width: 95%;

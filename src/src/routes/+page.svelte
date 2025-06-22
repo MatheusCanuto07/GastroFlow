@@ -1,8 +1,6 @@
-
-
-
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { goto } from '$app/navigation'; // ✅ Adicionado para redirecionamento programático
 
   onMount(async () => {
     const mobileBtn = document.getElementById('mobile_btn');
@@ -16,36 +14,43 @@
       });
     }
 
-    window.addEventListener('scroll', () => {
-      const scrollPosition = window.scrollY + 100;
-      let currentSectionId = '';
+    // Atualiza a navegação com IntersectionObserver
+    const navItems = document.querySelectorAll('.nav-item');
 
-      document.querySelectorAll('section[id]').forEach((section) => {
-        if (section instanceof HTMLElement) {
-          const sectionTop = section.offsetTop;
-          const sectionHeight = section.offsetHeight;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const id = entry.target.getAttribute('id');
+          const navLink = document.querySelector(`.nav-item a[href="#${id}"]`);
 
-          if (
-            scrollPosition >= sectionTop &&
-            scrollPosition < sectionTop + sectionHeight
-          ) {
-            currentSectionId = section.id;
+          if (entry.isIntersecting && navLink?.parentElement) {
+            navItems.forEach((item) => item.classList.remove('active'));
+            navLink.parentElement.classList.add('active');
           }
-        }
-      });
-
-      document.querySelectorAll('.nav-item').forEach((item) => {
-        item.classList.remove('active');
-      });
-
-      const activeLink = document.querySelector(
-        `.nav-item a[href="#${currentSectionId}"]`
-      );
-      if (activeLink && activeLink.parentElement) {
-        activeLink.parentElement.classList.add('active');
+        });
+      },
+      {
+        threshold: 0.6 // só ativa quando 60% da seção estiver visível
       }
+    );
+
+    document.querySelectorAll('section[id]').forEach((section) => {
+      observer.observe(section);
     });
 
+    // Ao clicar, rola suavemente e aguarda IntersectionObserver ativar
+    document.querySelectorAll('.nav-item a').forEach((link) => {
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        const targetId = (event.currentTarget as HTMLAnchorElement).getAttribute('href')?.replace('#', '');
+        const target = document.getElementById(targetId || '');
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // ScrollReveal
     const ScrollReveal = (await import('scrollreveal')).default;
     const sr = ScrollReveal();
 
@@ -103,11 +108,23 @@
         <a href="#team">Nossa Equipe</a>
       </li>
     </ul>
+
+
+    <!--
     <button class="btn-default">Faça Login Aqui</button>
+    -->
+
+   <button class="btn-default" on:click={() => goto('/login')}>Faça Login Aqui</button>
+
+
+    
+
     <button id="mobile_btn">
       <i class="fa-solid fa-bars"></i>
     </button>
   </nav>
+
+
   <div id="mobile_menu">
     <ul id="mobile_nav_list">
       <li class="nav-item">
@@ -120,7 +137,8 @@
         <a href="#team">Nossa Equipe</a>
       </li>
     </ul>
-    <button class="btn-default">Faça Login Aqui</button>
+    <button class="btn-default" on:click={() => goto('/login')}>Faça Login Aqui</button>
+
   </div>
     </header>
 
