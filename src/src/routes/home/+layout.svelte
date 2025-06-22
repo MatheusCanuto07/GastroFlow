@@ -71,6 +71,7 @@
 </div>
 
 <style>
+	
   #navbar {
     width: 100%;
     display: flex;
@@ -95,7 +96,7 @@
   }
 
   .logo-text {
-    font-size: 1.25rem;
+    font-size: 2rem;
     font-weight: 500;
     color: var(--color-primary-6);
     font-family: 'Poppins', sans-serif;
