@@ -1,66 +1,40 @@
-<script lang="ts">
-	import Card from '$lib/components/Card.svelte';
-	import { draggable, droppable, type DragDropState } from '@thisux/sveltednd';
 
-  import type { PageData } from './$types';
-  let { data }: { data: PageData } = $props();
-  // Se vc precisar criar javascript vai aqui
-</script>
 
 <!-- html vai aqui -->
 <header>
-        <nav id="navbar">
-          <!-- <i class="fa-solid fa-burger" id="nav_logo"> food</i>--> 
-        <i class="fa-solid fa-thermometer" id="nav_logo"> gastro flow</i> 
-       <!-- <i class="fa-solid fa-burger"></i> --> 
-          <!--  <div id="logo">
-              <img src="src/images/logosemfundo1.png" width="120" height="80" alt="">
-            </div>-->  
-
-            <ul id="nav_list">
-                <li class="nav-item active">
-                    <a href="#home">Início</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#menu">O Sistema</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#team">Nossa Equipe</a>
-                </li>
-            </ul>
-            <!--        
-            
-            -->
-            <button class="btn-default">
-                Faça Login Aqui
-            </button>
-
-            <button id="mobile_btn">
-                <i class="fa-solid fa-bars"></i>
-            </button>
-        </nav>
-
-        <div id="mobile_menu">
-            <ul id="mobile_nav_list">
-                <li class="nav-item">
-                    <a href="#home">Início</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#menu">O Sistema</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#team">Nossa Equipe</a>
-                </li>
-            </ul>
-            
-             <button class="btn-default">
-                 Faça Login Aqui
-            </button>
-            
-            
-           
-        </div>
-    </header>
+  <nav id="navbar">
+    <i class="fa-solid fa-thermometer" id="nav_logo"> gastro flow</i>
+    <ul id="nav_list">
+      <li class="nav-item">
+        <a href="#home">Início</a>
+      </li>
+      <li class="nav-item">
+        <a href="#menu">O Sistema</a>
+      </li>
+      <li class="nav-item">
+        <a href="#team">Nossa Equipe</a>
+      </li>
+    </ul>
+    <button class="btn-default">Faça Login Aqui</button>
+    <button id="mobile_btn">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </nav>
+  <div id="mobile_menu">
+    <ul id="mobile_nav_list">
+      <li class="nav-item">
+        <a href="#home">Início</a>
+      </li>
+      <li class="nav-item">
+        <a href="#menu">O Sistema</a>
+      </li>
+      <li class="nav-item">
+        <a href="#team">Nossa Equipe</a>
+      </li>
+    </ul>
+    <button class="btn-default">Faça Login Aqui</button>
+  </div>
+</header>
 
     <main id="content">
         <section id="home">
@@ -80,45 +54,11 @@
                     Fale Conosco
                     </button>
                 </form>
-
-
-
-                <!-- botões de telefone e explorar sistema
-
-                   <div id="cta_buttons">
-                    <a href="#" class="btn-default">
-                        Explorar Sistema
-                    </a>
-                        <a href="tel:+55555555555" id="phone_button">
-                        <button class="btn-default">
-                            <i class="fa-solid fa-phone"></i>
-                        </button>
-                        (51) 92342-3243
-                    </a>
-                </div>
-
-                -->
-
-                <!--  BOTOES DE REDES SOCIAIS
-                <div class="social-media-buttons">
-                    <a href="">
-                        <i class="fa-brands fa-whatsapp"></i>
-                    </a>
-
-                    <a href="">
-                        <i class="fa-brands fa-instagram"></i>
-                    </a>
-
-                    <a href="">
-                        <i class="fa-brands fa-facebook"></i>
-                    </a>
-                </div>
-                -->
                 
             </div>
 
             <div id="banner">
-                <img src="src/images/SEMFUNDO.png" alt="">
+                <img src="/SEMFUNDO.png" alt="">
             </div>
         </section>
 
@@ -193,7 +133,7 @@
 
                 <div id="pessoas">
                     <div class="pessoas">
-                        <img src="src/images/Barbara.png" class="pessoas-avatar" alt="">
+                        <img src="/Barbara.png" class="pessoas-avatar" alt="">
 
                         <div class="pessoas-content">
                             <p>
@@ -207,7 +147,7 @@
                     </div>
 
                     <div class="pessoas">
-                        <img src="src/images/Felipe.png" class="pessoas-avatar" alt="">
+                        <img src="/Felipe.png" class="pessoas-avatar" alt="">
 
                         <div class="pessoas-content">
                             <p>
@@ -219,7 +159,7 @@
                         </div>
                     </div>
                     <div class="pessoas">
-                        <img src="src/images/icon_amarelo.png" class="pessoas-avatar" alt="">
+                        <img src="/icon_amarelo.png" class="pessoas-avatar" alt="">
 
                         <div class="pessoas-content">
                             <p>
@@ -231,7 +171,7 @@
                         </div>
                     </div>
                     <div class="pessoas">
-                        <img src="src/images/Guilherme.png" class="pessoas-avatar" alt="">
+                        <img src="/Guilherme.png" class="pessoas-avatar" alt="">
 
                         <div class="pessoas-content">
                             <p>
@@ -255,7 +195,7 @@
                         </div>
                     </div>
                     <div class="pessoas">
-                        <img src="src/images/icon_amarelo.png" class="pessoas-avatar" alt="">
+                        <img src="/icon_amarelo.png" class="pessoas-avatar" alt="">
 
                         <div class="pessoas-content">
                             <p>
@@ -268,7 +208,7 @@
                     </div>
 
                      <div class="pessoas">
-                        <img src="src/images/Leni.png" class="pessoas-avatar" alt="">
+                        <img src="/Leni.png" class="pessoas-avatar" alt="">
 
                         <div class="pessoas-content">
                             <p>
@@ -281,7 +221,7 @@
                     </div>
 
                      <div class="pessoas">
-                        <img src="src/images/matheus.png" class="pessoas-avatar" alt="">
+                        <img src="/matheus.png" class="pessoas-avatar" alt="">
 
                         <div class="pessoas-content">
                             <p>
@@ -401,6 +341,524 @@
         </div>
     </footer>
 
+
+    
+
 <style scoped>
-  /* Todos os css vão aqui */
+
+/*MENU*/
+#menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /*min-height: 100vh;*/
+    padding: 60px 20px;
+}
+
+#dishes {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 32px;
+}
+
+.dish {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px;
+    gap: 18px;
+    width: 30%;
+    padding: 20px;
+    background-color: var(--color-neutral-0);
+    box-shadow: 0px 0px 12px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.dish-heart {
+    position: absolute;
+    background-color: var(--color-primary-6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.563rem;
+    color: var(--color-primary-1);
+    width: 70px;
+    height: 70px;
+    right: -10px;
+    top: -10px;
+    border-radius: 0px 37.5px 0px 42.5px;
+}
+
+.dish-description {
+    color: #434343;
+    text-align: center;
+}
+
+.dish-rate i {
+    color: var(--color-primary-6);
+}
+
+.dish-price {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.dish-image1{
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+}
+
+@media screen and (max-width: 1170px) {
+    #dishes {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .dish {
+        width: calc(50% - 12px);
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .dish {
+        width: 100%;
+    }
+
+    #menu .section-subtitle {
+        text-align: center;
+    }
+} 
+
+/*HEADER*/
+header {
+    width: 100%;
+    padding: 28px 8%;
+    position: sticky;
+    top: 0;
+    background-color: var(--color-primary-1);
+    z-index: 3;
+}
+
+#navbar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#nav_logo {
+    font-size: 24px;
+    color: var(--color-primary-6);
+}
+
+#nav_list {
+    display: flex;
+    list-style: none;
+    gap: 48px;
+}
+
+.nav-item a {
+    text-decoration: none;
+    color: #1d1d1dad;
+    font-weight: 600;
+}
+
+.nav-item.active a {
+    color: var(--color-neutral-1);
+    border-bottom: 3px solid var(--color-primary-4);
+}
+
+#mobile_btn {
+    display: none;
+}
+
+#mobile_menu {
+    display: none;
+}
+
+@media screen and (max-width: 1170px) {
+    #nav_list,
+    #navbar .btn-default {
+        display: none;
+    }
+
+    #mobile_btn {
+        display: block;
+        border: none;
+        background-color: transparent;
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+
+    #mobile_menu.active {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #mobile_nav_list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin: 12px 0px;
+    }
+
+    #mobile_nav_list .nav-item {
+        list-style: none;
+        text-align: center;
+    } 
+}
+
+/*HOME*/
+#home {
+    display: flex;
+    min-height: calc(100vh - 91px);
+    position: relative;
+}
+
+/*FOOTER*/
+
+footer {
+    background-color: var(--color-primary-2);
+}
+
+#footer_items {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 8% 24px 8%;
+    align-items: center;
+}
+
+#copyright {
+    color: var(--color-neutral-1);;
+    font-weight: 500;
+}
+
+@media screen and (max-width: 600px) {
+    #footer_items {
+        flex-direction: column;
+        gap: 20px;
+    }
+}
+
+/*PESSOAS*/
+
+#teste{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+#team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /*min-height: 100vh;*/
+    padding: 60px 20px;
+}
+
+#team .section-subtitle {
+    font-size: 3rem;
+}
+
+#team_content {
+    width: 95%;
+
+}
+
+
+#pessoas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 40px;
+    margin-top: 30px;
+    justify-content: center; /* centraliza os cards */
+}
+
+.pessoas {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background-color: var(--color-neutral-0);
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0px 0px 12px 4px rgba(0, 0, 0, 0.1);
+}
+
+.pessoas {
+    flex: 1 1 calc(50% - 20px); /* 2 por linha, considerando o gap */
+    max-width: calc(50% - 20px);
+}
+
+
+.pessoas-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    object-fit: cover;
+}
+
+.pessoas-content p {
+    display: flex;
+    justify-content: space-between;
+}
+
+.pessoas-content p span {
+    color: var(--color-primary-6);
+}
+
+@media screen and (max-width: 1170px) {
+    #team {
+        flex-direction: column;
+    }
+
+    #team .section-subtitle {
+        text-align: center;
+        font-size: 2.5rem;
+    }
+
+    #team_chef {
+        display: none;
+    }
+
+    #team_content {
+        width: 70%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #team .section-subtitle {
+        font-size: 2rem;
+    }
+
+    #team_content {
+        width: 100%;
+    }
+
+    .pessoas {
+        /*flex-direction: column;*/
+        justify-content: center;
+    }
+} 
+
+@media screen and (max-width: 768px) {
+    .pessoas {
+        flex: 1 1 100%;
+        max-width: 100%;
+        justify-content: center;
+    }
+}
+
+/**/
+
+#cta {
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  margin-top: 5%;
+}
+
+#cta .title {
+  font-size: 4rem;
+  color: var(--color-neutral-1);
+}
+
+#cta .title span {
+  color: var(--color-primary-6);
+}
+
+#cta .description {
+  font-size: 1.2rem;
+}
+
+#cta_buttons {
+  display: flex;
+  gap: 24px;
+}
+
+#cta_buttons a {
+  text-decoration: none;
+  color: var(--color-neutral-1);
+}
+
+#phone_button {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 8px 14px;
+  font-weight: 500;
+  box-shadow: 0px 0px 12px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+}
+
+#phone_button button {
+  box-shadow: none;
+}
+
+#banner {
+  display: flex;
+  align-items: start;
+  justify-content: end;
+  width: 70%;
+  z-index: 2;
+}
+
+#banner img {
+  height: 100%;
+  width: fit-content;
+}
+
+.shape {
+  background-color: var(--color-primary-2);
+  width: 50%;
+  height: 100%;
+  position: absolute;
+  border-radius: 40% 30% 0% 20%;
+  top: 0;
+  right: 0;
+  z-index: 1;
+}
+
+/* Responsividade */
+@media screen and (max-width: 1170px) {
+  #home {
+    min-height: 100%;
+    padding-top: 0px;
+  }
+
+  #banner,
+  #banner img,
+  #home .shape {
+    display: none;
+  }
+
+  #cta {
+    width: 100%;
+    text-align: center;
+    align-items: center;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  #phone_button button {
+    display: none;
+  }
+}
+
+
+/*STYLE*/
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('header.css');
+@import url('home.css');
+@import url('menu.css');
+@import url('testimonials.css');
+@import url('footer.css');
+
+:root {
+    --color-primary-1: #fff9ea;
+    --color-primary-2: #ffe8b4;
+    --color-primary-3: #f8d477;
+    --color-primary-4: #ffe100;
+    --color-primary-5: #ffcb45;
+    --color-primary-6: #e9a209;
+
+    --color-neutral-0: #fff;
+    --color-neutral-1: #1d1d1d;
+}
+
+
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+    background-color: var(--color-primary-1);
+}
+
+section {
+    padding: 28px 8%;
+    scroll-margin-top: 100px; /* ou o tamanho do seu header */
+}
+
+
+.btn-default {
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-primary-5);
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-weight: 600;
+    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color .3s ease;
+}
+
+
+.btn-default:hover {
+    background-color: var(--color-primary-3);
+}
+
+
+.social-media-buttons {
+    display: flex;
+    gap: 18px;
+}
+
+
+.social-media-buttons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 40px;
+    background-color: var(--color-neutral-0);
+    font-size: 1.25rem;
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--color-neutral-1);;
+    box-shadow: 0px 0px 12px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow .3s ease;
+}
+
+.social-media-buttons a:hover {
+    box-shadow: 0px 0px 12px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+    color: var(--color-primary-6);
+    font-size: 1.563rem;
+}
+
+.section-subtitle {
+    font-size: 2.1875rem;
+} 
+
+
+
+
 </style>

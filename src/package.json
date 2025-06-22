@@ -23,7 +23,9 @@
 		"@sveltejs/adapter-vercel": "^5.5.2",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^4.0.0",
+		"@types/jquery": "^3.5.32",
 		"@types/node": "^22.10.2",
+		"@types/scrollreveal": "^0.0.11",
 		"autoprefixer": "^10.4.20",
 		"daisyui": "^4.12.22",
 		"drizzle-kit": "^0.22.8",
@@ -46,7 +48,9 @@
 		"dotenv": "^16.4.7",
 		"dragula": "^3.7.3",
 		"drizzle-orm": "^0.33.0",
+		"jquery": "^3.7.1",
 		"oslo": "^1.2.1",
+		"scrollreveal": "^4.0.9",
 		"sortablejs": "^1.15.6"
 	}
 }
