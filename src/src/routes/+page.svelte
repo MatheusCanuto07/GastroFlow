@@ -1,6 +1,90 @@
 
 
+
+<script lang="ts">
+  import { onMount } from 'svelte';
+
+  onMount(async () => {
+    const mobileBtn = document.getElementById('mobile_btn');
+    const mobileMenu = document.getElementById('mobile_menu');
+
+    if (mobileBtn && mobileMenu) {
+      mobileBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('active');
+        const icon = mobileBtn.querySelector('i');
+        if (icon) icon.classList.toggle('fa-x');
+      });
+    }
+
+    window.addEventListener('scroll', () => {
+      const scrollPosition = window.scrollY + 100;
+      let currentSectionId = '';
+
+      document.querySelectorAll('section[id]').forEach((section) => {
+        if (section instanceof HTMLElement) {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.offsetHeight;
+
+          if (
+            scrollPosition >= sectionTop &&
+            scrollPosition < sectionTop + sectionHeight
+          ) {
+            currentSectionId = section.id;
+          }
+        }
+      });
+
+      document.querySelectorAll('.nav-item').forEach((item) => {
+        item.classList.remove('active');
+      });
+
+      const activeLink = document.querySelector(
+        `.nav-item a[href="#${currentSectionId}"]`
+      );
+      if (activeLink && activeLink.parentElement) {
+        activeLink.parentElement.classList.add('active');
+      }
+    });
+
+    const ScrollReveal = (await import('scrollreveal')).default;
+    const sr = ScrollReveal();
+
+    sr.reveal('#cta', {
+      origin: 'left',
+      duration: 2000,
+      distance: '20%'
+    });
+
+    sr.reveal('.dish', {
+      origin: 'left',
+      duration: 2000,
+      distance: '20%'
+    });
+
+    sr.reveal('#testimonial_chef', {
+      origin: 'left',
+      duration: 1000,
+      distance: '20%'
+    });
+
+    sr.reveal('.feedback', {
+      origin: 'right',
+      duration: 1000,
+      distance: '20%'
+    });
+
+    sr.reveal('.pessoas', {
+      origin: 'right',
+      duration: 1000,
+      distance: '20%'
+    });
+  });
+</script>
+
+
 <!-- html vai aqui -->
+
+
 <header>
   <nav id="navbar">
     <i class="fa-solid fa-thermometer" id="nav_logo"> gastro flow</i>
@@ -34,7 +118,7 @@
     </ul>
     <button class="btn-default">Faça Login Aqui</button>
   </div>
-</header>
+    </header>
 
     <main id="content">
         <section id="home">
@@ -320,33 +404,17 @@
                  Fale Conosco
              </button>
             </form>
-
-
-                <!--
-                    <div class="social-media-buttons">
-                <a href="">
-                    <i class="fa-brands fa-whatsapp"></i>
-                </a>
-
-                <a href="">
-                    <i class="fa-brands fa-instagram"></i>
-                </a>
-
-                <a href="">
-                    <i class="fa-brands fa-facebook"></i>
-                </a>
-            </div>
-                -->
             
         </div>
     </footer>
 
 
-    
-
+  
 <style scoped>
 
 /*MENU*/
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 #menu {
     display: flex;
     flex-direction: column;
@@ -451,10 +519,22 @@ header {
     align-items: center;
     justify-content: space-between;
 }
-
+/*
 #nav_logo {
     font-size: 24px;
     color: var(--color-primary-6);
+}
+*/
+
+#nav_logo {
+  font-size: 30px;
+  color: var(--color-primary-6);
+  font-weight: 450;
+  font-family: 'Poppins', sans-serif;
+  text-transform: uppercase; /* Faz aparecer como GASTRO FLOW */
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 #nav_list {
@@ -464,10 +544,13 @@ header {
 }
 
 .nav-item a {
-    text-decoration: none;
-    color: #1d1d1dad;
-    font-weight: 600;
+  text-decoration: none;
+  color: #1d1d1dad;
+  font-weight: 600;
+  display: inline-block; /* <-- Adicione esta linha */
+  padding-bottom: 4px;    /* opcional: espaço para a borda aparecer */
 }
+
 
 .nav-item.active a {
     color: var(--color-neutral-1);
@@ -674,16 +757,20 @@ footer {
 
 #cta .title {
   font-size: 4rem;
+  font-weight: 800; /* negrito como no exemplo */
   color: var(--color-neutral-1);
 }
 
 #cta .title span {
   color: var(--color-primary-6);
+  font-weight: 800; /* bem destacada */
 }
 
 #cta .description {
   font-size: 1.2rem;
+  font-weight: 400; /* regular */
 }
+
 
 #cta_buttons {
   display: flex;
@@ -762,12 +849,6 @@ footer {
 
 
 /*STYLE*/
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-@import url('header.css');
-@import url('home.css');
-@import url('menu.css');
-@import url('testimonials.css');
-@import url('footer.css');
 
 :root {
     --color-primary-1: #fff9ea;
@@ -791,6 +872,7 @@ footer {
 
 html {
     scroll-behavior: smooth;
+    
 }
 
 
@@ -862,3 +944,4 @@ section {
 
 
 </style>
+
