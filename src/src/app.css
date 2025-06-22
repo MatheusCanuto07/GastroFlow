@@ -520,12 +520,29 @@ header {
     }
 } 
 
+
 /*PAGINA DE LOGIN*/
+#navbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 8%;
+  background-color: var(--color-primary-1);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
 
 .logo-container {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+#nav_logo {
+  font-size: 28px;
+  color: var(--color-primary-6);
 }
 
 .logo-text {
@@ -535,3 +552,64 @@ header {
   font-family: 'Poppins', sans-serif;
   text-transform: uppercase;
 }
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li a {
+  font-weight: 500;
+  text-decoration: none;
+  color: #222;
+  padding-bottom: 4px;
+  transition: color 0.2s, border-bottom 0.2s;
+  border-bottom: 3px solid transparent;
+}
+
+.nav-links li.active a {
+  color: var(--color-primary-6); /* laranja */
+  border-bottom: 3px solid var(--color-primary-6);
+}
+
+.nav-links a:hover {
+  color: var(--color-primary-6);
+}
+
+.section-title-dasboard {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--color-neutral-1);
+  margin-bottom: 0.5rem;
+  align-items: center;
+}
+
+/* Aplica borda laranja somente ao redor da tabela */
+table,
+.table,
+.table-container {
+  background-color: #ffffff !important;
+  border: 2px solid var(--color-primary-6); /* borda laranja externa */
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Remove bordas internas */
+.table td,
+.table th {
+  border: none !important;
+  background-color: #ffffff !important;
+}
+
+/* Cabeçalho pode ter fundo cinza claro se quiser */
+.table thead th {
+  background-color: #f8f8f8 !important;
+  font-weight: 600;
+}
+
+

@@ -3,7 +3,16 @@
   let { data }: { data: PageData } = $props();
 </script>
 
-<div class="flex items-center justify-center min-h-screen bg-gray-50">
+<header>
+  <nav id="navbar">
+    <div class="logo-container">
+      <i class="fa-solid fa-thermometer" id="nav_logo"></i>
+      <span class="logo-text">gastro flow</span>
+    </div>
+  </nav>
+</header>
+
+<div class="flex items-center justify-center min-h-screen #fff9ea50">
   <div class="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
     <div class="text-center">
       <h1 class="text-3xl font-bold text-gray-900">Recuperar Senha</h1>

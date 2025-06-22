@@ -140,7 +140,7 @@
     <button class="btn-default" on:click={() => goto('/login')}>Faça Login Aqui</button>
 
   </div>
-    </header>
+</header>
 
     <main id="content">
         <section id="home">
