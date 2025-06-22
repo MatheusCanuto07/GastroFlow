@@ -520,6 +520,18 @@ header {
     }
 } 
 
+/*PAGINA DE LOGIN*/
 
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
-
+.logo-text {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--color-primary-6);
+  font-family: 'Poppins', sans-serif;
+  text-transform: uppercase;
+}

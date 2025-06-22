@@ -9,7 +9,24 @@
   }
 </script>
 
-<div class="flex items-center justify-center min-h-screen bg-gray-50">
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  crossorigin="anonymous"
+/>
+
+
+<header>
+  <nav id="navbar">
+    <div class="logo-container">
+      <i class="fa-solid fa-thermometer" id="nav_logo"></i>
+      <span class="logo-text">gastro flow</span>
+    </div>
+  </nav>
+</header>
+
+
+<div class="flex items-center justify-center min-h-screen #fff9ea">
   <div class="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
     <div class="text-center">
       <h1 class="text-3xl font-bold text-gray-900">Bem-vindo de volta!</h1>
@@ -89,3 +106,4 @@
     </div>
   </div>
 </div>
+
