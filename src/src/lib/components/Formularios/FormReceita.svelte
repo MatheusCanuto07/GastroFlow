@@ -14,7 +14,8 @@
 </script>
 
 <div class="flex flex-wrap mt-3">
-  <div class="w-6/12">
+
+  <div class="w-4/12">
     <h1>Tipo da receita</h1>
     {#if form?.errors?.name}
       <p class="mb-4 rounded border border-red-400 bg-red-100 p-2 text-red-500">
@@ -49,6 +50,20 @@
     >
   </div>
 
+  <div class="w-2/12 pl-2">
+    <h1>Quantidade gera</h1>
+    <input
+      name="quantProdutoGera"
+      placeholder="Quantidade de produtos que a receita gera"
+      class="textarea textarea-bordered w-full"
+      type="text"
+      required
+      value="{receita?.quantProdutoGera}"
+      disabled={viewOnly}
+    >
+  </div>
+</div>
+
   <div class="w-full">
     <h1>Modo de preparo</h1>
     {#if form?.errors?.modoPreparo}
@@ -65,4 +80,3 @@
       disabled={viewOnly}
     ></textarea>
   </div>
-</div>

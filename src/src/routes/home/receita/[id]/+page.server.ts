@@ -1,12 +1,13 @@
 import type { PageServerLoad, Actions } from './$types';
 import * as receitaQueries from '$lib/server/controller/receita';
+import { invalidateAll } from '$app/navigation';
 
 export const load = (async ({params}) => {
   const idUser = 1;
   const {allInsumosFromReceita} = await receitaQueries.getAllInsumosFromReceita(idUser, parseInt(params.id)); 
   const {receita} = await receitaQueries.getReceitaById(parseInt(params.id), idUser);
   const custoTotal = allInsumosFromReceita.reduce((acumulado, insumo) => {
-    return acumulado + (insumo.quantidade * insumo.insumos.custo);
+    return acumulado + (insumo.quantidade * (insumo.insumos.custo / 100));
   }, 0);
   if(allInsumosFromReceita){
     return {
@@ -38,6 +39,7 @@ export const actions: Actions = {
         parseInt(multiplicador),
         1
       );
+      invalidateAll();
       return { success: true, newId: newReceita };
     } catch (error) {
       return { success: false, message: 'Erro ao inserir fornecedor' };

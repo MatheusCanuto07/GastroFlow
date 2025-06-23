@@ -6,8 +6,8 @@
   let { data, form }: { data: PageData; form: ActionData } = $props();
   let multiplicador = $state(1);
   let allInsumosFromFornecedor = $derived(data.allInsumosFromReceita);
-  let receita = data.receita
-  let custoReceita = data.custoTotal
+  let receita = $derived(data.receita)
+  let custoReceita = $derived(data.custoTotal)
 </script>
 
 {#snippet breadcrumpSnippet()}
@@ -40,9 +40,10 @@
 				<th></th>
 				<th>Nome</th>
 				<th>Quantidade em estoque</th>
-				<th>Custo</th>
 				<th>Data Validade</th>
+				<th>Custo unitário</th>
         <th>Quantidade necessária</th>
+        <th>Custo total</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -51,21 +52,22 @@
 					<th>{insumo.insumos.id}</th>
 					<td>{insumo.insumos.name}</td>
 					<td>{insumo.insumos.quantidadeEstoque}</td>
-					<td>R$ {(insumo.insumos.custo * multiplicador).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
-					<td>{insumo.insumos.dataValidade}</td>
+					<td>{new Date(insumo.insumos.dataValidade).toLocaleDateString('pt-BR')}</td>
+					<td>R$ {(insumo.insumos.custo / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
           <td>{insumo.quantidade * multiplicador}</td>
+          <td>R${(insumo.quantidade * multiplicador * (insumo.insumos.custo / 100)).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
 				</tr>
 			{/each}
 		</tbody>
 	</table>
   <div class="flex justify-end">
     <p class="pr-3 pb-2 text-right font-weight-bold">
-      R$ {(multiplicador * custoReceita).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+      Custo total: R$ {(multiplicador * custoReceita).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
     </p>
   </div>
 </div>
 
-<form method="POST" action="?/fazerReceita" class="w-full flex justify-between">
+<form method="POST" action="?/fazerReceita" class="w-full flex justify-between mb-10">
   <div class="flex">
     <input type="hidden" name="idReceita" id="idReceita" value="{receita?.id}">
     <label for="multiplicador" class="self-center">Multiplicador :</label>
