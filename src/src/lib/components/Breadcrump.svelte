@@ -1,5 +1,5 @@
 <script>
-	let itensBreadcrumps = $props();
+	let {itensBreadcrumps} = $props();
 </script>
 
 <div class="flex w-full">
@@ -24,7 +24,7 @@
 					Home
 				</a>
 			</li>
-			{@render itensBreadcrumps()}
+			{@render itensBreadcrumps?.()}
 		</ul>
 	</div>
 </div>

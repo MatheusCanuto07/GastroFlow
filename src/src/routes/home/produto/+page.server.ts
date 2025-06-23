@@ -1,69 +1,27 @@
-// import type { Actions, PageServerLoad } from './$types';
-// import {
-// 	insumoTable,
-// 	type InsumoSelect,
-// 	type InsumoInsert,
-// 	produtoTable,
-// 	type ProdutoInsert
-// } from '$lib/server/schema/produto'; // ajuste caminho e nomes conforme seu schema
-// import { produtoQueries } from '$lib/server/controller/produto';
+import type { Actions, PageServerLoad } from './$types';
+import * as produtosQueries from '$lib/server/controller/produto'; // ajuste caminho e nomes conforme seu schema
 
-// export const load: PageServerLoad = async ({}) => {
-// 	return {};
-// };
+export const load: PageServerLoad = async ({url}) => {
+  const idUser: number = 1;
+  const searchName = url.searchParams.get('search');
+  const page = url.searchParams.get('page') ?? '1';
+  const searchStatus = url.searchParams.get('status');
 
-// export const actions: Actions = {
-// 	novoproduto: async ({ request }) => {
-// 		const data = await request.formData();
+  const {allProdutos} = await produtosQueries.getAllProdutos(idUser, searchName || '', page);
+  const {numberOfProdutos} = await produtosQueries.numberOfProdutos(idUser);
+  const nPages = Math.floor(numberOfProdutos / 10) + (numberOfProdutos % 10 > 0 ? 1 : 0);
+  if (allProdutos) {
+    return {
+      allProdutos: allProdutos, 
+      idUser: idUser,
+      nPages 
+    };
+  }
+	return {};
+};
 
-// 		const nome = data.get('nome')?.toString();
-// 		const categoria = data.get('categoria')?.toString() || '';
-// 		const quantidadeEstoque = Number(data.get('quantidadeEstoque') || 0);
-// 		const precoCustoForm = Number(data.get('precoCusto') || 0);
-// 		const descricao = data.get('descricao')?.toString() || '';
-
-// 		if (!nome) {
-// 			throw new Error('Nome é obrigatório');
-// 		}
-
-// 		// Capturar insumos e quantidades para cálculo futuro (exemplo, não usado ainda)
-// 		const insumosSelecionados: Array<{ id: number; quantidade: number }> = [];
-
-// 		for (const [key, value] of data.entries()) {
-// 			if (key.startsWith('quantidadeInsumo_')) {
-// 				const idStr = key.replace('quantidadeInsumo_', '');
-// 				const id = Number(idStr);
-// 				const quantidade = Number(value);
-// 				if (!isNaN(id) && !isNaN(quantidade)) {
-// 					insumosSelecionados.push({ id, quantidade });
-// 				}
-// 			}
-// 		}
-
-// 		// Cálculo do preço de venda: preço de custo + 30% de lucro
-// 		const precoCusto = precoCustoForm; // Aqui depois você pode calcular baseado em insumos
-// 		const precoVenda = Number((precoCusto * 1.3).toFixed(2));
-
-// 		const novoProduto: ProdutoInsert = {
-// 			nome,
-// 			categoria,
-// 			quantidadeEstoque,
-// 			precoCusto,
-// 			precoVenda,
-// 			descricao
-// 		};
-
-// 		try {
-// 			const result = await produtoQueries.inserirProduto(novoProduto);
-
-// 			// Vincular insumos ao produto, se houver
-// 			for (const insumo of insumosSelecionados) {
-// 				await produtoQueries.vincularInsumoAoProduto(result.insertId, insumo.id, insumo.quantidade);
-// 			}
-
-// 			return { success: true, message: 'Produto cadastrado com sucesso!' };
-// 		} catch (err) {
-// 			return { success: false, message: 'Erro ao cadastrar produto.' };
-// 		}
-// 	}
-// };
+export const actions: Actions = {
+	novoproduto: async ({ request }) => {
+		
+	}
+};

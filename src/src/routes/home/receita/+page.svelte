@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import Modal from '$lib/components/Modal.svelte';
+	import Breadcrump from '$lib/components/Breadcrump.svelte';
 
 	let { data }: { data: PageData } = $props();
 	let receita = data.allReceitas;
@@ -9,8 +10,17 @@
 
 </script>
 
+{#snippet breadcrumpSnippet()}
+  <li>
+    <a href="/home/receita" class="hover:text-secondary-focus font-medium transition-colors">
+      Receita
+    </a>
+  </li>
+{/snippet}
+
+<Breadcrump itensBreadcrumps={breadcrumpSnippet} />
+
 <div class="border px-16 py-5">
-  
 	<div>
 		<div class="flex w-full gap-3">
 			<div class="w-8/12">
@@ -24,8 +34,8 @@
 	</div>
 </div>
 
-<div class="mt-3 h-screen overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
-	<table class="table">
+<div class="mb-10 mt-3 h-[70vh] overflow-x-auto rounded-box border border-base bg-base-10">
+	<table class="table h-auto pb-44" style="border: none !important;">
 		<thead>
 			<tr>
 				<th></th>
@@ -37,13 +47,13 @@
 		</thead>
 		<tbody>
 			{#each receita as rec, index}
-				<tr class="cursor-pointer hover:bg-base-300">
+				<tr class="cursor-pointer hover:bg-base-300 relative">
 					<th>{rec.receitas.id}</th>
 					<td>{rec.receitas.nome}</td>
 					<td>{rec.receitas.descricao}</td>
           <td>{rec.nomeProdutoGera}</td>
 					<td class="text-center">
-						<details class="dropdown dropdown-end dropdown-bottom">
+						<details class="dropdown dropdown-left z-10">
 							<summary class="btn m-1">...</summary>
 							<ul
 								class="menu dropdown-content z-50 w-52 rounded-box bg-base-100 p-2 shadow-sm"
