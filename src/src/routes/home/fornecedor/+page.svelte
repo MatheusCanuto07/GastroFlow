@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Breadcrump from './../../../lib/components/Breadcrump.svelte';
 	import type { PageData, ActionData } from './$types';
 	import { filters } from '../params.svelte';
 	let { data, form }: { data: PageData; form: ActionData } = $props();
@@ -27,37 +28,16 @@
 	</div>
 {/snippet}
 
-<div class="border px-10 pb-5 pt-2">
-	<div class="flex w-full">
-		<div class="breadcrumbs text-sm">
-			<ul>
-				<li>
-					<a href="/home" class="hover:text-primary-focus transition-colors">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							class="h-4 w-4"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-							/>
-						</svg>
-						Home
-					</a>
-				</li>
-				<li>
-					<a href="/home/fornecedor" class="hover:text-secondary-focus font-medium transition-colors">
-						Fornecedor
-					</a>
-				</li>
-			</ul>
-		</div>
-	</div>
+{#snippet breadcrumpSnippet()}
+  <li>
+    <a href="/home/fornecedor" class="hover:text-secondary-focus font-medium transition-colors">
+      Fornecedor
+    </a>
+  </li>
+{/snippet}
+
+<Breadcrump itensBreadcrumps={breadcrumpSnippet} />
+<div class="border px-10 pb-5 pt-5">
 	<div>
 		<div class="flex w-full gap-3">
 			<div class="w-8/12">
@@ -86,8 +66,8 @@
 	</div>
 </div>
 
-<div class="bg-base-10 mb-10 mt-3 h-2/4 overflow-x-auto rounded-box border border-base-content/5">
-	<table class="table">
+<div class="mb-10 mt-3 h-[70vh] overflow-x-auto rounded-box border border-base bg-base-10">
+	<table class="table h-auto pb-44" style="border: none !important;">
 		<thead>
 			<tr>
 				<th></th>

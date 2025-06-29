@@ -3,6 +3,7 @@
   import {enhance} from "$app/forms";
   import type {PageData, ActionData} from './$types';
   import { filters } from '../params.svelte';
+	import Breadcrump from '$lib/components/Breadcrump.svelte';
 
   // Dados de quando a página carrega
 	let {data, form}: {data : PageData; form: ActionData} = $props();
@@ -18,8 +19,18 @@
 	}
 </script>
 
-<div class="border px-8 py-5">
-  <div class="flex w-full gap-3 items-center">
+{#snippet breadcrumpSnippet()}
+  <li>
+    <a href="/home/insumo" class="hover:text-secondary-focus font-medium transition-colors">
+      insumo
+    </a>
+  </li>
+{/snippet}
+
+<Breadcrump itensBreadcrumps={breadcrumpSnippet} />
+
+<div class="border px-8 py-5 flex">
+  <div class="flex w-8/12 gap-3 items-center">
     <input
       type="text"
       placeholder="Pesquisar um insumo"
@@ -27,11 +38,14 @@
       bind:value={search}
 			oninput={changeUrl}
     />
+  </div>
+  <div class="w-4/12 pl-5">
+    <a class="btn btn-success w-full" href="/home/insumo/novo">Novo</a>
   </div>    
 </div>
 
-<div class="mb-10 mt-3 h-2/4 overflow-x-auto rounded-box border border-base-content/5 bg-base-10">
-  <table class="table">
+<div class="mb-10 mt-3 h-[70vh] overflow-x-auto rounded-box border border-base bg-base-10">
+	<table class="table h-auto pb-44" style="border: none !important;">
     <thead>
       <tr>
         <th></th>

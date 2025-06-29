@@ -113,7 +113,7 @@
     <button class="btn-default">Faça Login Aqui</button>
     -->
 
-   <button class="btn-default" on:click={() => goto('/login')}>Faça Login Aqui</button>
+   <a class="btn-default" href="/login">Faça Login Aqui</a>
 
 
     
