@@ -1,5 +1,4 @@
 <script lang="ts">
-<<<<<<< HEAD
 	/* para saber em qual rota estamos e ativar o link atual */
 	import { page } from '$app/stores';
 
@@ -40,24 +39,12 @@
 		</ul>
 	</div>
 </header>
-=======
-  import type { Snippet } from 'svelte';
-  import type { LayoutData } from './$types';
-	import Nav from '$lib/components/Nav.svelte';
-
-  let { data, children }: { data: LayoutData; children: Snippet } = $props(); 
-</script>
-
-<!-- ✅ Header com menu responsivo -->
-<Nav />
->>>>>>> eb6a7e1d4cce5137acd414c3f97f44edbbfe7752
 
 <!-- conteúdo das rotas -->
 <div class="xl:px-60 lg:px-40 bg-white min-h-screen">
 	<slot />
 </div>
 
-<<<<<<< HEAD
 <style>
 	/* ---------- bloco estrutural ---------- */
 	#navbar {
@@ -101,7 +88,3 @@
 		.hidden-mobile { display: none; }
 	}
 </style>
-=======
-
-
->>>>>>> eb6a7e1d4cce5137acd414c3f97f44edbbfe7752
