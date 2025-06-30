@@ -1,4 +1,4 @@
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { insumoQueries } from '$lib/server/controller/insumo';
 
@@ -53,9 +53,9 @@ export const actions: Actions = {
         custo,
         idUser
       });
-      return { success: true, newId: newId };
     } catch (error) {
       return { success: false, message: 'Erro ao inserir fornecedor' };
     }
+    redirect(303, '/home/insumo');
   }
 };

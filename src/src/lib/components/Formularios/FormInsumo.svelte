@@ -20,6 +20,7 @@
         placeholder="Digite o nome do insumo"
         class="input input-bordered w-full"
         required
+        value={insumo?.name}
       />
     </div>
 
@@ -31,6 +32,7 @@
         type="text"
         class="input input-bordered w-full"
         required
+        value={insumo?.categoria}
       />
     </div>
 
@@ -42,18 +44,20 @@
         class="input input-bordered w-full"
         placeholder="Validade"
         required
+        value={insumo?.dataValidade}
       />
     </div>
 
     <div class="w-3/12 pr-3 mt-2">
       <h1>Quantidade</h1>
       <input
-        name="quantidadeEstoque"
+        name="quantidade"
         type="number"
         class="input input-bordered w-full"
         min="0"
         placeholder="Quantidade"
         required
+        value={insumo?.quantidadeEstoque}
       />
     </div>
 
@@ -67,6 +71,7 @@
         step="0.01"
         placeholder="Custo"
         required
+        value={insumo?.custo}
       />
     </div>
   </div>

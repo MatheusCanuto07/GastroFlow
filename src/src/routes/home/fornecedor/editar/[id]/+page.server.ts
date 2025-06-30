@@ -19,7 +19,8 @@ export const load = (async ({params}) => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-  editarfornecedor: async ({ request, url }) => {
+  editarfornecedor: async ({ request, url }) => 
+    {
       const data = await request.formData();
   
       const id = data.get('id')?.toString();

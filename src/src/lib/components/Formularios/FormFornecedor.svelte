@@ -56,7 +56,6 @@
 			value={fornecedor?.telefone}
 			disabled={viewOnly}
       required
-      max="9999999999"
 		/>
 	</div>
 	<div class="w-8/12">

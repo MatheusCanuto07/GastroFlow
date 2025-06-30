@@ -17,6 +17,10 @@
 	async function changeUrl() {
 		filters.update({ search: search, status: searchStatus, page: page.toString() });
 	}
+
+  let modalDelete: HTMLDialogElement | undefined = $state();
+  let idDelete = $state(0);
+  $inspect(idDelete);
 </script>
 
 {#snippet breadcrumpSnippet()}
@@ -68,10 +72,13 @@
               <details class="dropdown dropdown-end dropdown-bottom">
                 <summary class="btn m-1">...</summary>
                 <ul class="menu dropdown-content z-50 w-52 rounded-box bg-base-100 p-2 shadow-sm">
-                  <li><button class="btn btn-info mt-2">Visualizar</button></li>
-                  <li><button class="btn btn-secondary mt-2">Editar</button></li>
-                  <li><button class="btn btn-warning mt-2">Remover</button></li>
-                </ul>
+                  <li>
+                    <a href="/home/insumo/editar/{insumo.id}" class="btn btn-secondary mt-2">Editar</a>
+                  </li>
+                  <li>
+                    <button onclick={() => {modalDelete?.showModal(); idDelete = insumo.id}} class="btn btn-warning mt-2">Remover</button>
+                  </li>
+							</ul>
               </details>
 					</td>
         </tr>
@@ -79,6 +86,25 @@
     </tbody>
   </table>
 </div>
+
+<dialog bind:this={modalDelete} class="modal">
+	<div class="modal-box">
+    <form method="dialog">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+    </form>
+    <h1 class="text-center text-xl font-semibold">Deseja apagar ?</h1>
+    <p class="text-center text-sm">Essa ação é IRREVERSÍVEL!</p>
+    <div class="flex justify-end">
+      <form method="POST" action="?/apagarinsumo">
+        <input type="hidden" name="idInsumo" id="idInsumo" bind:value={idDelete}>
+        <button class="btn btn-error mt-2">
+          Apagar
+        </button>
+      </form>
+    </div>
+	</div>
+</dialog>
+
 <!-- 
 <div class="w-full flex justify-center mb-5">
   <div class="join">

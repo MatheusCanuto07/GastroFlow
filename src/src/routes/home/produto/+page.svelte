@@ -63,7 +63,6 @@
 						<details class="dropdown dropdown-end dropdown-bottom">
 							<summary class="btn m-1">...</summary>
 							<ul class="menu dropdown-content z-50 w-52 rounded-box bg-base-100 p-2 shadow-sm">
-								<li><a href="/home/produto/{pro.id}" class="btn btn-info mt-2">Visualizar</a></li>
 								<li>
 									<a href="/home/produto/editar/{pro.id}" class="btn btn-secondary mt-2">Editar</a>
 								</li>

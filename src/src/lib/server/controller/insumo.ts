@@ -24,7 +24,7 @@ async function updateInsumo (idUser : number, insumo : InsumoInsert) : Promise<{
       .set(insumo)
       .where(and(eq(insumoTable.id, insumo.id ?? 1), eq(insumoTable.idUser, idUser)))
       .returning({ id: insumoTable.id });
-    return { id : result.id };
+    return { id : result.id ?? 0 };
   } catch (error) {
     console.error('Erro ao editar insumo:', error);
   }
@@ -88,12 +88,15 @@ async function getInsumosByFornecedorId(fornecedorId: number, idUser : number) {
 }
 
 async function deleteInsumo (idUser: number, idInsumo: number) : Promise<{ id: number }>{
+  console.log(idUser, idInsumo)
   try{
     const [idDeletedInsumo] = await db
       .delete(insumoTable)
-      .where(and(eq(insumoTable.id, idInsumo)))
+      .where(and(eq(insumoTable.id, idInsumo), eq(insumoTable.idUser, idUser)))
       .returning({ id: insumoTable.id });
-    return idDeletedInsumo;
+    return{
+      id : idDeletedInsumo.id
+    };
   } catch (error) {
     console.error('Erro ao buscar insumos:', error);
   }
@@ -124,6 +127,19 @@ async function addInsumo (insumo : InsumoInsert) : Promise<{ id: number }> {
   return {id : 0}
 }
 
+async function getInsumoById(idInsumo : number, idUser : number) : Promise<{ insumo : InsumoSelect }> {
+  try{
+    const [insumo] = await db
+      .select()
+      .from(insumoTable)
+      .where(and(eq(insumoTable.id, idInsumo), eq(insumoTable.idUser, idUser)));
+    return { insumo };
+  } catch (error){
+    console.error('Erro ao buscar insumo:', error);
+  }
+  return {insumo : {} as InsumoSelect}
+}
+
 export const insumoQueries = {
   getAllInsumo,
   deleteInsumo,
@@ -132,5 +148,6 @@ export const insumoQueries = {
   insertInsumo,
   updateInsumo,
   numberOfInsumos,
-  getInsumosByFornecedorId
+  getInsumosByFornecedorId,
+  getInsumoById
 };

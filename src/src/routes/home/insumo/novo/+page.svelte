@@ -7,7 +7,7 @@
 <div class="breadcrumbs text-sm">
   <ul>
     <li><a href="/home">Home</a></li>
-    <li><a href="/home/fornecedor">Fornecedor</a></li>
+    <li><a href="/home/insumo">Insumo</a></li>
     <li>Novo</li>
   </ul>
 </div>
@@ -25,5 +25,4 @@
       Enviar
     </button>  
   </div>
-  
 </form>

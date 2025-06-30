@@ -16,7 +16,7 @@
 </div>
 
 <form method="POST" action="?/editarfornecedor">
-  <FormFornecedor 
+  <FormFornecedor
     idUser={1} 
     {fornecedor} 
     {insumos} 
