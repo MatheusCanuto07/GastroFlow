@@ -4,7 +4,7 @@
 
   let { data }: { data: PageData } = $props();
   let fornecedor = data.fornecedor;
-  let insumosList = data.insumos;
+  let insumos = data.insumos
 </script>
 
 <div class="breadcrumbs text-sm">
@@ -19,7 +19,7 @@
   <FormFornecedor 
     idUser={1} 
     {fornecedor} 
-    insumos={insumosList} 
+    {insumos} 
     viewOnly={false}
     form={null}
     isNew={false}

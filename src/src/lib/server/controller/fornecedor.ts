@@ -58,25 +58,36 @@ async function updateFornecedor (fornecedor: fornecedorInsert, id: string): Prom
   return { error: 'Erro desconhecido ao cadastrar fornecedor'};
 }
 
-async function getAllFornecedores (idUser: number, searchName : string | null, pageNumber : string | null, status : string | null) : Promise<{ allfornecedores: Array<fornecedorSelect> }>{
-  try{
+async function getAllFornecedores(
+  idUser: number,
+  searchName: string | null,
+  pageNumber: string | null,
+  status: string | null
+): Promise<{ allfornecedores: Array<fornecedorSelect> }> {
+  try {
+    const limit = searchName ? 100 : 10; 
+    const page = pageNumber ? Math.max(1, parseInt(pageNumber)) : 1;
+    const offset = (page - 1) * limit;
+
     const allfornecedores = await db
       .select()
       .from(fornecedorTable)
       .where(
         and(
-          like(fornecedorTable.name, `%${searchName}%`),
+          searchName ? like(fornecedorTable.name, `%${searchName}%`) : undefined,
           eq(fornecedorTable.status, status ?? 'ativo'),
           eq(fornecedorTable.idUser, idUser)
-        ))
+        )
+      )
       .orderBy(desc(fornecedorTable.id))
-      .limit(searchName ? 100 : 10)
-      .offset(searchName == null ? pageNumber == null || pageNumber == '1' ? 0 : parseInt(pageNumber) * 5 : 0);
+      .limit(limit)
+      .offset(offset);
+
     return { allfornecedores };
   } catch (error) {
     console.error('Erro ao buscar fornecedores:', error);
+    return { allfornecedores: [] };
   }
-  return { allfornecedores: [] };
 }
 
 async function getInsumosByFornecedorId(fornecedorId: number) {

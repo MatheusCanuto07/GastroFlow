@@ -16,7 +16,7 @@
     idUser={1} 
     viewOnly={false}
     form={null}
-    insumos={null}
+    insumos={[]}
     fornecedor={null}
     isNew={true}
   />

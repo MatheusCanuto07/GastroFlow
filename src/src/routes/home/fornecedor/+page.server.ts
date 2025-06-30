@@ -7,7 +7,6 @@ export const load: PageServerLoad = async ({ depends, url }) => {
   const searchName = url.searchParams.get('search');
   const page = url.searchParams.get('page') ?? '1';
   const searchStatus = url.searchParams.get('status');
-  
 	const {allfornecedores} = await fornecedorQueries.getAllFornecedores(idUser, searchName || '', page, searchStatus);
   const {numberOfFornecedores} = await fornecedorQueries.numberOfFornecedores(idUser);
   const nPages = Math.floor(numberOfFornecedores / 10) + (numberOfFornecedores % 10 > 0 ? 1 : 0);

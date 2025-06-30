@@ -63,7 +63,7 @@ async function numberOfInsumos(idUser : number) : Promise<{ numberOfInsumos: num
   return { numberOfInsumos: 0 };
 }
 
-async function getInsumosByFornecedorId(fornecedorId: number) {
+async function getInsumosByFornecedorId(fornecedorId: number, idUser : number) {
   try {
     const insumos = await db
       .select({
@@ -76,13 +76,15 @@ async function getInsumosByFornecedorId(fornecedorId: number) {
         eq(insumoFornecedorTable.insumoId, insumoTable.id)
       )
       .where(
-        eq(insumoFornecedorTable.fornecedorId, fornecedorId)
+        and(
+          eq(insumoFornecedorTable.fornecedorId, fornecedorId),
+          eq(insumoFornecedorTable.idUser, idUser)
+        )
       )
     return insumos;
   } catch (error) {
     console.error('Erro ao buscar insumos:', error);
   }
-  return {insumos : []};
 }
 
 async function deleteInsumo (idUser: number, idInsumo: number) : Promise<{ id: number }>{

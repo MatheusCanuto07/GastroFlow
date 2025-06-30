@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Breadcrump from './../../../lib/components/Breadcrump.svelte';
+	import Breadcrump from '$lib/components/Breadcrump.svelte';
 	import type { PageData, ActionData } from './$types';
 	import { filters } from '../params.svelte';
 	let { data, form }: { data: PageData; form: ActionData } = $props();
@@ -23,7 +23,6 @@
 
 {#snippet apagarFornecedor()}
 	<div class="flex flex-wrap">
-		<!-- <h1 class="text-2xl font-bold text-gray-900">Tem certeza que deseja apagar esse fornecedor?</h1> -->
 		<p class="text-md font-semibold">ESSA AÇÃO É IRREVERSÍVEL!</p>
 	</div>
 {/snippet}

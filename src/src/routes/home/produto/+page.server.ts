@@ -5,7 +5,6 @@ export const load: PageServerLoad = async ({url}) => {
   const idUser: number = 1;
   const searchName = url.searchParams.get('search');
   const page = url.searchParams.get('page') ?? '1';
-  const searchStatus = url.searchParams.get('status');
 
   const {allProdutos} = await produtosQueries.getAllProdutos(idUser, searchName || '', page);
   const {numberOfProdutos} = await produtosQueries.numberOfProdutos(idUser);

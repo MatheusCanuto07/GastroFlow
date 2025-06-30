@@ -7,11 +7,14 @@
 		form: Actions | null;
     idUser : number;
     viewOnly : boolean
-    insumos : InsumoSelect[] | null
+    insumos : {
+      insumo : InsumoSelect
+      preco : number | null
+    }[]
     isNew : boolean
 	}
 
-	let { fornecedor, form = null, idUser, viewOnly = false, insumos = null, isNew = false }: Props = $props();
+	let { fornecedor, form = null, idUser, viewOnly = false, insumos, isNew = false }: Props = $props();
 </script>
 
 <div class="flex flex-wrap">
@@ -19,11 +22,6 @@
 	<input type="hidden" name="id" id="id" value={fornecedor?.id} />
 	<div class="w-9/12 pr-3">
 		<h1>Nome</h1>
-		{#if form?.errors?.name}
-			<p class="mb-4 rounded border border-red-400 bg-red-100 p-2 text-red-500">
-				Digite um nome válido
-			</p>
-		{/if}
 		<input
 			disabled={viewOnly}
 			name="nome"
@@ -31,21 +29,18 @@
 			placeholder="Type here"
 			class="input input-bordered w-full"
 			value={fornecedor?.name}
+      required
 		/>
 	</div>
 	<div class="w-3/12">
 		<h1>Status</h1>
-		{#if form?.errors?.status}
-			<p class="mb-4 rounded border border-red-400 bg-red-100 p-2 text-red-500">
-				Digite um status válido
-			</p>
-		{/if}
 		<select
       id="status"
 			name="status"
 			class="select select-bordered w-full"
 			value={fornecedor?.status}
 			disabled={viewOnly}
+      required
 		>
 			<option value="ativo" selected>Ativo</option>
 			<option value="inativo">Inativo</option>
@@ -53,11 +48,6 @@
 	</div>
 	<div class="w-4/12 pr-3">
 		<h1>Telefone</h1>
-		{#if form?.errors?.telefone}
-			<p class="mb-4 rounded border border-red-400 bg-red-100 p-2 text-red-500">
-				Digite um telefone válido
-			</p>
-		{/if}
 		<input
 			name="telefone"
 			type="number"
@@ -65,15 +55,12 @@
 			class="input input-bordered w-full"
 			value={fornecedor?.telefone}
 			disabled={viewOnly}
+      required
+      max="9999999999"
 		/>
 	</div>
 	<div class="w-8/12">
 		<h1>E-mail</h1>
-		{#if form?.errors?.email}
-			<p class="mb-4 rounded border border-red-400 bg-red-100 p-2 text-red-500">
-				Digite um email válido
-			</p>
-		{/if}
 		<input
 			name="email"
 			type="email"
@@ -81,12 +68,13 @@
 			class="input input-bordered w-full"
 			value={fornecedor?.email}
 			disabled={viewOnly}
+      required
 		/>
 	</div>
 </div>
 
 {#if !isNew}
-  {#if insumos}
+  {#if insumos.length > 0}
     <h1 class="text-center text-xl font-semibold">Esse fornecedor não tem insumos cadastrados!</h1>
     {:else}
     <div class="mt-3 flex flex-wrap">
@@ -106,11 +94,11 @@
             </tr>
           </thead>
           <tbody>
-            {#each (insumos || []) as i}
+            {#each insumos as i}
               <tr class="cursor-pointer hover:bg-base-300">
-                <td>{i.id}</td>
-                <td>{i.name}</td>
-                <td>{i.custo}</td>
+                <td>{i.insumo.id}</td>
+                <td>{i.insumo.name}</td>
+                <td>{i.preco}</td>
               </tr>
             {/each}
           </tbody>
