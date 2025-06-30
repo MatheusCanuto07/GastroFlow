@@ -12,12 +12,12 @@
 
 {#snippet breadcrumpSnippet()}
   <li>
-    <a href="/home/receita" class="hover:text-secondary-focus font-medium transition-colors">
+    <a href="/home/fichatecnica" class="hover:text-secondary-focus font-medium transition-colors">
       Receita
     </a>
   </li>
   <li>
-    <a href="/home/receita/{receita?.id}" class="hover:text-secondary-focus font-medium transition-colors">
+    <a href="/home/fichatecnica/{receita?.id}" class="hover:text-secondary-focus font-medium transition-colors">
       {receita?.nome}
     </a>
   </li>

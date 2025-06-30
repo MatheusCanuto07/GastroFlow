@@ -34,9 +34,9 @@
 				<input type="text" placeholder="Pesquisar um produto" class="input input-bordered w-full" bind:value={search}
 					oninput={changeUrl}/>
 			</div>
-			<div class="w-2/12">
+			<!-- <div class="w-2/12">
         <a class="btn btn-success w-full" href="/home/produto/novo"> Novo </a>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </div>
@@ -60,15 +60,18 @@
 					<td>{pro.quantidadeEstoque}</td>
 					<td>{pro.unidadeDeMedida}</td>
 					<td class="text-center">
-						<details class="dropdown dropdown-end dropdown-bottom">
+						<!-- <details class="dropdown dropdown-end dropdown-bottom">
 							<summary class="btn m-1">...</summary>
 							<ul class="menu dropdown-content z-50 w-52 rounded-box bg-base-100 p-2 shadow-sm">
+                <li>
+                  Não deu tempo de implementar
+                </li>
 								<li>
 									<a href="/home/produto/editar/{pro.id}" class="btn btn-secondary mt-2">Editar</a>
 								</li>
 								<li><button class="btn btn-warning mt-2">Remover</button></li>
 							</ul>
-						</details>
+						</details> -->
 					</td>
 				</tr>
 			{/each}

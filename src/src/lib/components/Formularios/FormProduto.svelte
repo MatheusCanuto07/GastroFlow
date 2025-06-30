@@ -13,6 +13,7 @@
 
 <div class="flex flex-wrap">
   <input type="hidden" name="id" id="id" value={produto?.id} class="hidden">
+  <input type="hidden" name="idUser" id="idUser" value={1} class="hidden">
   <div class="w-6/12 pr-3">
 		<h1>Nome</h1>
 		<input
@@ -29,7 +30,7 @@
 		<h1>Unidade de medida</h1>
     <input
 			disabled={viewOnly}
-			name="nome"
+			name="unidadeMedida"
 			type="text"
 			placeholder="Unidade de medida"
 			class="input input-bordered w-full"
@@ -42,7 +43,7 @@
 		   <h1>Quantidade em estoque</h1>  
        <input
          disabled={viewOnly}
-         name="nome"
+         name="quantidadeEstoque"
          type="number"
          placeholder="Quantidade em estoque"
          class="input input-bordered w-full"

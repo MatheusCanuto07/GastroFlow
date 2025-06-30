@@ -12,7 +12,7 @@
 
 {#snippet breadcrumpSnippet()}
   <li>
-    <a href="/home/receita" class="hover:text-secondary-focus font-medium transition-colors">
+    <a href="/home/fichatecnica" class="hover:text-secondary-focus font-medium transition-colors">
       Receita
     </a>
   </li>
@@ -20,7 +20,7 @@
 
 <Breadcrump itensBreadcrumps={breadcrumpSnippet} />
 
-<div class="border px-16 py-5">
+<!-- <div class="border px-16 py-5">
 	<div>
 		<div class="flex w-full gap-3">
 			<div class="w-8/12">
@@ -32,7 +32,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
 
 <div class="mb-10 mt-3 h-[70vh] overflow-x-auto rounded-box border border-base bg-base-10">
 	<table class="table h-auto pb-44" style="border: none !important;">
@@ -58,9 +58,8 @@
 							<ul
 								class="menu dropdown-content z-50 w-52 rounded-box bg-base-100 p-2 shadow-sm"
 							>
-								<li><a href="/home/receita/{rec.receitas.id}" class="btn btn-info mt-2">Visualizar</a></li>
-								<li><a href="/home/receita/editar/{rec.receitas.id}" class="btn btn-secondary mt-2">Editar</a></li>
-								<li><button class="btn btn-warning mt-2">Apagar</button></li>
+								<li><a href="/home/fichatecnica/{rec.receitas.id}" class="btn btn-info mt-2">Fazer Receita</a></li>
+								<!-- <li><a href="/home/fichatecnica/editar/{rec.receitas.id}" class="btn btn-secondary mt-2">Editar</a></li> -->
 							</ul>
 						</details>
 					</td>
