@@ -29,9 +29,9 @@
 <div class="flex items-center justify-center min-h-screen #fff9ea">
   <div class="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
     <div class="text-center">
-      <h1 class="text-3xl font-bold text-gray-900">Bem-vindo de volta!</h1>
+      <h1 class="text-3xl font-bold text-gray-900">Bem-vindo ao nosso MVP!</h1>
       <p class="mt-2 text-sm text-gray-600">
-        Faça login para continuar navegando
+        Faça login com o nosso usuário e nos ajude a testar a primeira versão da nossa aplicação de gerenciamento de restaurantes, ainda não é possível criar usuários!
       </p>
     </div>
     
@@ -58,9 +58,9 @@
             <label for="password" class="block text-sm font-medium text-gray-700">
               Senha
             </label>
-            <a href="/forgetpassword" class="text-xs text-blue-600 hover:text-blue-800">
+            <!-- <a href="/forgetpassword" class="text-xs text-blue-600 hover:text-blue-800">
               Esqueceu sua senha ?
-            </a>
+            </a> -->
           </div>
           <input
             id="password"
@@ -96,14 +96,14 @@
       </div>
     </form>
     
-    <div class="text-center mt-4">
+    <!-- <div class="text-center mt-4">
       <p class="text-sm text-gray-600">
         Não tem uma conta criada?
         <a href="/signup" class="font-medium text-blue-600 hover:text-blue-800">
           Se inscreva
         </a>
       </p>
-    </div>
+    </div> -->
   </div>
 </div>
 

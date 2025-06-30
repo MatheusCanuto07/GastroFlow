@@ -75,9 +75,9 @@
                   <li>
                     <a href="/home/insumo/editar/{insumo.id}" class="btn btn-secondary mt-2">Editar</a>
                   </li>
-                  <li>
+                  <!-- <li>
                     <button onclick={() => {modalDelete?.showModal(); idDelete = insumo.id}} class="btn btn-warning mt-2">Remover</button>
-                  </li>
+                  </li> -->
 							</ul>
               </details>
 					</td>
