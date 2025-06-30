@@ -1,9 +1,19 @@
+<script lang="ts">
+	import type { InsumoSelect } from "$lib/server/schema/insumo";
+
+  interface Props {
+		insumo: InsumoSelect | null;
+    idUser : number;
+    viewOnly : boolean
+    isNew : boolean
+	}
+
+	let { insumo, idUser, viewOnly = false, isNew = false }: Props = $props();
+</script>
+
 <div class="flex flex-wrap">
     <div class="w-6/12 pr-3">
       <h1>Nome</h1>
-      {#if form?.errors?.name}
-        <p class="text-red-500 bg-red-100 border border-red-400 p-2 rounded mb-4">Digite um nome válido</p>
-      {/if}
       <input
         name="nome"
         type="text"
@@ -15,9 +25,6 @@
 
     <div class="w-6/12">
       <h1>Categoria</h1>
-      {#if form?.errors.categoria}
-        <p class="text-red-500 rounded mb-1">Digite uma categoria válida</p>
-      {/if}
       <input
         name="categoria"
         placeholder="Categoria"
@@ -25,13 +32,10 @@
         class="input input-bordered w-full"
         required
       />
-      </div>
+    </div>
 
-    <div class="w-6/12 pr-3">
+    <div class="w-6/12 pr-3 mt-2">
       <h1>Data de Validade</h1>
-      {#if form?.errors.dataValidade}
-        <p class="text-red-500 rounded mb-1">Digite uma data válida</p>
-      {/if}
       <input
         name="dataValidade"
         type="date"
@@ -41,11 +45,8 @@
       />
     </div>
 
-    <div class="w-4/12 pr-3">
+    <div class="w-3/12 pr-3 mt-2">
       <h1>Quantidade</h1>
-      {#if form?.errors.quantidadeEstoque}
-        <p class="text-red-500 rounded mb-1">Digite uma quantidade válida</p>
-      {/if}
       <input
         name="quantidadeEstoque"
         type="number"
@@ -56,11 +57,8 @@
       />
     </div>
 
-    <div class="w-4/12">
+    <div class="w-3/12 mt-2">
       <h1>Custo (R$)</h1>
-      {#if form?.errors.custo}
-        <p class="text-red-500 rounded mb-1">Digite um custo válido</p>
-      {/if}
       <input
         name="custo"
         type="number"

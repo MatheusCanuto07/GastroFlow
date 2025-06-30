@@ -3,7 +3,7 @@ import type { PageServerLoad } from './$types';
 import { fornecedorQueries } from '$lib/server/controller/fornecedor';
 
 export const load = (async () => {
-    return {};
+  return {};
 }) satisfies PageServerLoad;
 
 export const actions = {

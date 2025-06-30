@@ -79,11 +79,11 @@
     </tbody>
   </table>
 </div>
-
+<!-- 
 <div class="w-full flex justify-center mb-5">
   <div class="join">
     {#each Array(nPages) ?? [1] as n, index}
       <button class="join-item btn {page === index + 1 ? 'btn-active' : ''}" onclick={() => {page = index + 1; changeUrl()}}>{index + 1}</button>
     {/each}
   </div>
-</div>
+</div> -->

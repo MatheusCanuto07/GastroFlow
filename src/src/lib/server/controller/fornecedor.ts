@@ -80,8 +80,8 @@ async function getAllFornecedores(
         )
       )
       .orderBy(desc(fornecedorTable.id))
-      .limit(limit)
-      .offset(offset);
+      // .limit(limit)
+      // .offset(offset);
 
     return { allfornecedores };
   } catch (error) {
@@ -147,11 +147,27 @@ async function getFornecedorById(id : number, idUser : number) : Promise<{fornec
   return {fornecedor : {} as fornecedorSelect}
 }
 
+async function deleteFornecedor(id: number, idUser : number) : Promise<{ id: number }> {
+  try{
+    const [idDeletedFornecedor] = await db
+      .delete(fornecedorTable)
+      .where(and(eq(fornecedorTable.id, id), eq(fornecedorTable.idUser, idUser)))
+      .returning({ id: fornecedorTable.id });
+    return {
+      id : idDeletedFornecedor.id
+    };
+  } catch (error) {
+    console.error('Erro ao buscar insumos:', error);
+  }
+  return { id: 0 };
+}
+
 export const fornecedorQueries = {
   insertFornecedor,
   updateFornecedor,
   getAllFornecedores,
   getAllInsumosFromFornecedor,
   getFornecedorById,
-  numberOfFornecedores
+  numberOfFornecedores,
+  deleteFornecedor
 };

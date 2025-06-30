@@ -41,8 +41,8 @@ async function getAllInsumo (idUser: number, searchName : string | null, pageNum
         eq(insumoTable.idUser, idUser)
       ))
       .orderBy(desc(insumoTable.id))
-      .limit(searchName ? 100 : 10)
-      .offset(searchName == null ? pageNumber == null || pageNumber == '1' ? 0 : parseInt(pageNumber) * 5 : 0);
+      // .limit(searchName ? 100 : 10)
+      // .offset(searchName == null ? pageNumber == null || pageNumber == '1' ? 0 : parseInt(pageNumber) * 5 : 0);
     return { allInsumo };
   } catch (error) {
     console.error('Erro ao buscar insumos:', error);

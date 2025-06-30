@@ -18,9 +18,3 @@ export const load: PageServerLoad = async ({url}) => {
   }
 	return {};
 };
-
-export const actions: Actions = {
-	novoproduto: async ({ request }) => {
-		
-	}
-};

@@ -2,6 +2,7 @@
 	import Breadcrump from '$lib/components/Breadcrump.svelte';
 	import type { PageData, ActionData } from './$types';
 	import { filters } from '../params.svelte';
+	import { derived } from 'svelte/store';
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 
 	// Dados de quando a página carrega
@@ -18,14 +19,9 @@
 	}
 
 	// Lógica de envio dos formulários
-	let modalLoading: HTMLDialogElement | undefined = $state();
+	let modalDelete: HTMLDialogElement | undefined = $state();
+  let idDelete = $state(1);
 </script>
-
-{#snippet apagarFornecedor()}
-	<div class="flex flex-wrap">
-		<p class="text-md font-semibold">ESSA AÇÃO É IRREVERSÍVEL!</p>
-	</div>
-{/snippet}
 
 {#snippet breadcrumpSnippet()}
   <li>
@@ -36,6 +32,7 @@
 {/snippet}
 
 <Breadcrump itensBreadcrumps={breadcrumpSnippet} />
+
 <div class="border px-10 pb-5 pt-5">
 	<div>
 		<div class="flex w-full gap-3">
@@ -93,7 +90,9 @@
 								<li>
 									<a href="/home/fornecedor/editar/{f.id}" class="btn btn-secondary mt-2">Editar</a>
 								</li>
-								<li><button class="btn btn-warning mt-2">Remover</button></li>
+								<li>
+                  <button onclick={() => {modalDelete?.showModal(); idDelete = f.id}} class="btn btn-warning mt-2">Remover</button>
+                </li>
 							</ul>
 						</details>
 					</td>
@@ -103,16 +102,28 @@
 	</table>
 </div>
 
-<dialog bind:this={modalLoading} class="modal">
-	<div class="modal-box flex w-2/12 justify-center">
-		<span class="loading-xl loading loading-bars"></span>
+<dialog bind:this={modalDelete} class="modal">
+	<div class="modal-box">
+    <form method="dialog">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+    </form>
+    <h1 class="text-center text-xl font-semibold">Deseja apagar ?</h1>
+    <p class="text-center text-sm">Essa ação é IRREVERSÍVEL!</p>
+    <div class="flex justify-end">
+      <form method="POST" action="?/apagarfornecedor">
+        <input type="hidden" name="idFornecedor" id="idFornecedor" bind:value={idDelete}>
+        <button class="btn btn-error mt-2">
+          Apagar
+        </button>
+      </form>
+    </div>
 	</div>
 </dialog>
 
-<div class="w-full flex justify-center mb-5">
+<!-- <div class="w-full flex justify-center mb-5">
   <div class="join">
     {#each Array(nPages) ?? [1] as n, index}
       <button class="join-item btn {page === index + 1 ? 'btn-active' : ''}" onclick={() => {page = index + 1; changeUrl()}}>{index + 1}</button>
     {/each}
   </div>
-</div>
+</div> -->

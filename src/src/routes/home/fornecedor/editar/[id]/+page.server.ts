@@ -30,6 +30,7 @@ export const actions = {
       const status = data.get('status')?.toString();
   
       const errors: any = {};
+
       if (!name) {
         errors.name = { invalid: true };
       }
@@ -62,7 +63,7 @@ export const actions = {
       try {
       const newId = await fornecedorQueries.updateFornecedor({
         name: name ?? "",
-        idUser: idUser ? parseInt(idUser) : 0,
+        idUser: idUser ? parseInt(idUser) : 1,
         status: status ?? "",
         telefone: telefone ?? "",
         contato: telefone ?? "",

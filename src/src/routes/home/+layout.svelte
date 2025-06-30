@@ -15,7 +15,6 @@
 
 		<!-- menu desktop -->
 		<ul id="nav_list" class="nav-links hidden-mobile">
-			<li class:active={current === '/home'}><a href="/home">Home</a></li>
 			<li class:active={current === '/home/insumo'}><a href="/home/insumo">Insumo</a></li>
 			<li class:active={current === '/home/produto'}><a href="/home/produto">Produto</a></li>
 			<li class:active={current === '/home/fichatecnica'}><a href="/home/fichatecnica">Ficha&nbsp;Técnica</a></li>
