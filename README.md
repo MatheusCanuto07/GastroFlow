@@ -1,10 +1,10 @@
-# Nome do projeto
+# GastroFlow
 
 `CURSO: Sistemas de Informação`
 
 `DISCIPLINA: Trabalho Interdisciplinar Aplicações para Sustentabilidade`
 
-`5º semestre/2025`
+`5º período/2025`
 
 Nosso projeto consiste no desenvolvimento de um sistema de gerenciamento de estoque voltado para pequenas empresas, com um foco inicial em uma loja de charcutaria artesanal. O sistema será uma solução simples e intuitiva, permitindo que os comerciantes realizem o controle eficiente de seus produtos, acompanhem a entrada e saída de mercadorias e gerenciem datas de validade, garantindo a redução do desperdício. Além disso, a plataforma será projetada para ser facilmente customizável, possibilitando adaptações para diferentes tipos de negócios, como padarias, lojas de bebidas artesanais e pequenos mercados.  
 

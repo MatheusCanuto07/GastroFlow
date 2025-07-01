@@ -1,0 +1,1 @@
+ALTER TABLE `receita` ADD `descricao` text NOT NULL;
