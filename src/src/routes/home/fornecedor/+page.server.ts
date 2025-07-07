@@ -1,6 +1,6 @@
 import type { Actions, PageServerLoad } from './$types';
 import { fail } from '@sveltejs/kit';
-import { fornecedorQueries } from '$lib/server/controller/fornecedor';
+import { fornecedorQueries } from '$lib/server/DAO/fornecedor';
 
 export const load: PageServerLoad = async ({ depends, url }) => {
 	const idUser: number = 1;

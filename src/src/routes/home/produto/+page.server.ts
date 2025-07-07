@@ -1,5 +1,5 @@
 import type { Actions, PageServerLoad } from './$types';
-import * as produtosQueries from '$lib/server/controller/produto'; // ajuste caminho e nomes conforme seu schema
+import * as produtosQueries from '$lib/server/DAO/produto'; // ajuste caminho e nomes conforme seu schema
 
 export const load: PageServerLoad = async ({url}) => {
   const idUser: number = 1;

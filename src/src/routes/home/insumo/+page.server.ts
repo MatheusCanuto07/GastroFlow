@@ -1,7 +1,7 @@
 import type { Actions, PageServerLoad } from './$types';
 import { fail } from '@sveltejs/kit';
 // import { insumoTable, type InsumoInsert } from '$lib/server/schema/insumo';
-import { insumoQueries } from '$lib/server/controller/insumo';
+import { insumoQueries } from '$lib/server/DAO/insumo';
 
 export const load: PageServerLoad = async ({url}) => {
 	const idUser = 1;

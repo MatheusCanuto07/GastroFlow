@@ -1,5 +1,5 @@
 import type { PageServerLoad, Actions } from './$types';
-import * as receitaQueries from '$lib/server/controller/receita';
+import * as receitaQueries from '$lib/server/DAO/receita';
 import { invalidateAll } from '$app/navigation';
 
 export const load = (async ({params}) => {

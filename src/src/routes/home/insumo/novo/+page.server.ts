@@ -1,6 +1,6 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { insumoQueries } from '$lib/server/controller/insumo';
+import { insumoQueries } from '$lib/server/DAO/insumo';
 
 export const load = (async () => {
     return {};

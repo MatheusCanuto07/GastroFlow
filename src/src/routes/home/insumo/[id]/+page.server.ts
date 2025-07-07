@@ -1,4 +1,4 @@
-import { insumoQueries } from '$lib/server/controller/insumo';
+import { insumoQueries } from '$lib/server/DAO/insumo';
 import type { PageServerLoad } from './$types';
 
 export const load = (async ({params}) => {

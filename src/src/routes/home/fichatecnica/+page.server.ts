@@ -1,5 +1,5 @@
 import type { Actions, PageServerLoad } from './$types';
-import * as receitaQueries from '$lib/server/controller/receita';
+import * as receitaQueries from '$lib/server/DAO/receita';
 
 export const load: PageServerLoad = async ({url}) => {
   const idUser: number = 1;

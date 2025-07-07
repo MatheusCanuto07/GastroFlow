@@ -1,6 +1,6 @@
 import { fail, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { fornecedorQueries } from '$lib/server/controller/fornecedor';
+import { fornecedorQueries } from '$lib/server/DAO/fornecedor';
 
 export const load = (async () => {
   return {};

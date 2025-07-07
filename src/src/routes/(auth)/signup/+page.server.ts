@@ -2,7 +2,7 @@ import { redirect } from '@sveltejs/kit';
 import { setSessionTokenCookie } from '$lib/server/session';
 import { createSession, generateSessionToken, validateSessionToken } from '$lib/server/lucia';
 import { Argon2id } from 'oslo/password';
-import { userQueries } from '$lib/server/controller/user.js';
+import { userQueries } from '$lib/server/DAO/user.js';
 import type { RequestEvent } from './$types.js';
 
 /** @type {import('./$types').Actions} */

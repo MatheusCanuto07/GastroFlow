@@ -1,4 +1,4 @@
-import { insumoQueries } from '$lib/server/controller/insumo';
+import { insumoQueries } from '$lib/server/DAO/insumo';
 import { fail } from 'assert';
 import type { PageServerLoad } from './$types';
 import { redirect } from '@sveltejs/kit';

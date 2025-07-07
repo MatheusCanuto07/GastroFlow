@@ -1,6 +1,6 @@
 import type { PageServerLoad } from './$types';
-import { fornecedorQueries } from '$lib/server/controller/fornecedor';
-import { insumoQueries } from '$lib/server/controller/insumo';
+import { fornecedorQueries } from '$lib/server/DAO/fornecedor';
+import { insumoQueries } from '$lib/server/DAO/insumo';
 import type { fornecedorInsert } from '$lib/server/schema/fornecedor';
 import { fail, redirect } from '@sveltejs/kit';
 import { goto } from '$app/navigation';

@@ -3,7 +3,7 @@ import type { Actions, PageServerLoad } from './$types';
 
 import { Argon2id } from 'oslo/password';
 import { createSession, generateSessionToken } from '$lib/server/lucia';
-import { userQueries } from '$lib/server/controller/user';
+import { userQueries } from '$lib/server/DAO/user';
 import { setSessionTokenCookie } from '$lib/server/session';
 
 
