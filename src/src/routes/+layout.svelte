@@ -28,8 +28,7 @@
       <div class="mx-2 flex-1 px-2">Gastro Flow</div>
       <div class="hidden flex-none lg:block">
         <ul class="menu menu-horizontal">
-          <!-- Navbar menu content here -->
-          <li><a href="/home">Home</a></li>
+          <li><a href="/home/dashboard">Dashboard</a></li>
           <li><a href="/home/insumo">Insumo</a></li>
           <li><a href="/home/produto">Produto</a></li>
           <li><a href="/home/fichatecnica">Ficha Técnica</a></li>
@@ -46,7 +45,7 @@
     <label for="my-drawer-3" aria-label="close sidebar" class="drawer-overlay"></label>
     <ul class="menu bg-nav min-h-full w-80 p-4">
       <!-- Sidebar content here -->
-      <li><a href="/home">Home</a></li>
+      <li><a href="/home/dashboard">Dashboard</a></li>
       <li><a href="/home/insumo">Insumo</a></li>
       <li><a href="/home/produto">Produto</a></li>
       <li><a href="/home/fichatecnica">Ficha Técnica</a></li>

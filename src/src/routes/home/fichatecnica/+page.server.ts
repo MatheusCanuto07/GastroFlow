@@ -1,26 +1,23 @@
 import type { Actions, PageServerLoad } from './$types';
 import * as receitaQueries from '$lib/server/DAO/receita';
+import * as genericsDAO from '$lib/server/DAO/generics';
+import { receitaTable } from "$lib/server/schema/receita";
+import type { InferSelectModel } from 'drizzle-orm';
 
 export const load: PageServerLoad = async ({url}) => {
-  const idUser: number = 1;
+  const idUser = 1;
   const searchName = url.searchParams.get('search');
   const page = url.searchParams.get('page') ?? '1';
   const searchStatus = url.searchParams.get('status');
 
-  const {allReceitas} = await receitaQueries.getAllReceitas(idUser, searchName || '', page);
-  const {numberOfReceitas} = await receitaQueries.numberOfReceitas(idUser);
-  const nPages = Math.floor(numberOfReceitas / 10) + (numberOfReceitas % 10 > 0 ? 1 : 0);
-  // const custoReceita = await receitaQueries.
-  if (allReceitas) {
-    return {
-      allReceitas: allReceitas, 
-      idUser: idUser,
-      nPages 
-    };
-  }
+  type Receita = InferSelectModel<typeof receitaTable>;
+  const { result } = await genericsDAO.getAllGeneric<Receita>(receitaTable, idUser);
 
+  const nPages = Math.floor(result.length / 10) + (result.length % 10 > 0 ? 1 : 0);
+
+  console.log(result);
 	return {
-    allReceitas: [],
+    allReceitas: result || [],
     idUser: idUser,
     nPages
   };

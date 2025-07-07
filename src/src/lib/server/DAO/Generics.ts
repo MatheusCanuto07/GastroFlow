@@ -1,14 +1,14 @@
 import { eq, like, and, desc } from 'drizzle-orm';
 import { db } from "../db";
-import type {InferInsertModel}  from 'drizzle-orm';
+import type {InferSelectModel }  from 'drizzle-orm';
 
 // A tabela passada como parametro tem que ter esses campos
-export async function getAllGeneric<T extends { nome: string; idUser: number; id: number }>(
+export async function getAllGeneric<TipoTabela>(
   table: any,
   idUser: number,
   searchName: string | null = null,
   pageNumber: string | null = null
-) {
+): Promise<{ result: TipoTabela[] }> {
   try {
     const whereConditions = and(
       like(table.nome, `%${searchName ?? ''}%`),
@@ -21,19 +21,21 @@ export async function getAllGeneric<T extends { nome: string; idUser: number; id
       .where(whereConditions)
       .orderBy(desc(table.id))
       .limit(searchName ? 100 : 10)
-      .offset(searchName == null
-        ? pageNumber == null || pageNumber === '1'
-          ? 0
-          : parseInt(pageNumber) * 5
-        : 0
+      .offset(
+        searchName == null
+          ? pageNumber == null || pageNumber === '1'
+            ? 0
+            : parseInt(pageNumber) * 5
+          : 0
       );
 
-    return { result };
+    return { result: result as TipoTabela[] };
   } catch (error) {
     console.error('Erro ao buscar dados da tabela:', error);
     return { result: [] };
   }
 }
+
 
 export async function getByIdGeneric<T extends { id: number; idUser: number }>(
   table: any,
