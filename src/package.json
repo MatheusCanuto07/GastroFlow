@@ -48,6 +48,7 @@
 		"@oslojs/encoding": "^1.1.0",
 		"@tailwindcss/typography": "^0.5.15",
 		"@thisux/sveltednd": "^0.0.19",
+		"better-auth": "^1.2.12",
 		"dotenv": "^16.4.7",
 		"dragula": "^3.7.3",
 		"drizzle-orm": "^0.33.0",
