@@ -34,6 +34,7 @@
           <li><a href="/home/produto">Produto</a></li>
           <li><a href="/home/fichatecnica">Ficha Técnica</a></li>
           <li><a href="/home/fornecedor">Fornecedor</a></li>
+          <li><a href="/configuracoes">Configurações</a></li>
         </ul>
       </div>
     </div>
@@ -50,6 +51,7 @@
       <li><a href="/home/produto">Produto</a></li>
       <li><a href="/home/fichatecnica">Ficha Técnica</a></li>
       <li><a href="/home/fornecedor">Fornecedor</a></li>
+      <li><a href="/configuracoes">Configurações</a></li>
     </ul>
   </div>
 </div>
