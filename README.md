@@ -11,7 +11,8 @@ O sistema conta com as seguintes funcionalidades:
 - Cadastro de Receitas e vinculação de insumos a essas receitas (1:N)
 - Cadastro de produtos que vão ser gerados a partir de uma receita (1:1)
 - Realizar receita : Ao realizar uma receita, ele verifica se tem todos os insumos em estoque, se tiver ele tira a quantidade necessária de cada insumo para realizar aquele receita e adiciona a quantidade de produtos que aquela receita gera em estoque.
-## GastroFlow (Documentação)
+  
+## GastroFlow (Documentação feita na faculdade)
 
 `CURSO: Sistemas de Informação`
 
