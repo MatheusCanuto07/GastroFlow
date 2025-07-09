@@ -1,5 +1,18 @@
 # GastroFlow
 
+Um sistema para gerenciamento de restaurantes open source que pode ser acessado a partir deste link: 
+https://gastroflow.vercel.app/
+
+Um trabalho desenvolvido para a disciplina Trabalho Interdisciplinar Aplicações para Sustentabilidade ministrada pela professora Maria Inês Lage de Paula, menções honrosas ao Professor Paulo Henrique Rodrigues durante a minha graduação na Puc Minas. Após a conclusão da disciplina eu realizei um fork do projeto e decidi continuar trabalhando nele, o projeto é open-souce.
+
+O sistema conta com as seguintes funcionalidades:
+- Cadastro de Insumos
+- Cadastro de Fornecedores e vinculação de insumos a esses fornecedores (1:N)
+- Cadastro de Receitas e vinculação de insumos a essas receitas (1:N)
+- Cadastro de produtos que vão ser gerados a partir de uma receita (1:1)
+- Realizar receita : Ao realizar uma receita, ele verifica se tem todos os insumos em estoque, se tiver ele tira a quantidade necessária de cada insumo para realizar aquele receita e adiciona a quantidade de produtos que aquela receita gera em estoque.
+## GastroFlow (Documentação)
+
 `CURSO: Sistemas de Informação`
 
 `DISCIPLINA: Trabalho Interdisciplinar Aplicações para Sustentabilidade`
@@ -10,7 +23,7 @@ Nosso projeto consiste no desenvolvimento de um sistema de gerenciamento de esto
 
 A proposta visa oferecer uma ferramenta acessível e de fácil implementação. A interface será desenvolvida para facilitar a navegação e permitir que os usuários façam atualizações rápidas e organizadas no estoque. Ao promover um melhor gerenciamento de recursos, o sistema contribuirá para a sustentabilidade ao evitar perdas e otimizar o uso de insumos, beneficiando tanto os pequenos empresários quanto o meio ambiente. Além disso, o projeto busca incluir pequenos produtores no meio tecnológico, proporcionando acesso a ferramentas digitais que facilitarão a gestão de seus negócios e ampliando a inclusão de pessoas que ainda não têm contato com a tecnologia, fortalecendo a presença de pequenos negócios no cenário digital e fomentando a inclusão digital.
 
-## Integrantes
+### Integrantes
 
 * Bárbara Xavier Soares de Barros
 * Felipe Fernandes de Bellis Ruas
@@ -19,19 +32,9 @@ A proposta visa oferecer uma ferramenta acessível e de fácil implementação. 
 * Leni Rocha Bento
 * Matheus Henrique Marques Canuto
 
-## Professor
+### Professor
 
 * Maria Inês Lage de Paula
-
-## Instruções de utilização
-
-Assim que a primeira versão do sistema estiver disponível, deverá complementar com as instruções de utilização. Descreva como instalar eventuais dependências e como executar a aplicação.
-
-Não deixe de informar o link onde a aplicação estará disponível para acesso (por exemplo: https://adota-pet.herokuapp.com/src/index.html).
-
-Se houver usuário de teste, o login e a senha também deverão ser informados aqui (por exemplo: usuário - admin / senha - admin).
-
-O link e o usuário/senha descritos acima são apenas exemplos de como tais informações deverão ser apresentadas.
 
 # Documentação
 
@@ -50,11 +53,3 @@ O link e o usuário/senha descritos acima são apenas exemplos de como tais info
 <li><a href="docs/12-Conclusao.md"> Conclusão</a></li>
 <li><a href="docs/13-Referencias.md"> Referências</a></li>
 </ol>
-
-# Código
-
-* <a href="src/README.md">Código</a>
-
-# Apresentação
-
-* <a href="presentation/README.md">Apresentação do projeto</a>
