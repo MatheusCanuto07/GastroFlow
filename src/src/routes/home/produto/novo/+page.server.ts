@@ -1,6 +1,6 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { insumoQueries } from '$lib/server/DAO/insumo';
+import { insertProduto } from '$lib/server/DAO/produto';
 
 export const load = (async () => {
     return {};
@@ -12,17 +12,17 @@ export const actions = {
 
     const id = data.get('id')?.toString();
     const idUser = data.get('idUser')?.toString();
-    const name = data.get('nome')?.toString();
-    const unidadeMedida = data.get('unidadeMedida')?.toString();
-    const quantidadeEstoque = data.get('quantidadeEstoque')?.toString();
+    const nome = data.get('nome')?.toString();
+    const unidadeDeMedida = data.get('unidadeMedida')?.toString();
+    const quantidadeEstoque = parseInt(data.get('quantidadeEstoque')?.toString() || '0');
 
     const errors: any = {};
 
-    if (!name) {
+    if (!nome) {
       errors.name = { invalid: true };
     }
 
-    if (!unidadeMedida) {
+    if (!unidadeDeMedida) {
       errors.status = { invalid: true };
     }
 
@@ -38,18 +38,16 @@ export const actions = {
       return fail(400, { errors });
     }
 
-    // try {
-    //   const newId = await insumoQueries.insertInsumo({
-    //     name: name ?? "",
-    //     idUser: idUser ? parseInt(idUser) : 0,
-    //     status: status ?? "",
-    //     telefone: telefone ?? "",
-    //     contato: telefone ?? "",
-    //     email: email ?? ""
-    //   });
-    // } catch (error) {
-    //   return { success: false, message: 'Erro ao inserir fornecedor' };
-    // }
+    try {
+      const newId = await insertProduto({
+        idUser: idUser ? parseInt(idUser) : 0,
+        nome : nome ?? "",
+        unidadeDeMedida : unidadeDeMedida ?? "",
+        quantidadeEstoque : quantidadeEstoque,
+      });
+    } catch (error) {
+      return { success: false, message: 'Erro ao inserir fornecedor' };
+    }
     redirect(303, '/home/produto');
   },
 } satisfies Actions;

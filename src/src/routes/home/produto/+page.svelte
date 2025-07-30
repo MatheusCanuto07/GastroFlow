@@ -34,9 +34,9 @@
 				<input type="text" placeholder="Pesquisar um produto" class="input input-bordered w-full" bind:value={search}
 					oninput={changeUrl}/>
 			</div>
-			<!-- <div class="w-2/12">
+			<div class="w-2/12">
         <a class="btn btn-success w-full" href="/home/produto/novo"> Novo </a>
-			</div> -->
+			</div>
 		</div>
 	</div>
 </div>
@@ -54,25 +54,22 @@
 		</thead>
 		<tbody>
       {#each allProdutos ?? [] as pro, index}
-				<tr class="cursor-pointer hover:bg-base-300">
-					<th>{pro.id}</th>
-					<td>{pro.nome}</td>
-					<td>{pro.quantidadeEstoque}</td>
-					<td>{pro.unidadeDeMedida}</td>
-					<td class="text-center">
-						<!-- <details class="dropdown dropdown-end dropdown-bottom">
-							<summary class="btn m-1">...</summary>
-							<ul class="menu dropdown-content z-50 w-52 rounded-box bg-base-100 p-2 shadow-sm">
+				<tr class="cursor-pointer hover:bg-slate-950">
+          <th>{pro.id}</th>
+          <td>{pro.nome}</td>
+          <td>{pro.quantidadeEstoque}</td>
+          <td>{pro.unidadeDeMedida}</td>
+          <td class="text-center">
+            <details class="dropdown dropdown-end dropdown-bottom">
+              <summary class="btn m-1">...</summary>
+              <ul class="menu dropdown-content z-50 w-52 rounded-box bg-base-100 p-2 shadow-sm">
                 <li>
-                  Não deu tempo de implementar
+                  <a href="/home/produto/editar/{pro.id}" class="btn btn-secondary mt-2">Editar</a>
                 </li>
-								<li>
-									<a href="/home/produto/editar/{pro.id}" class="btn btn-secondary mt-2">Editar</a>
-								</li>
-								<li><button class="btn btn-warning mt-2">Remover</button></li>
-							</ul>
-						</details> -->
-					</td>
+                <li><button class="btn btn-warning mt-2">Remover</button></li>
+              </ul>
+            </details>
+          </td>
 				</tr>
 			{/each}
 		</tbody>

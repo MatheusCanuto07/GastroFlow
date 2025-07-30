@@ -28,7 +28,7 @@
       <div class="mx-2 flex-1 px-2">Gastro Flow</div>
       <div class="hidden flex-none lg:block">
         <ul class="menu menu-horizontal">
-          <li><a href="/home/dashboard">Dashboard</a></li>
+          <li><a href="/home">Dashboard</a></li>
           <li><a href="/home/insumo">Insumo</a></li>
           <li><a href="/home/produto">Produto</a></li>
           <li><a href="/home/fichatecnica">Ficha Técnica</a></li>

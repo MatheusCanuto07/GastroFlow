@@ -1,1 +1,0 @@
-ALTER TABLE `fornecedor` ADD `telefone` text NOT NULL;

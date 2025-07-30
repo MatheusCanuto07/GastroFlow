@@ -17,13 +17,6 @@ export {
 } from './compras';
 
 export {
-  userTable, 
-  usersRelations, 
-  sessionTable, 
-  sessionTableRelations
-} from './user'
-
-export {
   receitaTable,
   insumosReceita
 } from './receita';
@@ -31,3 +24,10 @@ export {
 export {
   produtoTable,
 } from './produto'
+
+export {
+  user,
+  session,
+  account,
+  verification
+} from './auth-schema';

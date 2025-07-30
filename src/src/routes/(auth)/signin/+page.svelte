@@ -1,11 +1,20 @@
 <script>
-  // Reactive variables
+  import { authClient } from '../../../auth-client';
+
   let email = "matheuscanuto07@gmail.com";
-  let password = "7198214";
+  let password = "7198214@";
   let rememberMe = false;
 
-  function handleSubmit() {
-    
+  async function signin(){
+    const { data, error } = await authClient.signIn.email(
+      {
+        email,
+        password,
+        callbackURL: "/home/dashboard",
+        rememberMe: true
+    }, {
+        //callbacks
+    });
   }
 </script>
 
@@ -35,7 +44,8 @@
       </p>
     </div>
     
-    <form class="mt-8 space-y-6" method="POST">
+    <form class="mt-8 space-y-6" onsubmit={signin
+    }>
       <div class="space-y-4">
         <div>
           <label for="email" class="block text-sm font-medium text-gray-700">

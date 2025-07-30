@@ -11,7 +11,7 @@
   let { produto, idUser, viewOnly = false, isNew = false }: Props = $props();
 </script>
 
-<div class="flex flex-wrap">
+<div class="flex flex-wrap border px-16 py-5">
   <input type="hidden" name="id" id="id" value={produto?.id} class="hidden">
   <input type="hidden" name="idUser" id="idUser" value={1} class="hidden">
   <div class="w-6/12 pr-3">
@@ -26,7 +26,7 @@
       required
 		/>
 	</div>
-  <div class="w-2/12 pr-3">
+  <div class="w-3/12 pr-3">
 		<h1>Unidade de medida</h1>
     <input
 			disabled={viewOnly}
@@ -39,7 +39,7 @@
 		/>
   </div>
   {#if isNew}
-     <div class="w-4/12 pr-3">
+     <div class="w-3/12 pr-3">
 		   <h1>Quantidade em estoque</h1>  
        <input
          disabled={viewOnly}

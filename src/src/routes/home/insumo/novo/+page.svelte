@@ -1,28 +1,21 @@
 <script lang="ts">
 	import FormInsumo from "$lib/components/Formularios/FormInsumo.svelte";
-
+  import Breadcrump from "$lib/components/Breadcrump.svelte";
 
 </script>
 
-<div class="breadcrumbs text-sm">
-  <ul>
-    <li><a href="/home">Home</a></li>
-    <li><a href="/home/insumo">Insumo</a></li>
-    <li>Novo</li>
-  </ul>
-</div>
+{#snippet bred()}
+  <li><a href="/home/insumo">Insumo</a></li>
+  <li>Novo</li>
+{/snippet}
 
-<form method="POST" action="?/novoinsumo">
+<Breadcrump itensBreadcrumps={bred}/>
+  
+<form method="POST" action="?/novoinsumo" class="">
   <FormInsumo 
     insumo={null}
     idUser={1} 
     viewOnly={false}
     isNew={true}
   />
-
-  <div class="w-full flex justify-end mt-2"> 
-    <button class="btn btn-success">
-      Enviar
-    </button>  
-  </div>
 </form>

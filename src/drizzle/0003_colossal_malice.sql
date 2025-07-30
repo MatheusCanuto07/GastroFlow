@@ -1,1 +1,0 @@
-ALTER TABLE `insumo` ADD `id_user` integer NOT NULL;

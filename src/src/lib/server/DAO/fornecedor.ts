@@ -13,7 +13,7 @@ async function insertFornecedor(fornecedor: fornecedorInsert): Promise<{ id: num
     const [result] = await db.insert(fornecedorTable)
       .values(fornecedor)
       .returning({ id: fornecedorTable.id });
-
+      
     if (!result) {
       throw new Error('Nenhum registro retornado após inserção');
     }
